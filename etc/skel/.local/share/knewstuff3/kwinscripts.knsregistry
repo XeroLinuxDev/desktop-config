@@ -22,25 +22,23 @@
   <status>installed</status>
  </stuff>
  <stuff category="210">
-  <name>Opacity Menu</name>
+  <name>Force Blur</name>
   <providerid>https://api.kde-look.org/ocs/v1/</providerid>
-  <author>mgraesslin</author>
-  <homepage>https://store.kde.org/p/1112537</homepage>
+  <author>esjeon</author>
+  <homepage>https://store.kde.org/p/1294604</homepage>
   <licence></licence>
-  <version>1.0</version>
-  <rating>61</rating>
-  <downloads>4781</downloads>
-  <installedfile>/home/xero/.local/share/kwin/scripts/opacitymenu</installedfile>
-  <id>1112537</id>
-  <releasedate>2012-10-28</releasedate>
-  <summary>Adds a menu to change window's opacity value to the user actions (Alt+F3) menu&lt;br />
-&lt;br />
-Requires KDE SC 4.10.</summary>
+  <version>0.5</version>
+  <rating>88</rating>
+  <downloads>167270</downloads>
+  <installedfile>/home/xero/.local/share/kwin/scripts/forceblur</installedfile>
+  <id>1294604</id>
+  <releasedate>2020-05-14</releasedate>
+  <summary>Force-enable blur effect for user-specified windows</summary>
   <changelog></changelog>
-  <preview>https://cn.opendesktop.org/cache/100x100-0/img/default-ocs.png</preview>
-  <previewBig>https://cn.opendesktop.org/cache/770x540-0/img/default-ocs.png</previewBig>
-  <payload>https://dllb2.pling.com/api/files/download/j/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE0NjUzODM4MDQiLCJvIjoiMSIsInMiOiI5MDYzZDdkNmRkZGY3MmFjZWFkMjc4NGQ5MWNhOTk2YTQ0NzcxMmQwZTRiYTQ3ZWQ2Zjg2MTEyOWJhNjIxZjcxOGM5MzRiMmZlNzc2MDZlNmU4NThhNjAyMjM1MWMxOTI0MGY3OWUzODMxY2UyY2I0YTA4NDEyYTYxZDdkNGRmZSIsInQiOjE2MzA4NTM3OTUsInN0ZnAiOm51bGwsInN0aXAiOiIxODUuMTg3Ljk0LjUifQ.5yhgAeASJsv-oRv4Zk-CQylcykV0HvzEjEcQF6EQuhs/154940-opacitymenu.kwinscript</payload>
-  <tags>linux,unix</tags>
+  <preview>https://cn.opendesktop.org/cache/100x100-0/img/0/f/b/2/25d2a853b8055b383e5ede66db535b5c9a68.png</preview>
+  <previewBig>https://cn.opendesktop.org/cache/770x540-0/img/0/f/b/2/25d2a853b8055b383e5ede66db535b5c9a68.png</previewBig>
+  <payload>https://dllb2.pling.com/api/files/download/j/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE1ODk1MTA5NTMiLCJvIjoiMSIsInMiOiJmYjQ5ZmRiZmZmNzY4NjY4YzBhYjMxODViNzU4NDgxZmI4ZTVhMmY3MWFmODA5NDE4NDkyMmMwYzQzNWM2ZTA0NzdjN2Y4YWMwZWY1YWY0YThmNzc2NjlhMTZkZjVkYmY1YjRjMjRiNjViNWZhY2M3YWQxOWVkMWZhNjA2NGI4ZCIsInQiOjE2MzA4NTM3MzUsInN0ZnAiOm51bGwsInN0aXAiOiIxODUuMTg3Ljk0LjUifQ.YYRckSTeDYU8pyqHktG0Ldh3JwBOB00scnDlIoMCA50/forceblur-0.5.kwinscript</payload>
+  <tags>linux,unix,mit-license,original-product,kwin,blur</tags>
   <status>installed</status>
  </stuff>
  <stuff category="210">
@@ -63,48 +61,6 @@ Thomas's original description: "This...</summary>
   <previewBig>https://cn.opendesktop.org/cache/770x540-0/img/1/d/9/d/745a0b742cb25cfe6285b074fd3a1d2b6105.png</previewBig>
   <payload>https://dllb2.pling.com/api/files/download/j/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE0NjcxOTA4NTciLCJvIjoiMSIsInMiOiJmNzEzNDY4OTE2NDhlZGVjMDBmMWRiZTUyYTM0Y2M1MGE4MjkxMjEzZjg2ZDZkNGRiMDgxNWE3MWJkNzdmYjI1MDRiZDcwODQ3ZjhkNGM0N2MyNDMxNDE4ZjdmOTQyNWEwNWJjZGI0YjMyODIxMzk2OWUyNzVmMzA4N2Q1NjQyNiIsInQiOjE2MzA4NTM4NTQsInN0ZnAiOm51bGwsInN0aXAiOiIxODUuMTg3Ljk0LjUifQ.DYnFNX92xP9GjS_KNKhkUO-3YvxEV8PsF0Szyvzc5n8/screenSnapping5.kwinscript</payload>
   <tags>linux,unix</tags>
-  <status>installed</status>
- </stuff>
- <stuff category="210">
-  <name>Force Blur</name>
-  <providerid>https://api.kde-look.org/ocs/v1/</providerid>
-  <author>esjeon</author>
-  <homepage>https://store.kde.org/p/1294604</homepage>
-  <licence></licence>
-  <version>0.5</version>
-  <rating>88</rating>
-  <downloads>167270</downloads>
-  <installedfile>/home/xero/.local/share/kwin/scripts/forceblur</installedfile>
-  <id>1294604</id>
-  <releasedate>2020-05-14</releasedate>
-  <summary>Force-enable blur effect for user-specified windows</summary>
-  <changelog></changelog>
-  <preview>https://cn.opendesktop.org/cache/100x100-0/img/0/f/b/2/25d2a853b8055b383e5ede66db535b5c9a68.png</preview>
-  <previewBig>https://cn.opendesktop.org/cache/770x540-0/img/0/f/b/2/25d2a853b8055b383e5ede66db535b5c9a68.png</previewBig>
-  <payload>https://dllb2.pling.com/api/files/download/j/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE1ODk1MTA5NTMiLCJvIjoiMSIsInMiOiJmYjQ5ZmRiZmZmNzY4NjY4YzBhYjMxODViNzU4NDgxZmI4ZTVhMmY3MWFmODA5NDE4NDkyMmMwYzQzNWM2ZTA0NzdjN2Y4YWMwZWY1YWY0YThmNzc2NjlhMTZkZjVkYmY1YjRjMjRiNjViNWZhY2M3YWQxOWVkMWZhNjA2NGI4ZCIsInQiOjE2MzA4NTM3MzUsInN0ZnAiOm51bGwsInN0aXAiOiIxODUuMTg3Ljk0LjUifQ.YYRckSTeDYU8pyqHktG0Ldh3JwBOB00scnDlIoMCA50/forceblur-0.5.kwinscript</payload>
-  <tags>linux,unix,mit-license,original-product,kwin,blur</tags>
-  <status>installed</status>
- </stuff>
- <stuff category="210">
-  <name>MACsimize</name>
-  <providerid>https://api.kde-look.org/ocs/v1/</providerid>
-  <author>yuricbraga</author>
-  <homepage>https://store.kde.org/p/1235050</homepage>
-  <licence></licence>
-  <version>1.0</version>
-  <rating>71</rating>
-  <downloads>7056</downloads>
-  <installedfile>/home/xero/.local/share/kwin/scripts/macsimize</installedfile>
-  <id>1235050</id>
-  <releasedate>2018-05-14</releasedate>
-  <summary>This is a fork of Aetf kwin-maximize-to-new-desktop.&lt;br />
-&lt;br />
-MACsimize is a KWin script that moves maximized windows to a new virtual desktop, moves back to original desktop if restored or closed. Each window takes place on a new virtual desktop, there's no need to add desktops manually.</summary>
-  <changelog></changelog>
-  <preview>https://cn.opendesktop.org/img/a/8/d/d/902056a42f22792d8f4d21198d19899e3962.gif</preview>
-  <previewBig>https://cn.opendesktop.org/img/a/8/d/d/902056a42f22792d8f4d21198d19899e3962.gif</previewBig>
-  <payload>https://dllb2.pling.com/api/files/download/j/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE1MjYzNTAwNTgiLCJvIjoiMSIsInMiOiJkNTYxNzk0ZDE0Y2ZhNGVhZmZkMmM5NDI3ZjYyZTBmN2M0OTkwNmRlMGJiODhkNGM1OWI5YWJlMTViNjlkMjlkMDU5OTdkOGNjNGYzMDQ0YzMwYzljZmZhMDBjZDM1YmY1NjZkYjYzZDJmNDMwMjQzNGIxNmQyOWQ5NDA3YjY2MCIsInQiOjE2MzA4NTM3NjgsInN0ZnAiOm51bGwsInN0aXAiOiIxODUuMTg3Ljk0LjUifQ.wiNOGbHjgnpSzvAtqds28YU9bZhzw2_wkXEJEB8XTzs/kwin-macsimize.tar.gz</payload>
-  <tags>source-package,mit-license,linux,unix</tags>
   <status>installed</status>
  </stuff>
  <stuff category="210">

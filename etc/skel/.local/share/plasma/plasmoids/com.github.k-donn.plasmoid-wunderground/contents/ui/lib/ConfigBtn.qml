@@ -1,5 +1,5 @@
 /*
- * Copyright 2021  Kevin Donnelly
+ * Copyright 2024  Kevin Donnelly
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -15,18 +15,15 @@
  * along with this program.  If not, see <http: //www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import QtQuick.Layouts 1.0
-import QtQuick.Controls 2.0
-import org.kde.plasma.components 2.0 as PlasmaComponents
-import org.kde.plasma.plasmoid 2.0
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import org.kde.plasma.plasmoid
+import org.kde.plasma.core as PlasmaCore
 
 Button {
-    function showSettings() {
-        plasmoid.action("configure").trigger()
-    }
-
-    text: "Configure Wunderground"
+    text: i18n("Configure Wunderground")
     icon.name: "settings"
-    onClicked: showSettings()
+
+    onClicked: plasmoid.internalAction("configure").trigger()
 }

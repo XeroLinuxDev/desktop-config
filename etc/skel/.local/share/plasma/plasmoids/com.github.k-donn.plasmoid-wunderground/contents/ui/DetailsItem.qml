@@ -1,5 +1,5 @@
 /*
- * Copyright 2021  Kevin Donnelly
+ * Copyright 2024  Kevin Donnelly
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -15,12 +15,14 @@
  * along with this program.  If not, see <http: //www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import QtQuick.Layouts 1.0
-import QtQuick.Controls 2.0
-import org.kde.plasma.plasmoid 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 2.0 as PlasmaComponents
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import org.kde.plasma.plasmoid
+import org.kde.ksvg as KSvg
+import org.kde.kirigami as Kirigami
+import org.kde.plasma.core as PlasmaCore
+import org.kde.plasma.components as PlasmaComponents
 import "../code/utils.js" as Utils
 
 GridLayout {
@@ -39,21 +41,24 @@ GridLayout {
         // Use the dyanimcally calulated color (light/dark theme) of the wind label if user doesn't want temp colored
         color: plasmoid.configuration.tempAutoColor ? Utils.heatColor(weatherData["details"]["temp"]) : windLabel.color
     }
-    PlasmaCore.SvgItem {
+    Kirigami.Icon {
         id: topPanelIcon
+	
+        source: "gnumeric-object-arrow-symbolic"
+        //source: "plasmoid/contents/images/wind-barbs/" + Utils.getWindBarb(weatherData["details"]["windSpeed"])+ ".svg"
 
-        svg: PlasmaCore.Svg {
-            id: svg
-            imagePath: plasmoid.file("", "icons/wind-barbs/" + Utils.getWindBarb(weatherData["details"]["windSpeed"]) + ".svg")
-        }
+        // wind barb icons are 270 degrees deviated from 0 degrees (north)
+        //rotation: weatherData["winddir"] - 270
 
-        rotation: weatherData["winddir"] - 270
+        // new rotation for icons:
+        rotation: weatherData["winddir"] - 135
 
-        Layout.minimumWidth: units.iconSizes.large
-        Layout.minimumHeight: units.iconSizes.large
+        Layout.minimumWidth: Kirigami.Units.iconSizes.large
+        Layout.minimumHeight: Kirigami.Units.iconSizes.large
         Layout.preferredWidth: Layout.minimumWidth
         Layout.preferredHeight: Layout.minimumHeight
     }
+
     PlasmaComponents.Label {
         id: windLabel
         text: i18n("WIND & GUST")
@@ -70,7 +75,7 @@ GridLayout {
     }
     PlasmaComponents.Label {
         id: windDirCard
-        text: i18n("Wind from: %1", Utils.windDirToCard(weatherData["winddir"]))
+        text: i18n("Wind from: %1 (%2°)", Utils.windDirToCard(weatherData["winddir"]),weatherData["winddir"])
         font.pointSize: plasmoid.configuration.propPointSize
     }
     PlasmaComponents.Label {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021  Kevin Donnelly
+ * Copyright 2024  Kevin Donnelly
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -17,6 +17,58 @@
 
 /** @type {string} */
 let API_KEY = "e1f10a1e78da46f5b10a1e78da96f525"
+
+/** Map from Wunderground provided icon codes to opendesktop icon theme descs */
+let iconThemeMap = {
+	0: "weather-storm-symbolic",
+	1: "weather-storm-symbolic",
+	2: "weather-storm-symbolic",
+	3: "weather-storm-symbolic",
+	4: "weather-storm-symbolic",
+	5: "weather-snow-rain-symbolic",
+	6: "weather-snow-rain-symbolic",
+	7: "weather-freezing-rain-symbolic",
+	8: "weather-freezing-rain-symbolic",
+	9: "weather-showers-scattered-symbolic",
+	10: "weather-freezing-rain-symbolic",
+	11: "weather-showers-symbolic",
+	12: "weather-showers-symbolic",
+	13: "weather-snow-scattered-symbolic",
+	14: "weather-snow-symbolic",
+	15: "weather-snow-symbolic",
+	16: "weather-snow-symbolic",
+	17: "weather-hail-symbolic",
+	18: "weather-snow-scattered-symbolic",
+	19: "weather-many-clouds-wind-symbolic",
+	20: "weather-fog-symbolic",
+	21: "weather-fog-symbolic",
+	22: "weather-fog-symbolic",
+	23: "weather-clouds-wind-symbolic",
+	24: "weather-clouds-wind-symbolic",
+	25: "weather-snow-symbolic",
+	26: "weather-many-clouds-symbolic",
+	27: "weather-many-clouds-symbolic",
+	28: "weather-clouds-symbolic",
+	29: "weather-clouds-night-symbolic",
+	30: "weather-few-clouds-symbolic",
+	31: "weather-clear-night-symbolic",
+	32: "weather-clear-symbolic",
+	33: "weather-few-clouds-night-symbolic",
+	34: "weather-few-clouds-day-symbolic",
+	35: "weather-freezing-storm-day-symbolic",
+	36: "weather-clear-symbolic",
+	37: "weather-storm-day-symbolic",
+	38: "weather-storm-day-symbolic",
+	39: "weather-showers-scattered-day-symbolic",
+	40: "weather-showers-symbolic",
+	41: "weather-snow-scattered-day-symbolic",
+	42: "weather-snow-symbolic",
+	43: "weather-snow-symbolic",
+	44: "weather-none-available-symbolic",
+	45: "weather-showers-scattered-night-symbolic",
+	46: "weather-snow-storm-night-symbolic",
+	47: "weather-storm-night"
+}
 
 /**
  * Pull the most recent observation from the selected weather station.
@@ -71,6 +123,8 @@ function getCurrentData() {
 
 				var res = JSON.parse(req.responseText);
 
+				// The nested section name returned in JSON is the units type
+				// So res cannot be directly assigned to weatherData
 				var tmp = {};
 				var tmp = res["observations"][0];
 
@@ -123,7 +177,7 @@ function getForecastData() {
 		plasmoid.configuration.longitude;
 	url += "/forecast/daily/7day.json";
 	url += "?apiKey=" + API_KEY;
-	url += "&language=en-US";
+	url += "&language=" + Qt.locale().name.replace("_","-");
 
 	if (unitsChoice === 0) {
 		url += "&units=m";
@@ -161,6 +215,7 @@ function getForecastData() {
 						fullDateTime.split("T")[0].split("-")[2]
 					);
 
+					// API returns empty string if no snow. Check for empty string.
 					var snowDesc = "";
 					if (isDay) {
 						snowDesc =
@@ -174,20 +229,34 @@ function getForecastData() {
 								: night["snow_phrase"];
 					}
 
+					// API does not return a thunderDesc for non-English languages. Check for null value.
+					var thunderDesc = "";
+					if (isDay) {
+						thunderDesc = day["thunder_enum_phrase"] !== null ? day["thunder_enum_phrase"] : "N/A"
+					} else {
+						thunderDesc = night["thunder_enum_phrase"] !== null ? night["thunder_enum_phrase"] : "N/A"
+					}
+
+					// API does not return a 12char weather description for non-English languages, but it always returns a 32char. Check for empty string.
+					var shortDesc = "";
+					if (isDay) {
+						shortDesc = day["phrase_12char"] !== "" ? day["phrase_12char"] : day["phrase_32char"]
+					} else {
+
+						shortDesc = night["phrase_12char"] !== "" ? night["phrase_12char"] : night["phrase_32char"]
+					}
+
+
 					forecastModel.append({
 						date: date,
 						dayOfWeek: isDay ? forecast["dow"] : "Tonight",
-						iconCode: isDay ? day["icon_code"] : night["icon_code"],
+						iconCode: isDay ? iconThemeMap[day["icon_code"]] : iconThemeMap[night["icon_code"]],
 						high: isDay ? forecast["max_temp"] : night["hi"],
 						low: forecast["min_temp"],
 						feelsLike: isDay ? day["hi"] : night["hi"],
-						shortDesc: isDay
-							? day["phrase_12char"]
-							: night["phrase_12char"],
+						shortDesc: shortDesc,
 						longDesc: isDay ? day["narrative"] : night["narrative"],
-						thunderDesc: isDay
-							? day["thunder_enum_phrase"]
-							: night["thunder_enum_phrase"],
+						thunderDesc: thunderDesc,
 						winDesc: isDay
 							? day["wind_phrase"]
 							: night["wind_phrase"],
@@ -260,6 +329,10 @@ function getNearestStation() {
 	req.send();
 }
 
+// TODO: replace with getExtendedConditions
+/**
+ * Get icon code for display in TopPanel and CompactRep
+ */
 function findIconCode() {
 	var req = new XMLHttpRequest();
 
@@ -270,7 +343,7 @@ function findIconCode() {
 
 	url += "?geocode=" + lat + "," + long;
 	url += "&apiKey=" + API_KEY;
-	url += "&language=en-US";
+	url += "&language=" + Qt.locale().name.replace("_","-");
 
 	if (unitsChoice === 0) {
 		url += "&units=m";
@@ -298,7 +371,7 @@ function findIconCode() {
 			if (req.status == 200) {
 				var res = JSON.parse(req.responseText);
 
-				iconCode = res["iconCode"];
+				iconCode = iconThemeMap[res["iconCode"]];
 				conditionNarrative = res["wxPhraseLong"];
 
 				// Determine if the precipitation is snow or rain
@@ -321,3 +394,86 @@ function findIconCode() {
 
 	req.send();
 }
+
+/**
+ * Get broad weather info from station area including textual/icon description of conditions and weather warnings.
+ */
+function getExtendedConditions() {
+	var req = new XMLHttpRequest();
+
+	var long = plasmoid.configuration.longitude;
+	var lat = plasmoid.configuration.latitude;
+
+	var url = "https://api.weather.com/v3/aggcommon/v3-wx-observations-current;v3alertsHeadlines;v3-wx-globalAirQuality";
+
+	url += "?geocodes=" + lat + "," + long;
+	url += "&apiKey=" + API_KEY;
+	url += "&language=en-US";
+	url += "&scale=EPA"
+
+	if (unitsChoice === 0) {
+		url += "&units=m";
+	} else if (unitsChoice === 1) {
+		url += "&units=e";
+	} else {
+		url += "&units=h";
+	}
+
+	url += "&format=json";
+
+	req.open("GET", url);
+
+	req.setRequestHeader("Accept-Encoding", "gzip");
+	req.setRequestHeader("Origin", "https://www.wunderground.com");
+
+	req.onerror = function () {
+		printDebug("[pws-api.js] " + req.responseText);
+	};
+
+	printDebug("[pws-api.js] " + url);
+
+	req.onreadystatechange = function () {
+		if (req.readyState == 4) {
+			if (req.status == 200) {
+				var res = JSON.parse(req.responseText);
+
+				var combinedVars = res[0]
+
+				var condVars = combinedVars["v3-wx-observations-current"]
+				var alertsVars = combinedVars["v3alertsHeadlines"]
+				var airQualVars = combinedVars["v3-wx-globalAirQuality"]["globalairquality"]
+
+				iconCode = iconThemeMap[condVars["iconCode"]];
+				conditionNarrative = condVars["wxPhraseLong"];
+
+				// Determine if the precipitation is snow or rain
+				// All of these codes are for snow
+				if (
+					iconCode === 5 ||
+					iconCode === 13 ||
+					iconCode === 14 ||
+					iconCode === 15 ||
+					iconCode === 16 ||
+					iconCode === 42 ||
+					iconCode === 43 ||
+					iconCode === 46
+				) {
+					isRain = false;
+				}
+
+				if (alertsVars !== null) {
+					// TODO: parse and show weather alerts
+				}
+
+				weatherData["aq"]["aqi"] = airQualVars["airQualityIndex"]
+				weatherData["aq"]["aqhi"] = airQualVars["airQualityCategoryIndex"]
+				weatherData["aq"]["aqDesc"] = airQualVars["airQualityCategory"]
+				weatherData["aq"]["aqColor"] = airQualVars["airQualityCategoryIndexColor"]
+
+			}
+		}
+	};
+
+	req.send();
+}
+

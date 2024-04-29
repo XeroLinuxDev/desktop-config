@@ -18,12 +18,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-import QtQuick 2.4
-import QtQuick.Layouts 1.0
-import org.kde.plasma.plasmoid 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.extras 2.0 as PlasmaExtras
-Item {
+import QtQuick
+import QtQuick.Layouts
+import org.kde.plasma.plasmoid
+import org.kde.plasma.core as PlasmaCore
+import org.kde.plasma.extras as PlasmaExtras
+import org.kde.kirigami as Kirigami
+
+PlasmoidItem {
     id: root
     readonly property bool horizontal: plasmoid.formFactor === PlasmaCore.Types.Horizontal
     readonly property bool planar: plasmoid.formFactor === PlasmaCore.Types.Planar
@@ -39,7 +41,7 @@ Item {
     Layout.preferredHeight: Layout.minimumHeight
     Layout.maximumHeight: Layout.minimumHeight
 
-    Plasmoid.preferredRepresentation: plasmoid.fullRepresentation
+    preferredRepresentation: plasmoid.fullRepresentation
     Plasmoid.backgroundHints: planar ? PlasmaCore.Types.StandardBackground : PlasmaCore.Types.NoBackground
 
     readonly property int length: latteBridge && latteBridge.inEditMode ? Math.max(10, totalLength) : Math.max(1, totalLength)
@@ -86,7 +88,7 @@ Item {
         width: horizontal ? 1 : thickness
         height: !horizontal ? 1 : thickness
 
-        color: enforceLattePalette ? latteBridge.palette.textColor : theme.textColor
+        color: enforceLattePalette ? latteBridge.palette.textColor : Kirigami.Theme.textColor
         opacity: 0.4
         visible: !planar
     }

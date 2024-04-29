@@ -14,24 +14,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http: //www.gnu.org/licenses/>.
  */
-import QtQuick 2.2
-import QtQuick.Controls 1.3
-import QtQuick.Layouts 1.1
-import org.kde.plasma.core 2.0 as PlasmaCore
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import org.kde.kirigami as Kirigami
+import org.kde.plasma.plasma5support as Plasma5Support
 import "../../code/utils.js" as Utils
 
-Item {
+Kirigami.FormLayout {
     property alias cfg_launchApplicationEnabled: launchApplicationEnabled.checked
     property alias cfg_launchApplication: launchApplication.menuId
     property alias cfg_interfacesWhitelistEnabled: interfacesWhitelistEnabled.checked
     property var cfg_interfacesWhitelist: []
 
-    PlasmaCore.DataSource {
+    Loader {
+        id: 'launcher'
+        source: '../Launcher.qml'
+    }
+
+    Plasma5Support.DataSource {
         id: dataSource
         engine: 'executable'
         connectedSources: [Utils.NET_DATA_SOURCE]
 
-        onNewData: {
+        onNewData: (sourceName, data) => {
             // run just once
             connectedSources.length = 0
 
@@ -67,11 +73,18 @@ Item {
         CheckBox {
             id: launchApplicationEnabled
             text: i18n('Launch application when clicked:')
+            enabled: launcher.item != null
         }
 
         AppPicker {
             id: launchApplication
-            enabled: launchApplicationEnabled.checked
+            enabled: launcher.item != null && launchApplicationEnabled.checked
+        }
+
+        Text {
+            text: i18n('If you want to lauch an application,\nyou need to install the package plasma-addons first.')
+            visible: launcher.item == null
+            Layout.columnSpan: 2
         }
 
         CheckBox {
@@ -84,10 +97,10 @@ Item {
             height: 200
             border {
                 width: 1
-                color: "lightgrey"
+                color: Kirigami.Theme.alternateBackgroundColor
             }
             radius: 2
-            color: interfacesWhitelistEnabled.checked ? "#FFFFFFFF" : "#20FFFFFF"
+            color: Kirigami.Theme.backgroundColor
             Layout.columnSpan: 2
             Layout.fillWidth: true
 
@@ -104,13 +117,13 @@ Item {
 
                     delegate: Item {
                         id: interfaceItem
-                        height: units.iconSizes.smallMedium + 2*units.smallSpacing
+                        height: Kirigami.Units.iconSizes.smallMedium + 2*Kirigami.Units.smallSpacing
 
                         property bool isHovered: false
 
                         CheckBox {
-                            x: units.smallSpacing
-                            y: units.smallSpacing
+                            x: Kirigami.Units.smallSpacing
+                            y: Kirigami.Units.smallSpacing
 
                             text: name
                             checked: shown

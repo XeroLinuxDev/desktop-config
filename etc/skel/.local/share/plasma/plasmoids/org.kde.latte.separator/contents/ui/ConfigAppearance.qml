@@ -17,12 +17,13 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.0
-import QtQuick.Controls 1.0
-import QtQuick.Layouts 1.0
-import QtGraphicalEffects 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
-import org.kde.plasma.core 2.0 as PlasmaCore
+import org.kde.plasma.components as Components
+import org.kde.plasma.core as PlasmaCore
+import org.kde.kirigami as Kirigami
 
 Item {
     id: root
@@ -49,10 +50,10 @@ Item {
             SpinBox{
                 id: lengthMargin
 
-                minimumValue: 1
-                maximumValue: 64
+                from: 1
+                to: 64
                 stepSize: 1
-                suffix: " " + i18nc("pixels","px.")
+                // suffix: " " + i18nc("pixels","px.")
             }
 
             Label {
@@ -64,10 +65,10 @@ Item {
             SpinBox{
                 id: thickMargin
 
-                minimumValue: 0
-                maximumValue: 64
+                from: 0
+                to: 64
                 stepSize: 1
-                suffix: " " + i18nc("pixels","px.")
+                // suffix: " " + i18nc("pixels","px.")
             }
         }
 

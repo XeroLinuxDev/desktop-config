@@ -13,7 +13,7 @@
             <default>34.0602</default>
         </entry>
         <entry name="refreshPeriod" type="Int">
-            <default>15</default>
+            <default>60</default>
         </entry>
     </group>
     <group name="Appearance">
@@ -44,6 +44,9 @@
         </entry>
         <entry name="tempAutoColor" type="Bool">
             <default>true</default>
+        </entry>
+        <entry name="showForecastDefault" type="Bool">
+            <default>false</default>
         </entry>
     </group>
     <group name="Units">

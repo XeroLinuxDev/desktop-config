@@ -1,5 +1,5 @@
 /*
- * Copyright 2021  Kevin Donnelly
+ * Copyright 2024  Kevin Donnelly
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -15,25 +15,26 @@
  * along with this program.  If not, see <http: //www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import QtQuick.Layouts 1.0
-import QtQuick.Controls 2.0
-import org.kde.plasma.plasmoid 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
+import QtQml
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import org.kde.plasma.plasmoid
+import org.kde.plasma.core as PlasmaCore
 import "../code/utils.js" as Utils
 import "../code/pws-api.js" as StationAPI
 
-Item {
+PlasmoidItem {
     id: root
 
-    property var weatherData: null
+    property var weatherData: {"stationID":"","uv":0,"obsTimeLocal":"","winddir":0,"details":{"temp":0,"windSpeed":0,"windGust":0,"dewpt":0,"precipRate":0,"pressure":0,"precipTotal":0,"elev":0},"aq":{"aqi":"","aqhi":"","aqDesc":"","aqColor":""},"alerts":[]}
     property ListModel forecastModel: ListModel {}
     property string errorStr: ""
-    property string toolTipSubText: ""
-    property string iconCode: "32" // 32 = sunny
+    property string toolTipSubTextVar: ""
+    property string iconCode: "weather-clear" // 32 = sunny
     property string conditionNarrative: ""
 
-    // TODO: add option for showFORECAST and showFORECASTERROR
+    // TODO: add option for showFORECASTERROR
     property int showCONFIG: 1
     property int showLOADING: 2
     property int showERROR: 4
@@ -44,8 +45,8 @@ Item {
     // QML does not let you property bind items part of ListModels.
     // The TopPanel shows the high/low values which are items part of forecastModel
     // These are updated in pws-api.js to overcome that limitation
-    property int currDayHigh: null
-    property int currDayLow: null
+    property int currDayHigh: 0
+    property int currDayLow: 0
 
     property bool showForecast: false
 
@@ -107,7 +108,7 @@ Item {
         subText += i18nc("Do not edit HTML tags. 'Wnd Spd' means Wind Speed", "<font size='4'>Wnd spd: %1</font><br />", Utils.currentSpeedUnit(weatherData["details"]["windSpeed"]))
         subText += "<font size='4'>" + weatherData["obsTimeLocal"] + "</font>"
 
-        toolTipSubText = subText;
+        toolTipSubTextVar = subText;
     }
 
     onUnitsChoiceChanged: {
@@ -143,7 +144,8 @@ Item {
     }
 
     Component.onCompleted: {
-        inTray = (plasmoid.parent !== null && (plasmoid.parent.pluginName === 'org.kde.plasma.private.systemtray' || plasmoid.parent.objectName === 'taskItemContainer'))
+        //printDebug(plasmoid.containment.corona.kPackage)
+        inTray = plasmoid.containment.containmentType == 129 && plasmoid.formFactor == 2
 
         plasmoid.configurationRequiredReason = i18n("Set the weather station to pull data from.")
 
@@ -164,8 +166,8 @@ Item {
         onTriggered: updateForecastData()
     }
 
-    Plasmoid.toolTipTextFormat: Text.RichText
-    Plasmoid.toolTipMainText: {
+    toolTipTextFormat: Text.RichText
+    toolTipMainText: {
         if (appState == showCONFIG) {
             return i18n("Please Configure");
         } else if (appState == showDATA) {
@@ -176,10 +178,10 @@ Item {
             return i18n("Error...");
         }
     }
-    Plasmoid.toolTipSubText: toolTipSubText
+    toolTipSubText: toolTipSubText
 
-    // Plasmoid.preferredRepresentation: Plasmoid.compactRepresentation
-    Plasmoid.fullRepresentation: fr
-    Plasmoid.compactRepresentation: cr
+    // preferredRepresentation: compactRepresentation
+    fullRepresentation: fr
+    compactRepresentation: cr
 
 }

@@ -14,10 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http: //www.gnu.org/licenses/>.
  */
-import QtQuick 2.5
-import QtQuick.Layouts 1.1
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.private.quicklaunch 1.0
+import QtQuick
+import QtQuick.Layouts
+import org.kde.plasma.core as PlasmaCore
+import org.kde.plasma.plasma5support as Plasma5Support
+import org.kde.kirigami as Kirigami
 
 Item {
     anchors.fill: parent
@@ -53,7 +54,7 @@ Item {
         switch (speedLayout) {
             case 'rows': return false
             case 'columns': return true
-            default: return height / 2 * fontSizeScale < theme.smallestFont.pixelSize && plasmoid.formFactor != PlasmaCore.Types.Vertical
+            default: return height / 2 * fontSizeScale < Kirigami.Theme.smallFont.pixelSize && plasmoid.formFactor != PlasmaCore.Types.Vertical
         }
     }
 
@@ -100,7 +101,7 @@ Item {
         } else if (plasmoid.formFactor === PlasmaCore.Types.Horizontal) {
             return 0
         } else {
-            return Math.ceil(theme.smallestFont.pixelSize / fontSizeScale)
+            return Math.ceil(Kirigami.Theme.smallFont.pixelSize / fontSizeScale)
         }
     }
 
@@ -159,14 +160,15 @@ Item {
         font.pixelSize: 64
     }
 
-    PlasmaCore.DataSource {
+    Plasma5Support.DataSource {
         id: appsSource
         engine: 'apps'
         connectedSources: launchApplication
     }
 
-    Logic {
-        id: kRun
+    Loader {
+        id: 'launcher'
+        source: 'Launcher.qml'
     }
 
     Item {
@@ -191,7 +193,7 @@ Item {
         renderType: Text.NativeRendering
 
         text: showSeparately ? (swapDownUp ? '↑' : '↓') : '↓↑'
-        color: theme.textColor
+        color: Kirigami.Theme.textColor
         visible: showIcons
     }
 
@@ -227,7 +229,7 @@ Item {
         renderType: Text.NativeRendering
 
         text: speedUnit(showSeparately ? (swapDownUp ? upSpeed : downSpeed) : downSpeed + upSpeed)
-        color: theme.textColor
+        color: Kirigami.Theme.textColor
         visible: showUnits
     }
 
@@ -245,7 +247,7 @@ Item {
         renderType: Text.NativeRendering
 
         text: swapDownUp ? '↓' : '↑'
-        color: theme.textColor
+        color: Kirigami.Theme.textColor
         visible: showSeparately && showIcons
     }
 
@@ -282,7 +284,7 @@ Item {
         renderType: Text.NativeRendering
 
         text: speedUnit(swapDownUp ? downSpeed : upSpeed)
-        color: theme.textColor
+        color: Kirigami.Theme.textColor
         visible: showSeparately && showUnits
     }
 
@@ -291,8 +293,8 @@ Item {
         enabled: launchApplicationEnabled
 
         onClicked: {
-            if (appsSource.data[launchApplication]) {
-                kRun.openUrl("file:" + appsSource.data[launchApplication].entryPath)
+            if (launcher.item && appsSource.data[launchApplication]) {
+                launcher.item.launch("file:" + appsSource.data[launchApplication].entryPath)
             }
         }
     }
@@ -331,7 +333,7 @@ Item {
 
     function speedColor(value) {
         if (!customColors) {
-            return theme.textColor
+            return Kirigami.Theme.textColor
         }
 
         if (speedUnits === 'bits') {

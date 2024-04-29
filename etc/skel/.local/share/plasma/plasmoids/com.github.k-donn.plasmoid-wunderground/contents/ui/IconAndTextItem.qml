@@ -5,17 +5,18 @@
  */
 
 
-import QtQuick 2.9
-import QtQuick.Layouts 1.3
-
-import org.kde.plasma.plasmoid 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 3.0 as PlasmaComponents
+import QtQuick
+import QtQuick.Layouts
+import org.kde.ksvg as KSvg
+import org.kde.plasma.plasmoid
+import org.kde.kirigami as Kirigami
+import org.kde.plasma.core as PlasmaCore
+import org.kde.plasma.components as PlasmaComponents
 
 GridLayout {
     id: iconAndTextRoot
 
-    property alias iconSource: svg.imagePath
+    property alias iconSource: icon.source
     property alias text: label.text
     property alias paintWidth: sizeHelper.paintedWidth
     property alias paintHeight: sizeHelper.paintedHeight
@@ -28,9 +29,9 @@ GridLayout {
 
     readonly property bool showTemperature: !inTray
 
-    readonly property int verticalFixedHeight: 21 * units.devicePixelRatio
+    readonly property int verticalFixedHeight: 21
 
-    readonly property int minimumIconSize: units.iconSizes.small
+    readonly property int minimumIconSize: Kirigami.Units.iconSizes.small
 
     columns: iconAndTextRoot.vertical ? 1 : 2
     rows: iconAndTextRoot.vertical ? 2 : 1
@@ -54,17 +55,13 @@ GridLayout {
         compactRoot.Layout.minimumWidth = (text.Layout.minimumWidth + icon.Layout.minimumWidth)
     }
 
-    PlasmaCore.SvgItem {
+    Kirigami.Icon {
         id: icon
 
         readonly property int implicitMinimumIconSize: Math.max((iconAndTextRoot.vertical ? iconAndTextRoot.width : iconAndTextRoot.height), minimumIconSize)
         // reset implicit size, so layout in free dimension does not stop at the default one
         implicitWidth: minimumIconSize
         implicitHeight: minimumIconSize
-
-        svg: PlasmaCore.Svg {
-            id: svg
-        }
 
         Layout.fillWidth: iconAndTextRoot.vertical
         Layout.fillHeight: !iconAndTextRoot.vertical
@@ -103,8 +100,8 @@ GridLayout {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             anchors {
-                leftMargin: units.smallSpacing
-                rightMargin: units.smallSpacing
+                leftMargin: Kirigami.Units.smallSpacing
+                rightMargin: Kirigami.Units.smallSpacing
             }
 
             smooth: true
@@ -145,8 +142,8 @@ GridLayout {
 
             anchors {
                 fill: parent
-                leftMargin: units.smallSpacing
-                rightMargin: units.smallSpacing
+                leftMargin: Kirigami.Units.smallSpacing
+                rightMargin: Kirigami.Units.smallSpacing
             }
         }
     }

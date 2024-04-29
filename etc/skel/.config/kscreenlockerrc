@@ -6,5 +6,5 @@ Autolock=false
 LockOnResume=false
 
 [Greeter][Wallpaper][org.kde.image][General]
-Image=/usr/share/LayanWall/XeroLayanWallpaper.png
-PreviewImage=/usr/share/LayanWall/XeroLayanWallpaper.png
+Image=/usr/share/wallpapers/Xero-Plasma21.jpg
+PreviewImage=/usr/share/wallpapers/Xero-Plasma21.jpg
