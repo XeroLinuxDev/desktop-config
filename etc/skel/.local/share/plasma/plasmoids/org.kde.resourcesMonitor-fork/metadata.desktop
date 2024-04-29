@@ -1,0 +1,22 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Resources Monitor (fork)
+Comment=Plasmoid for monitoring CPU, memory and network traffic. This is an fork from "Resources Monitor" by Kotelnik
+Type=Service
+X-KDE-ParentApp=
+X-KDE-PluginInfo-Author=Kotelnik,orblazer
+X-KDE-PluginInfo-Email=clearmartin@seznam.cz
+X-KDE-PluginInfo-License=GPL-3.0-only
+X-KDE-PluginInfo-Name=org.kde.resourcesMonitor-fork
+X-KDE-PluginInfo-Version=2.7.1
+X-KDE-PluginInfo-Website=https://github.com/orblazer/plasma-applet-resources-monitor
+X-KDE-ServiceTypes=Plasma/Applet
+X-Plasma-API=declarativeappletscript
+X-Plasma-MainScript=ui/main.qml
+X-Plasma-RemoteLocation=
+X-KDE-PluginInfo-Category=System Information
+Icon=utilities-system-monitor
+Name[fr]=Moniteur des ressources (fork)
+Name[nl]=Systeembronmonitor (afsplitsing)
+Comment[fr]=Plasmoid pour surveiller l'utilisation du CPU, de la mémoire et du traffic réseau. Ceci est un fork de "Resources Monitor" de Kotelnik
+Comment[nl]=Een plasmoid voor het monitoren van de cpu, het werkgeheugen en netwerkverkeer. Dit is een afsplitsing van "Resources Monitor" van Kotelnik.

@@ -1,0 +1,16 @@
+[Desktop Entry]
+Type=Service
+ServiceTypes=KonqPopupMenu/Plugin
+MimeType=application/x-cd-image
+Actions=write;
+X-KDE-Priority=TopLevel
+X-KDE-StartupNotify=false
+Icon=application-x-cd-image
+
+[Desktop Action write]
+Name=Write to USB drive
+Name[it]=Scrivi su chiavetta USB
+Name[nl]=Wegschrijven naar usb-schijf
+Name[tr]=Dosyayı USB'ye yazdır
+Icon=drive-removable-media-symbolic
+Exec=imagewriter -f %f

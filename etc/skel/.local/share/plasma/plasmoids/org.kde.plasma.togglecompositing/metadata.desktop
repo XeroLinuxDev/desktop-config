@@ -1,0 +1,19 @@
+[Desktop Entry]
+Name=Toggle Compositing
+Comment=Plasmoid for toggling desktop compositing
+Icon=composite-track-on
+Type=Service
+X-KDE-ServiceTypes=Plasma/Applet
+
+X-KDE-PluginInfo-Author=Tim Hansen
+X-KDE-PluginInfo-Category=Graphics
+X-KDE-PluginInfo-Email=timhansen232@gmail.com
+X-KDE-PluginInfo-EnabledByDefault=true
+X-KDE-PluginInfo-License=LGPL-3.0
+X-KDE-PluginInfo-Name=org.kde.plasma.togglecompositing
+X-KDE-PluginInfo-Version=1.2.1
+X-KDE-PluginInfo-Website=https://kde.org/plasma-desktop
+
+X-Plasma-API=declarativeappletscript
+X-Plasma-MainScript=ui/main.qml
+X-Plasma-NotificationArea=false

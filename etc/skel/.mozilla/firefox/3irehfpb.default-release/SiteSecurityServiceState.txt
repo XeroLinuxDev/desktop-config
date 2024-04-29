@@ -1,0 +1,2 @@
+fosstodon.org^partitionKey=%28http%2Cfosstodon.org%29:HSTS	0	19557	1752823541563,1,1
+github.com^partitionKey=%28http%2Cgithub.com%29:HSTS	0	19557	1721287546608,1,1

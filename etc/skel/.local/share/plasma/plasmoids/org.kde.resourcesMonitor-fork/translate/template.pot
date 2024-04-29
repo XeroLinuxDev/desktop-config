@@ -1,0 +1,291 @@
+# Translation of resourcesMonitor-fork in LANGUAGE
+# Copyright (C) 2021
+# This file is distributed under the same license as the resourcesMonitor-fork package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: resourcesMonitor-fork\n"
+"Report-Msgid-Bugs-To: https://github.com/orblazer/plasma-applet-resources-monitor\n"
+"POT-Creation-Date: 2021-12-20 06:13+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../metadata.desktop:4
+msgid "Resources Monitor (fork)"
+msgstr ""
+
+#: ../metadata.desktop:5
+msgid "Plasmoid for monitoring CPU, memory and network traffic. This is an fork from \"Resources Monitor\" by Kotelnik"
+msgstr ""
+
+#: ../contents/config/config.qml:6
+#: ../contents/ui/config/ConfigGeneral.qml:58
+msgid "General"
+msgstr ""
+
+#: ../contents/config/config.qml:11
+msgid "Data"
+msgstr ""
+
+#: ../contents/config/config.qml:16
+msgid "Appearance"
+msgstr ""
+
+#: ../contents/ui/components/functions.js:31
+msgctxt "kilobyte suffix"
+msgid "Bps"
+msgstr ""
+
+#: ../contents/ui/components/functions.js:39
+msgctxt "kilobit suffix"
+msgid "bps"
+msgstr ""
+
+#: ../contents/ui/components/functions.js:47
+msgctxt "kibibyte suffix"
+msgid "iB/s"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:46
+msgid "Graph"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:51
+msgid "Text"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:56
+msgid "Colors"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:71
+msgid "Vertical layout"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:76
+msgid "History amount:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:83
+msgid "Width:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:90
+msgid "Height:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:97
+msgid "Margin:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:108
+msgid "Fill opacity:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:126
+msgid "Drop shadows"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:131
+msgid "Font scale:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:143
+msgid "Text displayment:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:146
+msgid "Always"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:149
+msgid "On hover"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:152
+msgid "Hints when hover"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:168
+msgid "Placement:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:171
+msgid "Top left"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:174
+msgid "Top right"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:177
+msgid "Bottom left"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:180
+msgid "Bottom right"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:201
+msgid "CPU color:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:203
+msgid "Choose CPU graph color"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:209
+msgid "Memory color:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:211
+msgid "Choose memory graph color"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:216
+msgid "Swap color:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:218
+msgid "Choose Swap graph color"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:224
+msgid "Network receiving color:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:226
+msgid "Choose network receiving graph color"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:231
+msgid "Network sending color:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml:233
+msgid "Choose network sending graph color"
+msgstr ""
+
+#: ../contents/ui/config/ConfigData.qml:23
+msgid "Custom"
+msgstr ""
+
+#: ../contents/ui/config/ConfigData.qml:64
+msgid "Network"
+msgstr ""
+
+#: ../contents/ui/config/ConfigData.qml:80
+msgid "Network interfaces:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigData.qml:124
+msgid "Maximum transfer speed"
+msgstr ""
+
+#: ../contents/ui/config/ConfigData.qml:137
+msgid "Receiving:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigData.qml:161
+#: ../contents/ui/config/ConfigData.qml:217
+msgid "Custom value:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigData.qml:193
+msgid "Sending:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigGeneral.qml:63
+msgid "Click action"
+msgstr ""
+
+#: ../contents/ui/config/ConfigGeneral.qml:82
+msgid "Update interval:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigGeneral.qml:91
+msgid "%1 seconds"
+msgstr ""
+
+#: ../contents/ui/config/ConfigGeneral.qml:103
+msgid "Charts"
+msgstr ""
+
+#: ../contents/ui/config/ConfigGeneral.qml:116
+msgid "Show CPU monitor"
+msgstr ""
+
+#: ../contents/ui/config/ConfigGeneral.qml:120
+msgid "Show CPU clock"
+msgstr ""
+
+#: ../contents/ui/config/ConfigGeneral.qml:127
+msgid "Show memory monitor"
+msgstr ""
+
+#: ../contents/ui/config/ConfigGeneral.qml:131
+msgid "Memory in percentage"
+msgstr ""
+
+#: ../contents/ui/config/ConfigGeneral.qml:136
+msgid "Display memory swap graph"
+msgstr ""
+
+#: ../contents/ui/config/ConfigGeneral.qml:149
+msgid "Network visibility:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigGeneral.qml:153
+msgid "Disabled"
+msgstr ""
+
+#: ../contents/ui/config/ConfigGeneral.qml:156
+msgid "In kibibyte (KiB/s)"
+msgstr ""
+
+#: ../contents/ui/config/ConfigGeneral.qml:159
+msgid "In kilobit (Kbps)"
+msgstr ""
+
+#: ../contents/ui/config/ConfigGeneral.qml:162
+msgid "In kilobyte (KBps)"
+msgstr ""
+
+#: ../contents/ui/config/ConfigGeneral.qml:212
+msgid "Search an application:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigGeneral.qml:214
+msgid "Application name"
+msgstr ""
+
+#: ../contents/ui/config/ConfigGeneral.qml:221
+msgid "Applications"
+msgstr ""
+
+#: ../contents/ui/controls/ColorSelector.qml:29
+msgid "Check for use customized color"
+msgstr ""
+
+#: ../contents/ui/controls/CustomizableSize.qml:24
+msgid "Check for use customized graph width"
+msgstr ""
+
+#: ../contents/ui/main.qml:118
+msgid "⏲ Clock"
+msgstr ""
+
+#: ../contents/ui/main.qml:220
+msgid "⇘ Down"
+msgstr ""
+
+#: ../contents/ui/main.qml:222
+msgid "⇗ Up"
+msgstr ""

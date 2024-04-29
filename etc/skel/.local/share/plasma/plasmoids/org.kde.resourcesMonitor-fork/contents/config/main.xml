@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+    <kcfgfile name=""/>
+
+    <group name="General">
+        <entry name="updateInterval" type="Double">
+            <default>1.0</default>
+        </entry>
+
+        <entry name="actionService" type="String">
+            <default>org.kde.plasma-systemmonitor</default>
+        </entry>
+
+        <entry name="showCpuMonitor" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="showClock" type="Bool">
+            <default>true</default>
+        </entry>
+
+        <entry name="showRamMonitor" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="memoryInPercent" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="memorySwapGraph" type="Bool">
+            <default>true</default>
+        </entry>
+
+        <entry name="showNetMonitor" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="networkUnit" type="String">
+            <default>kibibyte</default>
+        </entry>
+    </group>
+
+    <group name="Data">
+        <entry name="ignoredNetworkInterfaces" type="StringList">
+        </entry>
+        <entry name="networkReceivingTotal" type="Double">
+            <default>100000.0</default>
+        </entry>
+        <entry name="networkSendingTotal" type="Double">
+            <default>100000.0</default>
+        </entry>
+    </group>
+
+    <group name="Appearance">
+        <entry name="verticalLayout" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="historyAmount" type="Int">
+            <default>10</default>
+        </entry>
+        <entry name="enableShadows" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="fontScale" type="Int">
+            <default>26</default>
+        </entry>
+        <entry name="customGraphWidth" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="graphWidth" type="Int">
+        </entry>
+        <entry name="customGraphHeight" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="graphHeight" type="Int">
+        </entry>
+        <entry name="graphMargin" type="Int">
+            <default>10</default>
+        </entry>
+        <entry name="graphFillOpacity" type="Int">
+            <default>25</default>
+        </entry>
+        <entry name="displayment" type="String">
+            <default>hover-hints</default>
+        </entry>
+        <entry name="placement" type="String">
+            <default>top-right</default>
+        </entry>
+
+        <entry name="customCpuColor" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="cpuColor" type="Color">
+        </entry>
+
+        <entry name="customRamColor" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="ramColor" type="Color">
+        </entry>
+        <entry name="customSwapColor" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="swapColor" type="Color">
+        </entry>
+
+        <entry name="customNetDownColor" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="netDownColor" type="Color">
+        </entry>
+        <entry name="customNetUpColor" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="netUpColor" type="Color">
+        </entry>
+    </group>
+
+</kcfg>
