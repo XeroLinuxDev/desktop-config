@@ -213,7 +213,7 @@ immutability=1
 plugin=com.github.boraerciyas.controlcentre
 
 [Containments][126][Applets][226][Configuration]
-PreloadWeight=85
+PreloadWeight=90
 popupHeight=360
 popupWidth=360
 
@@ -222,7 +222,7 @@ immutability=1
 plugin=org.kde.plasma.shutdownorswitch
 
 [Containments][126][Applets][227][Configuration]
-PreloadWeight=95
+PreloadWeight=100
 popupHeight=249
 popupWidth=216
 
@@ -431,10 +431,6 @@ archNews=true
 checkOnStartup=true
 plasmoids=true
 
-[Containments][132][Applets][238][Configuration][Upgrade]
-refreshShell=true
-upgradeFlags=true
-
 [Containments][132][Applets][228]
 immutability=1
 plugin=org.kde.plasma.networkmanagement
@@ -447,6 +443,10 @@ PreloadWeight=42
 
 [Containments][132][Applets][234][Configuration]
 PreloadWeight=42
+
+[Containments][132][Applets][238][Configuration][Upgrade]
+refreshShell=true
+upgradeFlags=true
 
 [Containments][132][ConfigDialog]
 DialogHeight=540
@@ -488,14 +488,6 @@ plugin=zayron.simple.separator
 immutability=1
 plugin=zayron.simple.separator
 
-[Containments][168][Applets][231]
-immutability=1
-plugin=org.kde.dolphin.desktop
-
-[Containments][168][Applets][231][Configuration][ConfigDialog]
-DialogHeight=540
-DialogWidth=720
-
 [Containments][168][Applets][232]
 immutability=1
 plugin=org.kde.plasma.trash
@@ -505,7 +497,6 @@ immutability=1
 plugin=org.kde.plasma.icon
 
 [Containments][168][Applets][233][Configuration]
-localPath=/home/xero/.local/share/plasma_icons/xapit-cli (1).desktop
 url=file:///usr/share/applications/xapit-cli.desktop
 
 [Containments][168][ConfigDialog]
@@ -513,7 +504,7 @@ DialogHeight=87
 DialogWidth=2560
 
 [Containments][168][General]
-AppletOrder=231;230;169;229;232
+AppletOrder=233;230;169;229;232
 
 [Containments][44]
 activityId=
@@ -700,7 +691,7 @@ DialogWidth=720
 [Containments][87][General]
 ToolBoxButtonState=top
 ToolBoxButtonX=366
-ToolBoxButtonY=58
+ToolBoxButtonY=56
 
 [Containments][87][Wallpaper][org.kde.image][General]
 Image=/usr/share/wallpapers/Xero-Plasma21.jpg
