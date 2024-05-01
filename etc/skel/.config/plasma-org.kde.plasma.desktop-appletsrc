@@ -490,7 +490,7 @@ plugin=zayron.simple.separator
 
 [Containments][168][Applets][231]
 immutability=1
-plugin=com.himdek.kde.plasma.overview
+plugin=org.kde.dolphin.desktop
 
 [Containments][168][Applets][231][Configuration][ConfigDialog]
 DialogHeight=540
@@ -500,8 +500,13 @@ DialogWidth=720
 immutability=1
 plugin=org.kde.plasma.trash
 
-[Containments][168][Applets][232][Configuration]
-PreloadWeight=55
+[Containments][168][Applets][233]
+immutability=1
+plugin=org.kde.plasma.icon
+
+[Containments][168][Applets][233][Configuration]
+localPath=/home/xero/.local/share/plasma_icons/xapit-cli (1).desktop
+url=file:///usr/share/applications/xapit-cli.desktop
 
 [Containments][168][ConfigDialog]
 DialogHeight=87
