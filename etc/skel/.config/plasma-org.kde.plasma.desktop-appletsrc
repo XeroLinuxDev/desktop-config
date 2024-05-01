@@ -6,7 +6,6 @@ wheel:Vertical;NoModifier=org.kde.switchdesktop
 RightButton;NoModifier=org.kde.contextmenu
 
 [Containments][119]
-ItemGeometries-1920x1080=
 ItemGeometriesHorizontal=
 activityId=cd915191-804f-4d50-8fc3-f8e5c0279f54
 formfactor=0
@@ -110,8 +109,8 @@ plugin=org.kde.plasma.kicker
 
 [Containments][126][Applets][158][Configuration]
 PreloadWeight=100
-popupHeight=293
-popupWidth=561
+popupHeight=378
+popupWidth=300
 
 [Containments][126][Applets][158][Configuration][ConfigDialog]
 DialogHeight=540
@@ -428,8 +427,16 @@ DialogWidth=720
 
 [Containments][132][Applets][223][Configuration][General]
 archNews=true
+aur=true
 checkOnStartup=true
+flatpak=true
 plasmoids=true
+wrapper=/usr/bin/paru
+
+[Containments][132][Applets][223][Configuration][Upgrade]
+refreshShell=true
+terminal=/usr/bin/konsole
+upgradeFlags=true
 
 [Containments][132][Applets][228]
 immutability=1
@@ -497,6 +504,7 @@ immutability=1
 plugin=org.kde.plasma.icon
 
 [Containments][168][Applets][233][Configuration]
+localPath=/home/xero/.local/share/plasma_icons/xapit-cli.desktop
 url=file:///usr/share/applications/xapit-cli.desktop
 
 [Containments][168][ConfigDialog]
@@ -673,8 +681,6 @@ knownItems=org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.clipbo
 PreloadWeight=90
 
 [Containments][87]
-ItemGeometries-1912x577=
-ItemGeometries-1920x1080=
 ItemGeometriesHorizontal=
 activityId=cd915191-804f-4d50-8fc3-f8e5c0279f54
 formfactor=0
