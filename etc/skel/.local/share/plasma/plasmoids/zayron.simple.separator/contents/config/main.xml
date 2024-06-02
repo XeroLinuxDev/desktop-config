@@ -19,4 +19,13 @@
   <entry name="customColors" type="string">
     <default>#ffffff</default>
   </entry>
+  <entry name="thicknessSeparator" type="int">
+    <default>1</default>
+  </entry>
+  <entry name="opacity" type="int">
+    <default>40</default>
+  </entry>
+  <entry name="pointDesing" type="bool">
+    <default>false</default>
+  </entry>
 </kcfg>

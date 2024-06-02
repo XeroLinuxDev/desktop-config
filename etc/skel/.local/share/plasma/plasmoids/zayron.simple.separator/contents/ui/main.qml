@@ -8,11 +8,13 @@ PlasmoidItem {
     id: root
 
     readonly property bool isVertical: Plasmoid.formFactor === PlasmaCore.Types.Vertical
-    property int anchoDeSepardor: isVertical ? (width < 40) ? 1 : (width < 60) ? 1.5 : 2 : (height < 40) ? 1 : (height < 60) ? 1.5 : 2
+    property int anchoDeSepardor: isVertical ? (width < 40) ? thickness : (width < 60) ? thickness*1.5 : thickness*2 : (height < 40) ? thickness : (height < 60) ? thickness*1.5 : thickness*2
     property int margins: Plasmoid.configuration.lengthMargin
     property bool customColorCheck: Plasmoid.configuration.checkColorCustom
     property string customColor: Plasmoid.configuration.customColors
     property int lengthPorcent: Plasmoid.configuration.lengthSeparator
+    property int thickness: Plasmoid.configuration.thicknessSeparator
+    property bool pointDesing: Plasmoid.configuration.pointDesing
 
     Plasmoid.backgroundHints: PlasmaCore.Types.NoBackground | PlasmaCore.Types.ConfigurableBackground
     preferredRepresentation: fullRepresentation
@@ -33,11 +35,12 @@ PlasmoidItem {
                    width: isVertical ? root.height : anchoDeSepardor + margins
                    anchors.centerIn: parent
                    Rectangle {
-                     width: isVertical ? root.width/100*lengthPorcent : anchoDeSepardor
-                     height: isVertical ? anchoDeSepardor : root.height/100*lengthPorcent
+                     width: pointDesing ? root.width/100*lengthPorcent : isVertical ? root.width/100*lengthPorcent : anchoDeSepardor
+                     height: pointDesing ? root.width/100*lengthPorcent : isVertical ? anchoDeSepardor : root.height/100*lengthPorcent
                      color: customColorCheck ? customColor: Kirigami.Theme.textColor
-                     opacity: 0.4
+                     opacity: Plasmoid.configuration.opacity/100
                      anchors.centerIn: parent
+                     radius: pointDesing ? height/2 : 0
                    }
 
                }

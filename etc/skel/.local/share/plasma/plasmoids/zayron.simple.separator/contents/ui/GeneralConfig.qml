@@ -8,8 +8,11 @@ Item {
 
     property alias cfg_checkColorCustom: checkColorCustom.checked
     property alias cfg_lengthMargin: lengthMargin.value
+    property alias cfg_opacity: porcetageOpacity.value
     property alias cfg_lengthSeparator: lengthSeparator.value
+    property alias cfg_thicknessSeparator: thickness.value
     property alias cfg_customColors: colorcustom.text
+    property alias cfg_pointDesing: checkPoinDesing.checked
 
     ColumnLayout {
         spacing: units.largeSpacing
@@ -17,6 +20,16 @@ Item {
 
         GridLayout{
             columns: 2
+
+            Label {
+                Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
+                text: i18n("replace linear design with point:")
+                horizontalAlignment: Text.AlignRight
+            }
+
+            CheckBox {
+                id: checkPoinDesing
+            }
             Label {
                 Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
                 text: i18n("Margin length:")
@@ -46,7 +59,21 @@ Item {
                 stepSize: 10
                 // suffix: " " + i18nc("pixels","px.")
             }
+            Label {
+                Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
+                text: i18n("thickness:")
+                horizontalAlignment: Text.AlignRight
+                visible: !checkPoinDesing.checked
+            }
+            SpinBox{
+                id: thickness
 
+                from: 1
+                to: 4
+                stepSize: 1
+                // suffix: " " + i18nc("pixels","px.")
+                visible: !checkPoinDesing.checked
+            }
             Label {
                 Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
                 text: i18n("Custom RGB Color:")
@@ -62,6 +89,20 @@ Item {
                 id: colorcustom
                 width: 200
                 enabled: checkColorCustom.checked
+            }
+            Label {
+                Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
+                text: i18n("Opacity:")
+                horizontalAlignment: Text.AlignRight
+            }
+
+            SpinBox{
+                id: porcetageOpacity
+
+                from: 30
+                to: 100
+                stepSize: 5
+                // suffix: " " + i18nc("pixels","px.")
             }
         }
 
