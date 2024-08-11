@@ -19,33 +19,33 @@ PlasmoidItem {
     Plasmoid.backgroundHints: PlasmaCore.Types.NoBackground | PlasmaCore.Types.ConfigurableBackground
     preferredRepresentation: fullRepresentation
 
+    fullRepresentation: RowLayout {
+       id: base
+       Layout.minimumWidth: isVertical ? root.width : anchoDeSepardor + margins
+       Layout.maximumHeight: isVertical ? anchoDeSepardor + margins : root.height
+       Row {
+          height: separator.height
+          width: separator.width
+          anchors.centerIn: parent
 
-          fullRepresentation: RowLayout {
-             id: base
-             Layout.minimumWidth: isVertical ? root.width : anchoDeSepardor + margins
-             Layout.maximumHeight: isVertical ? anchoDeSepardor + margins : root.height
-             Row {
-                height: separator.height
-                width: separator.width
+          Row {
+             id: separator
+             height: isVertical ? anchoDeSepardor + margins : root.height
+             width: isVertical ? root.height : anchoDeSepardor + margins
+             anchors.centerIn: parent
+
+             Rectangle {
+                width: pointDesing ? root.width/100*lengthPorcent : isVertical ? root.width/100*lengthPorcent : anchoDeSepardor
+                height: pointDesing ? root.width/100*lengthPorcent : isVertical ? anchoDeSepardor : root.height/100*lengthPorcent
+                color: customColorCheck ? customColor: Kirigami.Theme.textColor
+                opacity: Plasmoid.configuration.opacity/100
                 anchors.centerIn: parent
-
-                Row {
-                   id: separator
-                   height: isVertical ? anchoDeSepardor + margins : root.height
-                   width: isVertical ? root.height : anchoDeSepardor + margins
-                   anchors.centerIn: parent
-                   Rectangle {
-                     width: pointDesing ? root.width/100*lengthPorcent : isVertical ? root.width/100*lengthPorcent : anchoDeSepardor
-                     height: pointDesing ? root.width/100*lengthPorcent : isVertical ? anchoDeSepardor : root.height/100*lengthPorcent
-                     color: customColorCheck ? customColor: Kirigami.Theme.textColor
-                     opacity: Plasmoid.configuration.opacity/100
-                     anchors.centerIn: parent
-                     radius: pointDesing ? height/2 : 0
-                   }
-
-               }
-
+                radius: pointDesing ? height/2 : 0
              }
 
           }
+
+       }
+
+    }
 }

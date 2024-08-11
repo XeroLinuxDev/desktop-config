@@ -23,16 +23,12 @@ import org.kde.plasma.components as PlasmaComponents
 ColumnLayout {
     id: switchRoot
 
-    property int indexDETAILS: 0
-    property int indexFORECAST: 1
-
-
     PlasmaComponents.TabBar {
         id: tabBar
 
         Layout.fillWidth: true
 
-        currentIndex: plasmoid.configuration.showForecastDefault ? indexFORECAST : indexDETAILS
+        currentIndex: plasmoid.configuration.defaultLoadPage
 
         PlasmaComponents.TabButton {
             id: detailsTabButton
@@ -45,6 +41,12 @@ ColumnLayout {
 
             text: i18n("Forecast")
         }
+
+        PlasmaComponents.TabButton {
+            id: moreInfoTabButton
+
+            text: i18n("More Info")
+        }
     }
 
     SwipeView {
@@ -52,7 +54,7 @@ ColumnLayout {
 
         Layout.fillWidth: true
         Layout.fillHeight: true
-        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+        Layout.alignment: Qt.AlignCenter
 
         clip: true
 
@@ -74,6 +76,15 @@ ColumnLayout {
             Layout.preferredHeight: parent.height * 0.75
 
             Layout.alignment: Qt.AlignTop
+        }
+
+        MoreInfoItem {
+            id: moreInfoItem
+
+            Layout.preferredWidth: parent.width
+            Layout.preferredHeight: parent.height * 0.75
+
+            Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
         }
 
         onCurrentIndexChanged: {

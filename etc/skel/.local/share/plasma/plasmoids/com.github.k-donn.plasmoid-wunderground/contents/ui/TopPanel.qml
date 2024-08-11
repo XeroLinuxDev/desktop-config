@@ -31,7 +31,10 @@ RowLayout {
     Kirigami.Icon {
         id: topPanelIcon
 
-        source: iconCode
+        source: Qt.resolvedUrl("../icons/" + iconCode + ".svg")
+
+        isMask: true
+        color: Kirigami.Theme.textColor
 
         Layout.minimumWidth: Kirigami.Units.iconSizes.large
         Layout.minimumHeight: Kirigami.Units.iconSizes.large
@@ -42,7 +45,7 @@ RowLayout {
     PlasmaComponents.Label {
         id: tempOverview
 
-        text: showForecast ? i18n("High: %1 Low: %2", currDayHigh, currDayLow) : i18n("Loading...")
+        text: showForecast ? i18n("High: %1 Low: %2", Utils.currentTempUnit(Utils.toUserTemp(currDayHigh)), Utils.currentTempUnit(Utils.toUserTemp(currDayLow))) : i18n("Loading...")
 
         verticalAlignment: Text.AlignBottom
         horizontalAlignment: Text.AlignHCenter

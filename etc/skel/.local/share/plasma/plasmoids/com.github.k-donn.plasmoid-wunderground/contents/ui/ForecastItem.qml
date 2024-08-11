@@ -31,41 +31,48 @@ RowLayout {
     readonly property int preferredIconSize: Kirigami.Units.iconSizes.large
 
     Repeater {
-        id: repeater
+        id: forecastRepeater
 
         model: forecastModel
         ColumnLayout {
+            Layout.maximumWidth: parent.width / 7
+
             PlasmaComponents.Label {
-                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                Layout.alignment: Qt.AlignCenter
 
                 text: date
             }
             PlasmaComponents.Label {
-                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                Layout.alignment: Qt.AlignCenter
 
                 text: dayOfWeek
             }
             PlasmaComponents.Label {
-                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                Layout.fillWidth: true
 
-                // TODO: add elide behavior since non-English descriptions can be longer
+                elide: Text.ElideRight
+                horizontalAlignment: Text.AlignHCenter
+
                 text: shortDesc
             }
             Kirigami.Icon {
                 id: icon
 
-                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                Layout.alignment: Qt.AlignCenter
 
                 Layout.preferredHeight: preferredIconSize
                 Layout.preferredWidth: preferredIconSize
 
-               	source: iconCode
+                source: Qt.resolvedUrl("../icons/" + iconCode + ".svg")
+
+                isMask: true
+                color: Kirigami.Theme.textColor
 
                 PlasmaCore.ToolTipArea {
                     id: tooltip
 
                     mainText: longDesc
-                    subText: i18nc("Do not edit HTML tags.","<font size='4'>Feels like: %1<br/>Thunder: %2<br/>UV: %3<br/>Snow: %4<br/>Golf: %5</font>", Utils.currentTempUnit(feelsLike), thunderDesc, UVDesc, snowDesc, golfDesc)
+                    subText: i18nc("Do not edit HTML tags.", "<font size='4'>Feels like: %1<br/>Thunder: %2<br/>UV: %3<br/>Snow: %4<br/>Golf: %5</font>", Utils.currentTempUnit(Utils.toUserTemp(feelsLike)), thunderDesc, uvDesc, snowDesc, golfDesc)
 
                     interactive: true
 
@@ -73,14 +80,14 @@ RowLayout {
                 }
             }
             PlasmaComponents.Label {
-                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                Layout.alignment: Qt.AlignCenter
 
-                text: Utils.currentTempUnit(high)
+                text: Utils.currentTempUnit(Utils.toUserTemp(high))
             }
             PlasmaComponents.Label {
-                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                Layout.alignment: Qt.AlignCenter
 
-                text: Utils.currentTempUnit(low)
+                text: Utils.currentTempUnit(Utils.toUserTemp(low))
             }
         }
     }

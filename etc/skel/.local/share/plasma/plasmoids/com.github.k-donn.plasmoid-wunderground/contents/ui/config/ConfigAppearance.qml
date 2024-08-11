@@ -19,8 +19,9 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import org.kde.kcmutils as KCM
-import org.kde.plasma.components as PlasmaComponents
 import org.kde.kirigami as Kirigami
+
+import "../lib"
 
 KCM.SimpleKCM {
     id: appearanceConfig
@@ -30,15 +31,22 @@ KCM.SimpleKCM {
     property alias cfg_propPointSize: propPointSize.value
     property alias cfg_tempPointSize: tempPointSize.value
     property alias cfg_tempAutoColor: tempAutoColor.checked
-    property alias cfg_showForecastDefault: showForecastDefault.checked
+    property alias cfg_defaultLoadPage: defaultLoadPage.currentIndex
+    property alias cfg_showPresTrend: showPresTrend.checked
 
     Kirigami.FormLayout {
         anchors.fill: parent
 
-        Kirigami.Heading {
-            Layout.fillWidth: true
-            level: 2
-            text: i18n("Compact Representation")
+        Kirigami.Separator {
+            Kirigami.FormData.label: i18nd("plasma_applet_org.kde.desktopcontainment", "Show Background")
+            Kirigami.FormData.isSection: true
+        }
+
+        BackgroundToggle {}
+
+        Kirigami.Separator {
+            Kirigami.FormData.label: i18n("Compact Representation")
+            Kirigami.FormData.isSection: true
         }
 
         ConfigFontFamily {
@@ -61,12 +69,9 @@ KCM.SimpleKCM {
             Kirigami.FormData.label: i18n("Font styles")
         }
 
-        Kirigami.Separator {}
-
-        Kirigami.Heading {
-            Layout.fillWidth: true
-            level: 2
-            text: i18n("Full Representation")
+        Kirigami.Separator {
+            Kirigami.FormData.label: i18n("Full Representation")
+            Kirigami.FormData.isSection: true
         }
 
         SpinBox {
@@ -99,11 +104,17 @@ KCM.SimpleKCM {
             Kirigami.FormData.label: i18n("Auto-color temperature:")
         }
 
-        CheckBox {
-            id: showForecastDefault
+        ComboBox {
+            id: defaultLoadPage
 
-            Kirigami.FormData.label: i18n("Show forecast page on load:")
+            model: [i18n("Weather Details"), i18n("Forecast"), i18n("More Info")]
+
+            Kirigami.FormData.label: i18n("Default page shown:")
         }
+        CheckBox {
+            id: showPresTrend
 
+            Kirigami.FormData.label: i18n("Show pressure trend:")
+        }
     }
 }

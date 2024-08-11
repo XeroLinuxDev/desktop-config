@@ -6,7 +6,8 @@
 
 function Error(code, err) {
     if (err) {
-        error = err.trim().substring(0, 150) + "..."
+        if (cfg.notifyErrors) sendNotify("error", "Exit code" + ": " + code, err.trim())
+        sts.errMsg = err.trim().substring(0, 150) + "..."
         setStatusBar(code)
         return true
     }
@@ -15,44 +16,82 @@ function Error(code, err) {
 
 
 const script = "$HOME/.local/share/plasma/plasmoids/com.github.exequtic.apdatifier/contents/tools/tools.sh"
-const cacheDir = "$HOME/.cache/apdatifier/"
-const cacheFile1 = cacheDir + "packages_list.json"
-const cacheFile2 = cacheDir + "packages_list_2.json"
-const newsFile = cacheDir + "latest_news.json"
-const timestampFile = cacheDir + "last_check_timestamp"
+const configDir = "$HOME/.config/apdatifier/"
+const configFile = configDir + "config.conf"
+const cacheFile1 = configDir + "updates.json"
+const cacheFile2 = configDir + "updates_2.json"
+const rulesFile = configDir + "rules.json"
 
-const writeFile = (data, file) => `echo '${data}' > "${file}"`
 const readFile = (file) => `[ -f "${file}" ] && cat "${file}"`
+const writeFile = (data, file) => `echo '${data}' > "${file}"`
 const removeFile = (file) => `[ -f "${file}" ] && rm "${file}"`
 
-function runScript() {
-    sh.exec(`${script} copy`, (cmd, out, err, code) => {
+function start() {
+    loadConfig()
+    sh.exec(`${script} init`, (cmd, out, err, code) => {
         if (Error(code, err)) return
-
         sh.exec(readFile(cacheFile2), (cmd, out, err, code) => {
+            if (Error(code, err)) return
             const cache2 = out ? JSON.parse(out.trim()) : []
-
             sh.exec(readFile(cacheFile1), (cmd, out, err, code) => {
-                cache = out ? cache2.concat(JSON.parse(out.trim())) : []
-                
-                sh.exec(readFile(newsFile), (cmd, out, err, code) => {
-                    news = out ? JSON.parse(out.trim()) : []
-
-                    sh.exec(readFile(timestampFile), (cmd, out, err, code) => {
-                        timestamp = out ? out.trim() : []
-                        checkDependencies()
-                    })
-                })
+                if (Error(code, err)) return
+                cache = out ? keys(cache2.concat(JSON.parse(out.trim()))) : []
+                checkDependencies()
             })
         })
     })
 }
 
 
-function runAction() {
+function saveConfig() {
+    if (saveTimer.running) return
+    let config = ""
+    Object.keys(cfg).forEach(key => {
+        if (key.endsWith("Default")) {
+            let name = key.slice(0, -7)
+            config += `${name}="${cfg[name]}"\n`
+        }
+    })
+
+    sh.exec(writeFile(config, configFile))
+}
+
+function loadConfig() {
+    sh.exec(readFile(configFile), (cmd, out, err, code) => {
+        if (Error(code, err)) return
+        if (!out) return
+        const config = out.trim().split("\n")
+        const convert = value => {
+            if (!isNaN(parseFloat(value))) return parseFloat(value)
+            if (value === "true" || value === "false") return value === 'true'
+            return value
+        }
+        config.forEach(line => {
+            const match = line.match(/(\w+)="([^"]*)"/)
+            if (match) plasmoid.configuration[match[1]] = convert(match[2])
+        })
+    })
+
+    sh.exec(readFile(rulesFile), (cmd, out, err, code) => {
+        if (Error(code, err)) return
+        plasmoid.configuration.rules = out
+    })
+}
+
+
+function run() {
+    sts.errMsg = ""
+
+    if (sts.upgrading) return true
+    if (sts.busy) {
+        sh.stop()
+        setStatusBar()
+        return true
+    }
+
     searchTimer.stop()
-    error = null
-    busy = true
+    sts.busy = true
+    return false
 }
 
 
@@ -75,25 +114,17 @@ function checkDependencies() {
         const terminals = populate(output.slice(6).filter(Boolean))
         cfg.terminals = terminals.length > 0 ? terminals : null
 
-        if (!cfg.interval) {
-            refreshListModel()
-            return
-        }
-    
-        if (!cfg.checkOnStartup) {
-            refreshListModel()
-            searchTimer.start()
-            return
-        }
-
-        searchTimer.triggered()
+        refreshListModel()
+        upgradingState(true)
     })
 }
 
 
 function defineCommands() {
-    const trizen = cfg.wrapper.split("/").pop() === "trizen"
-    const wrapperCmd = trizen ? `${cfg.wrapper} -Qu; ${cfg.wrapper} -Qu -a 2> >(grep ':: Unable' >&2)` : `${cfg.wrapper} -Qu`
+    cmd.trizen = cfg.wrapper.split("/").pop() === "trizen"
+    cmd.yakuake = cfg.terminal.split("/").pop() === "yakuake"
+
+    const wrapperCmd = cmd.trizen ? `${cfg.wrapper} -Qu; ${cfg.wrapper} -Qu -a 2> >(grep ':: Unable' >&2)` : `${cfg.wrapper} -Qu`
 
     const yayOrParu = cfg.wrappers ? (cfg.wrappers.find(el => el.name === "paru" || el.name === "yay") || {}).value || "" : null
     cmd.news = yayOrParu ? yayOrParu + " -Pwwq" : null
@@ -102,31 +133,32 @@ function defineCommands() {
                     ? cfg.aur ? `bash -c "(checkupdates; ${wrapperCmd}) | sort -u -t' ' -k1,1"` : "checkupdates"
                     : cfg.aur ? wrapperCmd : "pacman -Qu"
 
-    if (!pkg.pacman || !cfg.archRepo) delete cmd.arch
+    if (!pkg.pacman || !cfg.arch) delete cmd.arch
 
-    const mirrorlist = cfg.mirrors ? `sudo ${script} mirrorlist ${cfg.mirrorCount} '${cfg.dynamicUrl}';` : ""
-    const flatpak = cfg.flatpak ? "flatpak update;" : ""
     const flags = cfg.upgradeFlags ? cfg.upgradeFlagsText : ""
-    const arch = cmd.arch ? (cfg.aur ? (`${cfg.wrapper} -Syu ${flags}`).trim() + ";" : (`sudo pacman -Syu ${flags}`).trim() + ";") : ""
-    const widgets = cfg.plasmoids ? `${script} checkPlasmoidsAndUpgrade ${cfg.refreshShell};` : ""
+    const arch = cmd.arch ? (cfg.aur ? (`${cfg.wrapper} -Syu ${flags}`).trim() + ";" : (`${cfg.sudoBin} pacman -Syu ${flags}`).trim() + ";") : ""
+    const flatpak = cfg.flatpak ? "flatpak update;" : ""
+    const widgets = cfg.widgets && applyRules(cache).some(el => el.RE === "kde-store") ? `${script} upgradeAllWidgets ${cfg.restartShell} ${cfg.termFont} '${cfg.restartCommand}';` : ""
+    const mirrorlist = cfg.mirrors ? `${cfg.sudoBin} ${script} mirrorlist ${cfg.mirrorCount} '${cfg.dynamicUrl}' ${cfg.termFont};` : ""
     const commands = (`${mirrorlist} ${arch} ${flatpak} ${widgets}`).trim()
 
-    if (cfg.terminal.split("/").pop() === "yakuake") {
-        const qdbus = "qdbus org.kde.yakuake /yakuake/sessions"
+    if (cmd.yakuake) {
+        const qdbus = "qdbus6 org.kde.yakuake /yakuake/sessions"
         cmd.terminal = `${qdbus} addSession; ${qdbus} runCommandInTerminal $(${qdbus} org.kde.yakuake.activeSessionId)`
-        cmd.upgrade = `${cmd.terminal} "${commands}"`
+        cmd.upgrade = `${cmd.terminal} "tput sc; clear; ${commands}"`
         return
     }
 
-    const init = cmd.arch ? i18n("Full system upgrade") : "Upgrade"
+    const init = cmd.arch ? i18n("Full system upgrade") : i18n("Upgrade")
     const done = i18n("Press Enter to close")
     const blue = "\x1B[1m\x1B[34m", bold = "\x1B[1m", reset = "\x1B[0m"
-    const exec = blue + ":: " + reset + bold + i18n("Executed: ") + reset
-    const executed = cfg.aur && trizen ? "echo " : cmd.arch ? "echo; echo -e " + exec + arch + " echo" : "echo "
+    const execIco = cfg.termFont ? "󰅱 " : ":: "
+    const exec = blue + execIco + reset + bold + blue + i18n("Executed:") + " " + reset
+    const executed = cmd.arch ? "echo; echo -e " + exec + arch + " echo" : "echo "
     const trap = "trap '' SIGINT"
     const terminalArg = { "gnome-terminal": " --", "terminator": " -x" }
     cmd.terminal = cfg.terminal + (terminalArg[cfg.terminal.split("/").pop()] || " -e")
-    cmd.upgrade = `${cmd.terminal} bash -c "${trap}; ${print(init)}; ${executed}; ${commands} ${print(done)}; read"`
+    cmd.upgrade = `${cmd.terminal} bash -c "${trap}; ${print(init)}; ${executed}; ${commands} ${print(done)}; read" &`
 }
 
 
@@ -136,248 +168,226 @@ function upgradePackage(name, id, contentID) {
     const init = i18n("Upgrade") + " " + name
     const done = i18n("Press Enter to close")
     const trap = "trap '' SIGINT"
-    const yakuake = cfg.terminal.split("/").pop() === "yakuake"
 
     if (id) {
-        yakuake ? sh.exec(`${cmd.terminal} "flatpak update ${id}"`)
-                : sh.exec(`${cmd.terminal} bash -c "${trap}; ${print(init)}; echo; flatpak update ${id}; ${print(done)}; read"`)
+        cmd.yakuake ? sh.exec(`${cmd.terminal} "tput sc; clear; flatpak update ${id}"`)
+                    : sh.exec(`${cmd.terminal} bash -c "${trap}; ${print(init)}; echo; flatpak update ${id}; ${print(done)}; read" &`)
         return
     }
 
     if (contentID) {
-        yakuake ? sh.exec(`${cmd.terminal} "bash ${script} upgradePlasmoid ${contentID} ${cfg.refreshShell}"`)
-                : sh.exec(`${cmd.terminal} bash -c "${trap}; ${print(init)}; ${script} upgradePlasmoid ${contentID} ${cfg.refreshShell}; ${print(done)}; read"`)
+        const commands = `${script} upgradeWidget ${contentID} ${cfg.restartShell} ${cfg.termFont} ${name} '${cfg.restartCommand}'`
+        cmd.yakuake ? sh.exec(`${cmd.terminal} "tput sc; clear; bash ${commands}"`)
+                    : sh.exec(`${cmd.terminal} bash -c "${trap}; ${print(init)}; ${commands}; ${print(done)}; read" &`)
         return
     }
 
     const red = "\x1B[1m\x1B[31m", blue = "\x1B[1m\x1B[34m", bold = "\x1B[1m", reset = "\x1B[0m"
-    const warning = red + i18n("Read the ArchWiki page on Partial Upgrades and understand why you should not do this! Instead, perform full system upgrade.") + reset
-    const trizen = cfg.wrapper.split("/").pop() === "trizen"
-    const exec = blue + ":: " + reset + bold + i18n("Executed: ") + reset
-    const command = cfg.aur ? `${cfg.wrapper} -Sy ${name}` : `sudo pacman -Sy ${name}`
-    const executed = cfg.aur && trizen ? "echo " : "echo; echo -e " + exec + command + "; echo"
+    const warningIco = cfg.termFont ? "  " : ":: "
+    const warn1 = bold + red + warningIco + i18n("Read the Arch Wiki - Partial Upgrades") + reset
+    const warn2 = bold + red + warningIco + i18n("Perform full system upgrade instead partial upgrade!") + reset
+    const warning = "echo -e '\n" + warn1 + "\n" + warn2 + "'"
+    const execIco = cfg.termFont ? "󰅱 " : ":: "
+    const exec = blue + execIco + reset + bold + blue + i18n("Executed:") + " " + reset
+    const command = cfg.aur ? `${cfg.wrapper} -Sy ${name}` : `${cfg.sudoBin} pacman -Sy ${name}`
+    const executed = cfg.aur && cmd.trizen ? "echo " : "echo; echo -e " + exec + command + "; echo"
 
-    yakuake ? sh.exec(`${cmd.terminal} "${command}"`)
-            : sh.exec(`${cmd.terminal} bash -c "${trap}; ${print(init)}; echo; echo ${warning}; ${executed}; ${command}; ${print(done)}; read"`)
+    cmd.yakuake ? sh.exec(`${cmd.terminal} "${command}"`)
+                : sh.exec(`${cmd.terminal} bash -c "${trap}; ${print(init)}; ${warning}; ${executed}; ${command}; ${print(done)}; read" &`)
+}
+
+function management() {
+    defineCommands()
+    const wrapper = cfg.aur && cfg.wrapper ? cfg.wrapper : "pacman"
+    const commands = `${script} management ${cfg.mirrorCount} '${cfg.dynamicUrl}' ${cfg.termFont} ${wrapper} ${cfg.sudoBin}`
+
+    cmd.yakuake ? sh.exec(`${cmd.terminal} "${commands}"`)
+                : sh.exec(`${cmd.terminal} bash -c "${commands}" &`)
 }
 
 
-function upgradeSystem() {
-    runAction()
-    defineCommands()
+function enableUpgrading(state) {
+    sts.busy = sts.upgrading = state
+    if (state) {
+        upgradeTimer.start()
+        searchTimer.stop()
+        sts.statusMsg = i18n("Full system upgrade")
+        sts.statusIco = cfg.ownIconsUI ? "toolbar_upgrade" : "akonadiconsole"
+    } else {
+        upgradeTimer.stop()
+        searchTimer.triggered()
+    }
+}
 
-    statusIco = "accept_time_event"
-    statusMsg = i18n("Full upgrade running...")
-    upgrading = true
-
-    sh.exec(cmd.upgrade, (cmd, out, err, code) => {
-        upgrading = false
-        cfg.interval ? searchTimer.triggered() : refreshListModel()
+function upgradingState(startup) {
+    sh.exec(`ps aux | grep "${"[:]" + ":".repeat(47)}" | grep -v "${cmd.terminal}"`, (cmd, out, err, code) => {
+        if (out || err) {
+            enableUpgrading(true)
+        } else if (startup) {
+            if (!cfg.interval) return
+            cfg.checkOnStartup ? searchTimer.triggered() : searchTimer.start()
+        } else {
+            enableUpgrading(false)
+        }
     })
+}
+
+function upgradeSystem() {
+    if (sts.upgrading) return
+    defineCommands()
+    if (!cmd.yakuake) enableUpgrading(true)
+    sh.exec(cmd.upgrade)
 }
 
 
 function checkUpdates() {
-    runAction()
+    if (run()) return
     defineCommands()
 
-    let updArch, infArch, descArch, updFlpk, infFlpk, updPlasmoids, ignored
+    let arch = [], flatpak = [], widgets = []
 
-    const arch = cmd.arch
+    const archCmd = cmd.arch
 
      cfg.archNews ? checkNews() :
-             arch ? checkArch() :
+          archCmd ? checkArch() :
       cfg.flatpak ? checkFlatpak() :
-    cfg.plasmoids ? checkPlasmoids() :
+      cfg.widgets ? checkWidgets() :
                     merge()
 
     function checkNews() {
-        statusIco = "news-subscribe"
-        statusMsg = i18n("Checking latest Arch Linux news...")
+        sts.statusIco = cfg.ownIconsUI ? "status_news" : "news-subscribe"
+        sts.statusMsg = i18n("Checking latest news...")
 
         if (!cmd.news) checkArch()
         if (!cmd.news) return
 
         sh.exec(cmd.news, (cmd, out, err, code) => {
             if (Error(code, err)) return
-            makeNewsArticle(out)
-            arch ? checkArch() : cfg.flatpak ? checkFlatpak() : cfg.plasmoids ? checkPlasmoids() : merge()
+            if (out) makeNewsArticle(out)
+            archCmd ? checkArch() : cfg.flatpak ? checkFlatpak() : cfg.widgets ? checkWidgets() : merge()
     })}
 
     function checkArch() {
-        statusIco = "package"
-        statusMsg = cfg.aur ? i18n("Searching AUR for updates...")
-                            : i18n("Searching arch repositories for updates...")
-        sh.exec(arch, (cmd, out, err, code) => {
+        sts.statusIco = cfg.ownIconsUI ? "status_package" : "server-database"
+        sts.statusMsg = i18n("Checking system updates...")
+
+        sh.exec(archCmd, (cmd, out, err, code) => {
             if (Error(code, err)) return
-            updArch = out ? out.trim().split("\n") : null
-            updArch ? listArch() : cfg.flatpak ? checkFlatpak() : cfg.plasmoids ? checkPlasmoids() : merge()
+            out ? allArch(out.split("\n")) : cfg.flatpak ? checkFlatpak() : cfg.widgets ? checkWidgets() : merge()
     })}
 
-    function listArch() {
+    function allArch(upd) {
         sh.exec("pacman -Sl", (cmd, out, err, code) => {
             if (Error(code, err)) return
-            infArch = out.trim().split("\n")
-            descriptionArch()
+            descArch(upd, out.split("\n").filter(line => /\[.*\]/.test(line)))
     })}
 
-    function descriptionArch() {
-        let list = updArch.map(s => s.split(" ")[0]).join(' ')
-        sh.exec(`pacman -Qi ${list}`, (cmd, out, err, code) => {
+    function descArch(upd, all) {
+        sh.exec(`pacman -Qi ${upd.map(s => s.split(" ")[0]).join(' ')}`, (cmd, out, err, code) => {
             if (Error(code, err)) return
-            descArch = out
-            checkIgnored()
-    })}
-
-    function checkIgnored() {
-        sh.exec(`${script} getIgnored`, (cmd, out, err, code) => {
-            if (Error(code, err)) return
-            ignored = out.trim()
-            cfg.flatpak ? checkFlatpak() : cfg.plasmoids ? checkPlasmoids() : merge()
+            arch = makeArchList(upd, all, out)
+            cfg.flatpak ? checkFlatpak() : cfg.widgets ? checkWidgets() : merge()
     })}
 
     function checkFlatpak() {
-        statusIco = "flatpak-discover"
-        statusMsg = i18n("Searching for flatpak updates...")
-        sh.exec("flatpak update --appstream >/dev/null 2>&1; flatpak remote-ls --app --updates --show-details",
-            (cmd, out, err, code) => {
+        sts.statusIco = cfg.ownIconsUI ? "status_flatpak" : "flatpak-discover"
+        sts.statusMsg = i18n("Checking flatpak updates...")
+        sh.exec("flatpak update --appstream >/dev/null 2>&1; flatpak remote-ls --app --updates --show-details", (cmd, out, err, code) => {
             if (Error(code, err)) return
-            updFlpk = out ? out.trim() : null
-            updFlpk ? listFlatpak() : cfg.plasmoids ? checkPlasmoids() : merge()
+            out ? descFlatpak(out.trim()) : cfg.widgets ? checkWidgets() : merge()
     })}
 
-    function listFlatpak() {
-        sh.exec("flatpak list --app --columns=application,version",
-            (cmd, out, err, code) => {
+    function descFlatpak(upd) {
+        sh.exec("flatpak list --app --columns=application,version", (cmd, out, err, code) => {
             if (Error(code, err)) return
-            infFlpk = out ? out.trim() : null
-            cfg.plasmoids ? checkPlasmoids() : merge()
+            flatpak = out ? makeFlatpakList(upd, out.trim()) : []
+            cfg.widgets ? checkWidgets() : merge()
     })}
 
-    function checkPlasmoids() {
-        statusIco = cfg.plasmoids ? "plasma-symbolic" : ""
-        statusMsg = cfg.plasmoids ? i18n("Checking widgets for updates...") : ""
+    function checkWidgets() {
+        sts.statusIco = cfg.ownIconsUI ? "status_widgets" : "start-here-kde"
+        sts.statusMsg = i18n("Checking widgets updates...")
 
-        sh.exec(`${script} checkPlasmoids ${cfg.plasmoids}`, (cmd, out, err, code) => {
+        sh.exec(`${script} checkWidgets`, (cmd, out, err, code) => {
             if (Error(code, err)) return
             out = out.trim()
 
-            if (out === "200") {
-                const errorText = i18n("Unable check widgets: too many API requests in the last 15 minutes from your IP address. Please try again later")
-                Error(out, errorText)
+            const errorTexts = {
+                "200": i18n("Unable check widgets: ") + i18n("Too many API requests in the last 15 minutes from your IP address, please try again later"),
+                "127": i18n("Unable check widgets: ") + i18n("some required utilities are not installed (curl, jq, xmlstarlet)"),
+                "999": i18n("Unable check widgets: ") + i18n("could not get data from the API")
+            }
+            
+            if (out in errorTexts) {
+                Error(out, errorTexts[out])
                 return
             }
 
-            if (out === "127") {
-                const errorText = i18n("Unable check widgets: some required utilities are not installed (curl, jq, xmlstarlet)")
-                Error(out, errorText)
-                return
-            }
-
-            updPlasmoids = out ? out.split("\n") : null
+            widgets = JSON.parse(out)
             merge()
         })
     }
 
     function merge() {
-        updArch = updArch ? makeArchList(updArch, infArch, descArch, ignored) : []
-        updFlpk = updFlpk ? makeFlatpakList(updFlpk, infFlpk) : []
-        updPlasmoids = updPlasmoids ? makePlasmoidsList(updPlasmoids) : []
-        finalize(sortList(excludePackages(updArch.concat(updFlpk, updPlasmoids))))
+        finalize(keys(arch.concat(flatpak, widgets)))
     }
 }
 
 
-function makeNewsArticle(data) {
-    let article = data.trim().replace(/'/g, "").split("\n")
-    if (article.length > 10) article = article.filter(line => !line.startsWith(' '))
-    article = article[article.length - 1]
-
-    let lastNews = {}
-    lastNews["article"] = article.split(" ").slice(1).join(" ")
-
-    const prevArticle = news ? news.article : ""
-
-    if (lastNews.article !== prevArticle) {
-        lastNews["date"] = article.split(" ")[0]
-        lastNews["link"] = "https://archlinux.org/news/" + lastNews.article.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9\-_]/g, "")
-        lastNews["dismissed"] = false
-        news = lastNews
-        sh.exec(writeFile(JSON.stringify(lastNews), newsFile))
-
-        if (cfg.notifications) {
-            const openFull = i18n("Open full article in browser")
-            notifyTitle = i18n("Arch Linux News")
-            notifyBody = "\n⠀\n" + i18n("<b>Latest news:</b> ") + lastNews.article + "\n⠀\n" + `<a href="${lastNews.link}">${openFull}</a>`
-            notify.sendEvent()
-        }
+function makeNewsArticle(news) {
+    news = news.trim().replace(/'/g, "").split("\n")
+    if (news.length > 10) news = news.filter(line => !line.startsWith(' '))
+    const lastArticle = news[news.length - 1].replace(/(\d{4}-\d{2}-\d{2})/, "[$1]")
+    if (lastArticle !== cfg.news) {
+        cfg.news = lastArticle
+        cfg.newsMsg = true
+        if (cfg.notifyUpdates) sendNotify("news", i18n("Arch Linux News"), lastArticle.split(" ").slice(1).join(" "))
     }
 }
 
 
-function makeArchList(updates, information, description, ignored) {
+function makeArchList(updates, all, description) {
+    if (!updates || !all || !description) return []
+    description = description.replace(/^Installed From\s*:.+\n?/gm, '')
     const packagesData = description.split("\n\n")
-    const skip = [1, 3, 5, 9, 11, 15, 16, 19, 20]
+    const skip = new Set([1, 3, 5, 9, 11, 15, 16, 19, 20])
+    const empty = new Set([6, 7, 8, 10, 12, 13])
     const keyNames = {
          0: "NM",  2: "DE",  4: "LN",  6: "GR",  7: "PR",  8: "DP",
         10: "RQ", 12: "CF", 13: "RP", 14: "IS", 17: "DT", 18: "RN"
     }
 
-    let extendedList = packagesData.map(function(packageData) {
-        packageData = packageData.split('\n').filter(line => line.includes(" : ")).join('\n')
-        const lines = packageData.split("\n")
-        
+    let extendedList = packagesData.map(packageData => {
+        packageData = packageData.split('\n').filter(line => line.includes(" : "))
         let packageObj = {}
-        lines.forEach(function(line, index) {
-            if (skip.includes(index)) return
-
-            const parts = line.split(/\s* : \s*/)
-            if (parts.length === 2) {
-                packageObj[keyNames[index]] = parts[1].trim()
-            }
+        packageData.forEach((line, index) => {
+            if (skip.has(index)) return
+            const [, value] = line.split(/\s* : \s*/)
+            if (empty.has(index) && value.charAt(0) === value.charAt(0).toUpperCase()) return
+            if (keyNames[index]) packageObj[keyNames[index]] = value.trim()
         })
+
+        if (Object.keys(packageObj).length > 0) {
+            const found = all.find(str => packageObj.NM === str.split(" ")[1])
+            packageObj.RE = found ? found.split(" ")[0] : (packageObj.NM.endsWith("-git") ? "devel" : "aur")
+            packageObj.LN = packageObj.LN.replace(/\/+$/, '')
+            updates.forEach(str => {
+                const [name, verold, , vernew] = str.split(" ")
+                if (packageObj.NM === name) Object.assign(packageObj, { VO: verold, VN: vernew })
+            })
+        }
+
         return packageObj
     })
 
     extendedList.pop()
-
-    extendedList.forEach(el => {
-        ["ID", "BR", "CM", "RT", "DS", "CN", "AU"].forEach(prop => el[prop] = "")
-    })
-
-    extendedList.forEach(el => {
-        ["GR", "PR", "DP", "RQ", "CF", "RP"].forEach(prop => {
-            if (el[prop].charAt(0) === el[prop].charAt(0).toUpperCase()) el[prop] = ""
-        })
-
-        el.LN = el.LN.replace(/\/+$/, '')
-
-        let found = false
-        information.forEach(str => {
-            const parts = str.split(" ")
-            if (el.NM === parts[1]) {
-                el.RE = parts[0]
-                found = true
-            }
-        })
-
-        if (!found) el.RE = el.NM.slice(-4) === "-git" ? "devel" : "aur"
-
-        updates.forEach(str => {
-            const parts = str.split(" ")
-            if (el.NM === parts[0]) {
-                el.VO = parts[1]
-                el.VN = parts[3]
-            }
-        })
-    })
-
-    return ignorePackagesAndGroups(extendedList, ignored)
+    return extendedList
 }
 
 
-function makeFlatpakList(updates, information) {
-    const list = information.split("\n").slice(1).reduce((map, line) => {
+function makeFlatpakList(updates, description) {
+    if (!updates || !description) return []
+    const list = description.split("\n").slice(1).reduce((map, line) => {
         const [ID, VO] = line.split("\t").map(entry => entry.trim())
         map.set(ID, VO)
         return map
@@ -385,109 +395,44 @@ function makeFlatpakList(updates, information) {
 
     return updates.split("\n").map(line => {
         const [NM, DE, ID, VN, BR, , RE, , CM, RT, IS, DS] = line.split("\t").map(entry => entry.trim())
+        const VO = list.get(ID)
         return {
             NM: NM.replace(/ /g, "-").toLowerCase(),
-            DE, ID, BR, RE, CM, RT, IS, DS, AU: "", LN: "",
-            VO: list.get(ID),
-            VN: list.get(ID) === VN ? "refresh " + VN : VN,
+            DE, LN: "https://flathub.org/apps/" + ID,
+            ID, BR, RE, CM, RT, IS, DS, VO,
+            VN: VO === VN ? "refresh " + VN : VN
         }
     })
 }
 
 
-function makePlasmoidsList(updates) {
-    return updates.map(line => {
-        const [NM, CN, DE, AU, VO, VN, LN] = line.split('@')
-        return { NM: NM.replace(/ /g, "-").toLowerCase(),
-                 RE: "kde-store",
-                 CN, DE, AU, VO, VN, LN, ID: "", BR: "", CM: "", RT: "", DS: "",
-                 GR: "", PR: "", DP: "", RQ: "", CF: "", RP: "", IS: "", DT: "", RN: "" }
-    })
-}
+function sortList(list, byName) {
+    if (!list) return
 
-
-function ignorePackagesAndGroups(list, ignored) {
-    if (!ignored) return list
-
-    const [ignoredPkgs, ignoredGroups] = ignored.split("\n").map(str => str.trim())
-
-    if (ignoredPkgs) {
-        const ignorePkg = new Set(ignoredPkgs.split(" "))
-        list = list.filter(el => !ignorePkg.has(el.NM.trim()))
-    }
-
-    if (ignoredGroups) {
-        const ignoreGroup = new Set(ignoredGroups.split(" "))
-        list = list.filter(el => !ignoreGroup.has(el.GR.trim()))
-    }
-
-    return list
-}
-
-
-function excludePackages(list) {
-    if (cfg.exclude.trim() !== "" && list.length > 0) {
-        const ignorePkg = new Set(cfg.exclude.trim().split(" "))
-        list = list.filter(el => !ignorePkg.has(el.NM.trim()))
-    }
-
-    return list
-}
-
-
-function sortList(list) {
     return list.sort((a, b) => {
-        const [nameA, repoA] = [a.NM, a.RE]
-        const [nameB, repoB] = [b.NM, b.RE]
+        const name = a.NM.localeCompare(b.NM)
+        const repo = a.RE.localeCompare(b.RE)
+        if (byName || !cfg.sorting) return name
 
-        if (cfg.sortByName) return nameA.localeCompare(nameB)
+        const develA = a.RE.includes("devel")
+        const develB = b.RE.includes("devel")
+        if (develA !== develB) return develA ? -1 : 1
 
-        const isRepoDevelA = repoA.includes("devel")
-        const isRepoDevelB = repoB.includes("devel")
+        const aurA = a.RE.includes("aur")
+        const aurB = b.RE.includes("aur")
+        if (aurA !== aurB) return aurA ? -1 : 1
 
-        if (isRepoDevelA && !isRepoDevelB) return -1
-        if (!isRepoDevelA && isRepoDevelB) return 1
-
-        const isRepoAURorDevelA = repoA.includes("aur")
-        const isRepoAURorDevelB = repoB.includes("aur")
-
-        return isRepoAURorDevelA !== isRepoAURorDevelB
-            ? isRepoAURorDevelA
-                ? -1
-                : 1
-            : repoA.localeCompare(repoB) || nameA.localeCompare(nameB)
-    })    
-}
-
-
-function setNotify(list) {
-    const newList = list.filter(el => {
-        if (!cache.some(elCache => elCache.NM === el.NM)) return true
-        if (cfg.notifyEveryBump && cache.some(elCache => elCache.NM === el.NM && elCache.VN !== el.VN)) return true
-        return false
+        return repo || name
     })
-
-    const newCount = newList.length
-
-    if (newCount > 0) {
-        let lines = ""
-        newList.forEach(item => {
-            lines += item["NM"] + "   → " + item["VN"] + "\n"
-        })
-
-        notifyTitle = i18np("+%1 new update", "+%1 new updates", newCount)
-        notifyBody = lines
-        notify.sendEvent()
-    }
 }
 
 
 function refreshListModel(list) {
-    list = list || (cache ? sortList(cache) : 0)
-    count = list.length || 0
+    list = sortList(applyRules(list || cache)) || []
+    sts.count = list.length || 0
     setStatusBar()
 
-    if (!count || !list) return
+    if (!list) return
 
     listModel.clear()
     list.forEach(item => listModel.append(item))
@@ -495,59 +440,78 @@ function refreshListModel(list) {
 
 
 function finalize(list) {
-    timestamp = new Date().getTime().toString()
-    sh.exec(writeFile(timestamp, timestampFile))
+    cfg.timestamp = new Date().getTime().toString()
 
     if (!list) {
         listModel.clear()
         sh.exec(removeFile(cacheFile1))
         sh.exec(removeFile(cacheFile2))
         cache = []
-        count = 0
+        sts.count = 0
         setStatusBar()
         return
     }
 
     refreshListModel(list)
 
-    if (cfg.notifications) setNotify(list)
+    if (cfg.notifyUpdates) {
+        const cached = new Map(cache.map(el => [el.NM, el.VN]))
+        const newList = applyRules(list).filter(el => !cached.has(el.NM) || (cfg.notifyEveryBump && cached.get(el.NM) !== el.VN))
+    
+        if (newList.length > 0) {
+            const title = i18np("+%1 new update", "+%1 new updates", newList.length)
+            const body = newList.map(pkg => `${pkg.NM} → ${pkg.VN}`).join("\n")
+            sendNotify("updates", title, body)
+        }
+    }
 
-    count = list.length
     cache = list
 
-    let json1, json2
-    const json = JSON.stringify(list).replace(/},/g, "},\n").replace(/'/g, "")
-
+    const json = formatJson(JSON.stringify(keys(sortList(JSON.parse(JSON.stringify(list)), true))))
     if (json.length > 130000) {
+        let json1, json2
         const lines = json.split("\n")
         const half = Math.floor(lines.length / 2)
         json1 = lines.slice(0, half).join("\n").replace(/,$/, "]")
         json2 = "[" + lines.slice(half).join("\n")
+        sh.exec(writeFile(json1, cacheFile1))
+        sh.exec(writeFile(json2, cacheFile2))
     } else {
-        json1 = json
-        json2 = null
+        sh.exec(writeFile(json, cacheFile1))
         sh.exec(removeFile(cacheFile2))
     }
-
-    sh.exec(writeFile(json1, cacheFile1))
-    if (json2) sh.exec(writeFile(json2, cacheFile2))
-
-    setStatusBar()
 }
 
 
 function setStatusBar(code) {
-    statusIco = error ? "error" : count > 0 ? "update-none" : ""
-    statusMsg = error ? "Exit code: " + code : count > 0 ? i18np("%1 update is pending", "%1 updates total are pending", count) : ""
-    busy = false
+    sts.statusIco = sts.err ? "0" : sts.count > 0 ? "1" : "2"
+    sts.statusMsg = sts.err ? "Exit code" + ": " + code : sts.count > 0 ? sts.count + " " + i18np("update is pending", "updates are pending", sts.count) : ""
+    sts.busy = false
     !cfg.interval ? searchTimer.stop() : searchTimer.restart()
 }
 
 
-function getLastCheckTime() {
-    if (!timestamp) return ""
+let notifyParams = { "event": "", "title": "", "body": "", "icon": "", "label": "", "action": "", "urgency": "" }
+function sendNotify(event, title, body) {
+    const eventParams = {
+        updates: { icon: "apdatifier-packages", label: i18n("Upgrade system"), action: "upgradeSystem", urgency: "DefaultUrgency" },
+        news: { icon: "news-subscribe", label: i18n("Read article"), action: "openNewsLink", urgency: "HighUrgency" },
+        error: { icon: "error", label: i18n("Check updates"), action: "checkUpdates", urgency: "HighUrgency" }
+    }
 
-    const diff = new Date().getTime() - parseInt(timestamp)
+    let { icon, label, action, urgency } = eventParams[event]
+
+    if (cfg.notifySound) event += "Sound"
+
+    notify = { event, title, body, icon, label, action, urgency }
+    notification.sendEvent()
+}
+
+
+function getLastCheckTime() {
+    if (!cfg.timestamp) return ""
+
+    const diff = new Date().getTime() - parseInt(cfg.timestamp)
     const sec = Math.round((diff / 1000) % 60)
     const min = Math.floor((diff / (1000 * 60)) % 60)
     const hrs = Math.floor(diff / (1000 * 60 * 60))
@@ -582,48 +546,65 @@ function setIcon(icon) {
 }
 
 
-function setPackageIcon(icons, name, repo, group, appID) {
-    if (appID && appID === "org.libreoffice.LibreOffice") return appID + ".main"
-    if (appID) return appID
+function applyRules(list) {
+    const rules = !cfg.rules ? [] : JSON.parse(cfg.rules)
+    const def = cfg.ownIconsUI ? "apdatifier-package" : "server-database"
 
-    let icon = "server-database"
-    if (cfg.customIconsEnabled) {
-        icons = icons.replace(/\n+$/, '').split("\n")
-        for (let rule of icons) if (!/^([^>]*>){2}[^>]*$/.test(rule)) return icon
+    list.forEach(el => {
+        el.IC = el.IN ? el.IN : el.ID ? el.ID : def
+        el.EX = false
+    })
 
-        icons.filter(Boolean)
-             .map(l => ({ type: l.split(">")[0].trim(), value: l.split(">")[1].trim(), icon: l.split(">")[2].trim() }))
-             .forEach(el => {
-                icon = el.type === "default" ? el.icon : icon
-                icon = el.type === "repo" && el.value === repo ? el.icon : icon
-                icon = el.type === "group" && el.value === group ? el.icon : icon
-                icon = el.type === "match" && name.indexOf(el.value) !== -1 ? el.icon : icon
-                icon = el.type === "name" && el.value === name ? el.icon : icon
-             })
+    function applyRule(el, rule) {
+        const types = {
+            'all'    : () => true,
+            'repo'   : () => el.RE === rule.value,
+            'group'  : () => el.GR.includes(rule.value),
+            'match'  : () => el.NM.includes(rule.value),
+            'name'   : () => el.NM === rule.value
+        }
+
+        if (types[rule.type]()) {
+            el.IC = rule.icon
+            el.EX = rule.excluded
+        }
     }
 
-    return icon
+    rules.forEach(rule => list.forEach(el => applyRule(el, rule)))
+    return list.filter(el => !el.EX)
 }
 
 
-function setFrameSize() {
-    const multiplier = cfg.indicatorCounter ? 1.1 : 0.9
+function keys(list) {
+    const keysList = [
+        "GR", "PR", "DP", "RQ", "CF", "RP", "IS", "DT",
+        "RN", "ID", "BR", "CM", "RT", "DS", "CN", "AU"
+    ]
 
-    return plasmoid.location === 5 || plasmoid.location === 6 ? icon.height * multiplier :     
-           plasmoid.location === 3 || plasmoid.location === 4 ? icon.width * multiplier : 0
+    list.forEach(el => {
+        keysList.forEach(key => {
+            if (!el.hasOwnProperty(key)) el[key] = ""
+            else if (el[key] === "") delete el[key]
+        })
+
+        if (el.hasOwnProperty("IC")) delete el["IC"]
+        if (el.hasOwnProperty("EX")) delete el["EX"]
+    })
+
+    return list
 }
 
 
 function setAnchor(position, stopIndicator) {
     const anchor = {
-        top: cfg.indicatorBottom && !cfg.indicatorTop,
-        bottom: cfg.indicatorTop && !cfg.indicatorBottom,
-        right: cfg.indicatorLeft && !cfg.indicatorRight,
-        left: cfg.indicatorRight && !cfg.indicatorLeft
+        top: cfg.counterBottom && !cfg.counterTop,
+        bottom: cfg.counterTop && !cfg.counterBottom,
+        right: cfg.counterLeft && !cfg.counterRight,
+        left: cfg.counterRight && !cfg.counterLeft
     }
 
     const Position = stopIndicator ? anchor[position] :
-                      { parent: cfg.indicatorCenter ? parent : undefined,
+                      { parent: cfg.counterCenter ? parent : undefined,
                         top: anchor.bottom,
                         bottom: anchor.top,
                         right: anchor.left,
@@ -652,4 +633,13 @@ function print(text) {
 
 function switchInterval() {
     cfg.interval = !cfg.interval
+}
+
+function openNewsLink() {
+    const path = cfg.news.split(" ").slice(1).join(" ").toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9\-_]/g, "")
+    return Qt.openUrlExternally("https://archlinux.org/news/" + path)
+}
+
+function formatJson(data) {
+    return data.replace(/},/g, "},\n").replace(/'/g, "")
 }

@@ -18,7 +18,6 @@
 import QtQml
 import QtQuick
 import QtQuick.Layouts
-import QtQuick.Controls
 import org.kde.plasma.plasmoid
 import org.kde.plasma.core as PlasmaCore
 import "../code/utils.js" as Utils
@@ -27,21 +26,59 @@ import "../code/pws-api.js" as StationAPI
 PlasmoidItem {
     id: root
 
-    property var weatherData: {"stationID":"","uv":0,"obsTimeLocal":"","winddir":0,"details":{"temp":0,"windSpeed":0,"windGust":0,"dewpt":0,"precipRate":0,"pressure":0,"precipTotal":0,"elev":0},"aq":{"aqi":"","aqhi":"","aqDesc":"","aqColor":""},"alerts":[]}
+    property var weatherData: {
+        "stationID": "",
+        "uv": 0,
+        "obsTimeLocal": "",
+        "winddir": 0,
+        "lat": 0,
+        "lon": 0,
+        "sunrise": "2020-08-09T07:00:10-0500",
+        "sunset": "2020-08-09T20:00:10-0500",
+        "solarRad": 0,
+        "humidity": 0,
+        "details": {
+            "temp": 0,
+            "windSpeed": 0,
+            "windGust": 0,
+            "dewpt": 0,
+            "solarRad": 0,
+            "precipRate": 0,
+            "pressure": 0,
+            "pressureTrend": "Steady",
+            "pressureTrendCode": 0,
+            "pressureDelta": 0,
+            "precipTotal": 0,
+            "elev": 0
+        },
+        "aq": {
+            "aqi": 0,
+            "aqhi": 0,
+            "aqDesc": "Good",
+            "aqColor": "FFFFFF",
+            "aqPrimary": "PM2.5",
+            "primaryDetails": {
+                "phrase": "Particulate matter <2.5 microns",
+                "amount": 0,
+                "unit": "ug/m3",
+                "desc": "Moderate",
+                "index": 0
+            }
+        }
+    }
     property ListModel forecastModel: ListModel {}
+    property ListModel alertsModel: ListModel {}
+
     property string errorStr: ""
-    property string toolTipSubTextVar: ""
-    property string iconCode: "weather-clear" // 32 = sunny
+    property string iconCode: "32" // 32 = sunny
     property string conditionNarrative: ""
 
-    // TODO: add option for showFORECASTERROR
     property int showCONFIG: 1
     property int showLOADING: 2
     property int showERROR: 4
     property int showDATA: 8
 
     property int appState: showCONFIG
-
     // QML does not let you property bind items part of ListModels.
     // The TopPanel shows the high/low values which are items part of forecastModel
     // These are updated in pws-api.js to overcome that limitation
@@ -68,88 +105,64 @@ PlasmoidItem {
     }
 
     function printDebug(msg) {
-        if (plasmoid.configuration.logConsole) {console.log("[debug] [main.qml] " + msg)}
+        if (plasmoid.configuration.logConsole) {
+            console.log("[debug] [main.qml] " + msg);
+        }
     }
 
     function printDebugJSON(json) {
-        if (plasmoid.configuration.logConsole) {console.log("[debug] [main.qml] " + JSON.stringify(json))}
+        if (plasmoid.configuration.logConsole) {
+            console.log("[debug] [main.qml] " + JSON.stringify(json));
+        }
     }
 
     function updateWeatherData() {
-        printDebug("Getting new weather data")
-
-        StationAPI.getCurrentData()
-        StationAPI.getForecastData()
-
-        updatetoolTipSubText()
+        printDebug("Getting new weather data");
+        StationAPI.getCurrentData(StationAPI.getForecastData);
     }
 
     function updateCurrentData() {
-        printDebug("Getting new current data")
-
-        StationAPI.getCurrentData()
-
-        updatetoolTipSubText()
+        printDebug("Getting new current data");
+        StationAPI.getCurrentData();
     }
 
     function updateForecastData() {
-        printDebug("Getting new forecast data")
-
-        StationAPI.getForecastData()
-
-        updatetoolTipSubText()
-    }
-
-    function updatetoolTipSubText() {
-        var subText = ""
-
-        subText += i18nc("Do not edit HTML tags. 'Temp' means temperature", "<font size='4'>Temp: %1</font><br />", Utils.currentTempUnit(weatherData["details"]["temp"]))
-        subText += i18nc("Do not edit HTML tags.", "<font size='4'>Feels: %1</font><br />", Utils.currentTempUnit(Utils.feelsLike(weatherData["details"]["temp"], weatherData["humidity"], weatherData["details"]["windSpeed"])))
-        subText += i18nc("Do not edit HTML tags. 'Wnd Spd' means Wind Speed", "<font size='4'>Wnd spd: %1</font><br />", Utils.currentSpeedUnit(weatherData["details"]["windSpeed"]))
-        subText += "<font size='4'>" + weatherData["obsTimeLocal"] + "</font>"
-
-        toolTipSubTextVar = subText;
+        printDebug("Getting new forecast data");
+        StationAPI.getForecastData();
     }
 
     onUnitsChoiceChanged: {
-        printDebug("Units changed")
+        printDebug("Units changed");
 
         // A user could configure units but not station id. This would trigger improper request.
         if (stationID != "") {
             // Show loading screen after units change
             appState = showLOADING;
-
             updateWeatherData();
         }
     }
 
     onStationIDChanged: {
-        printDebug("Station ID changed")
+        printDebug("Station ID changed");
 
         // Show loading screen after ID change
         appState = showLOADING;
-
         updateWeatherData();
     }
 
     onWeatherDataChanged: {
-        printDebug("Weather data changed")
+        printDebug("Weather data changed");
     }
 
     onAppStateChanged: {
-        printDebug("State is: " + appState)
-
-        // The state could now be an error, the tooltip displays the error
-        updatetoolTipSubText()
+        printDebug("State is: " + appState);
     }
 
     Component.onCompleted: {
         //printDebug(plasmoid.containment.corona.kPackage)
-        inTray = plasmoid.containment.containmentType == 129 && plasmoid.formFactor == 2
-
-        plasmoid.configurationRequiredReason = i18n("Set the weather station to pull data from.")
-
-        plasmoid.backgroundHints = PlasmaCore.Types.ConfigurableBackground
+        inTray = plasmoid.containment.containmentType == 129 && plasmoid.formFactor == 2;
+        plasmoid.configurationRequiredReason = i18n("Set the weather station to pull data from.");
+        plasmoid.backgroundHints = PlasmaCore.Types.ConfigurableBackground;
     }
 
     Timer {
@@ -178,10 +191,30 @@ PlasmoidItem {
             return i18n("Error...");
         }
     }
-    toolTipSubText: toolTipSubText
+    toolTipSubText: {
+        var subText = "";
+        if (appState == showDATA) {
+            subText += i18nc("Do not edit HTML tags. 'Temp' means temperature", "<font size='4'>Temp: %1</font><br />", Utils.currentTempUnit(Utils.toUserTemp(weatherData["details"]["temp"])));
+            subText += i18nc("Do not edit HTML tags.", "<font size='4'>Feels: %1</font><br />", Utils.currentTempUnit(Utils.feelsLike(weatherData["details"]["temp"], weatherData["humidity"], weatherData["details"]["windSpeed"]), false));
+            subText += i18nc("Do not edit HTML tags. 'Wnd Spd' means Wind Speed", "<font size='4'>Wnd spd: %1</font><br />", Utils.currentSpeedUnit(Utils.toUserSpeed(weatherData["details"]["windSpeed"])));
+            subText += "<font size='4'>" + weatherData["obsTimeLocal"] + "</font>";
+        } else if (appState == showERROR) {
+            subText = errorStr;
+        }
+        return subText;
+    }
+
+    Plasmoid.contextualActions: [
+        PlasmaCore.Action {
+            text: i18n("Refresh weather")
+            icon.name: "view-refresh-symbolic"
+            visible: appState == showDATA
+            enabled: appState == showDATA
+            onTriggered: updateWeatherData()
+        }
+    ]
 
     // preferredRepresentation: compactRepresentation
     fullRepresentation: fr
     compactRepresentation: cr
-
 }

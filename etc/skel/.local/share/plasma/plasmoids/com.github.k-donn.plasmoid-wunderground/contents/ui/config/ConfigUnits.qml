@@ -17,7 +17,6 @@
 
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Layouts
 import org.kde.kcmutils as KCM
 import org.kde.kirigami as Kirigami
 
@@ -25,6 +24,12 @@ KCM.SimpleKCM {
     id: unitsConfig
 
     property alias cfg_unitsChoice: unitsChoice.currentIndex
+    property alias cfg_windUnitsChoice: windUnitsChoice.currentIndex
+    property alias cfg_rainUnitsChoice: rainUnitsChoice.currentIndex
+    property alias cfg_snowUnitsChoice: snowUnitsChoice.currentIndex
+    property alias cfg_tempUnitsChoice: tempUnitsChoice.currentIndex
+    property alias cfg_presUnitsChoice: presUnitsChoice.currentIndex
+    property alias cfg_elevUnitsChoice: elevUnitsChoice.currentIndex
 
     Kirigami.FormLayout {
         anchors.fill: parent
@@ -33,10 +38,75 @@ KCM.SimpleKCM {
             id: unitsChoice
 
             width: 100
-            model: [i18nc("The unit system", "Metric"), i18nc("The unit system", "Imperial"), i18nc("The unit system", "Hybrid (UK)")]
+            model: [i18nc("The unit system", "Metric"), i18nc("The unit system", "Imperial"), i18nc("The unit system", "Hybrid (UK)"), i18n("Custom")]
 
             Kirigami.FormData.label: i18n("Choose:")
         }
-    }
 
+        Kirigami.Separator {
+            Kirigami.FormData.label: ""
+            Kirigami.FormData.isSection: true
+            visible: unitsChoice.currentIndex == 3
+        }
+
+        ComboBox {
+            id: windUnitsChoice
+
+            visible: unitsChoice.currentIndex == 3
+
+            model: ["kmh", "mph", "m/s"]
+
+            Kirigami.FormData.label: i18n("Wind unit:")
+        }
+
+        ComboBox {
+            id: rainUnitsChoice
+
+            visible: unitsChoice.currentIndex == 3
+
+            model: ["mm", "in", "cm"]
+
+            Kirigami.FormData.label: i18n("Rain unit:")
+        }
+
+        ComboBox {
+            id: snowUnitsChoice
+
+            visible: unitsChoice.currentIndex == 3
+
+            model: ["mm", "in", "cm"]
+
+            Kirigami.FormData.label: i18n("Snow unit:")
+        }
+
+        ComboBox {
+            id: tempUnitsChoice
+
+            visible: unitsChoice.currentIndex == 3
+
+            model: ["C", "F", "K"]
+
+            Kirigami.FormData.label: i18n("Temperature unit:")
+        }
+
+        ComboBox {
+            id: presUnitsChoice
+
+            visible: unitsChoice.currentIndex == 3
+
+            model: ["mb", "inHG", "mmHG", "hPa"]
+
+            Kirigami.FormData.label: i18n("Pressure unit:")
+        }
+
+        ComboBox {
+            id: elevUnitsChoice
+
+            visible: unitsChoice.currentIndex == 3
+
+            model: ["m", "ft"]
+
+            Kirigami.FormData.label: i18n("Elevation unit:")
+        }
+    }
 }

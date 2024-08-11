@@ -20,6 +20,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import org.kde.kcmutils as KCM
 import org.kde.plasma.components as PlasmaComponents
+import org.kde.plasma.core as PlasmaCore
 import org.kde.kirigami as Kirigami
 import "../../code/pws-api.js" as StationAPI
 import "../lib"
@@ -27,33 +28,35 @@ import "../lib"
 KCM.SimpleKCM {
     id: stationConfig
 
-    property alias cfg_stationID: stationID.text
+    property alias cfg_stationID: stationPickerEl.selectedStation
+    property alias cfg_savedStations: stationPickerEl.stationList
     property alias cfg_refreshPeriod: refreshPeriod.value
 
     function printDebug(msg) {
-        if (plasmoid.configuration.logConsole) {console.log("[debug] [ConfigStation.qml] " + msg)}
+        if (plasmoid.configuration.logConsole) {
+            console.log("[debug] [ConfigStation.qml] " + msg);
+        }
     }
 
     Kirigami.FormLayout {
         anchors.fill: parent
 
-        Kirigami.Heading {
-            text: i18n("Enter Station")
-            level: 2
+        Kirigami.Separator {
+            Kirigami.FormData.label: i18n("Find Station")
+            Kirigami.FormData.isSection: true
         }
 
-        ClearableField {
-            id: stationID
-            placeholderText: "KGADACUL1"
+        StationPicker {
+            id: stationPickerEl
 
-            Kirigami.FormData.label: i18n("Weatherstation ID:")
+            Kirigami.FormData.label: i18n("Enter Station")
+
+            Layout.fillWidth: true
         }
 
-        Kirigami.Separator {}
-
-        Kirigami.Heading {
-            text: i18n("Get Nearest Station")
-            level: 2
+        Kirigami.Separator {
+            Kirigami.FormData.label: i18n("Station Info")
+            Kirigami.FormData.isSection: true
         }
 
         Kirigami.Heading {
@@ -61,18 +64,36 @@ KCM.SimpleKCM {
             level: 5
         }
 
-        NoApplyField {
-            configKey: "longitude"
-            placeholderText: "-83.905502"
+        PlasmaComponents.Label {
+            Kirigami.FormData.label: i18n("Weatherstation ID:")
 
-            Kirigami.FormData.label: i18n("Longitude:")
+            color: plasmoid.configuration.stationID !== "" ? Kirigami.Theme.textColor : Kirigami.Theme.disabledTextColor
+
+            text: plasmoid.configuration.stationID !== "" ? plasmoid.configuration.stationID : "KGADACUL1"
         }
 
-        NoApplyField {
-            configKey: "latitude"
-            placeholderText: "34.0602"
+        PlasmaComponents.Label {
+            Kirigami.FormData.label: i18n("Weatherstation Name:")
 
+            color: plasmoid.configuration.stationName !== "" ? Kirigami.Theme.textColor : Kirigami.Theme.disabledTextColor
+
+            text: plasmoid.configuration.stationName !== "" ? plasmoid.configuration.stationName : "Hog Mountain"
+        }
+
+        PlasmaComponents.Label {
+            Kirigami.FormData.label: i18n("Longitude:")
+
+            color: plasmoid.configuration.longitude !== "" ? Kirigami.Theme.textColor : Kirigami.Theme.disabledTextColor
+
+            text: plasmoid.configuration.longitude !== "" ? plasmoid.configuration.longitude : "-83.91"
+        }
+
+        PlasmaComponents.Label {
             Kirigami.FormData.label: i18n("Latitude:")
+
+            color: plasmoid.configuration.latitude !== "" ? Kirigami.Theme.textColor : Kirigami.Theme.disabledTextColor
+
+            text: plasmoid.configuration.latitude !== "" ? plasmoid.configuration.latitude : "34.06"
         }
 
         SpinBox {
@@ -89,14 +110,11 @@ KCM.SimpleKCM {
             Kirigami.FormData.label: i18n("Refresh period (s):")
         }
 
-        Button {
-            text: i18n("Find Station")
-            onClicked: StationAPI.getNearestStation()
-        }
+        Kirigami.Separator{}
 
         PlasmaComponents.Label {
-            text: "Version 0.1.0"
+            text: "Version 3.1.3"
         }
-    }
 
+    }
 }
