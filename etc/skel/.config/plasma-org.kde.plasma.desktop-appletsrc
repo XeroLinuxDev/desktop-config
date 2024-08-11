@@ -206,15 +206,7 @@ DialogWidth=720
 latitude=33.863663
 longitude=35.597227
 stationID=IMATND12
-
-[Containments][126][Applets][226]
-immutability=1
-plugin=com.github.boraerciyas.controlcentre
-
-[Containments][126][Applets][226][Configuration]
-PreloadWeight=90
-popupHeight=360
-popupWidth=360
+stationName=Matn District
 
 [Containments][126][Applets][227]
 immutability=1
@@ -239,7 +231,7 @@ DialogHeight=87
 DialogWidth=2560
 
 [Containments][126][General]
-AppletOrder=158;208;216;152;196;151;213;209;221;131;204;211;226;227
+AppletOrder=158;208;216;152;196;151;213;209;221;131;204;211;227
 
 [Containments][132]
 activityId=
@@ -426,15 +418,24 @@ DialogHeight=540
 DialogWidth=720
 
 [Containments][132][Applets][223][Configuration][General]
-archNews=true
 aur=true
 checkOnStartup=true
 flatpak=true
 plasmoids=true
+time=30
+widgets=true
 wrapper=/usr/bin/paru
+
+[Containments][132][Applets][223][Configuration][Miscellaneous]
+configMsg=false
+rulesMsg=false
+timestamp=1723375539658
+version=v2.8
 
 [Containments][132][Applets][223][Configuration][Upgrade]
 refreshShell=true
+restartShell=true
+termFont=true
 terminal=/usr/bin/konsole
 upgradeFlags=true
 
@@ -485,7 +486,7 @@ DialogWidth=720
 [Containments][168][Applets][169][Configuration][General]
 fill=false
 iconSpacing=0
-launchers=applications:org.kde.dolphin.desktop,applications:org.kde.konsole.desktop,applications:systemsettings.desktop
+launchers=applications:org.kde.dolphin.desktop,applications:firefox.desktop,applications:org.kde.konsole.desktop,applications:gparted.desktop,applications:systemsettings.desktop
 
 [Containments][168][Applets][229]
 immutability=1
