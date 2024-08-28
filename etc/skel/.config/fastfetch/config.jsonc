@@ -38,11 +38,6 @@
             "keyColor": "green"
         },
         {
-            "type": "disk",
-            "key": "└ └",
-            "keyColor": "green"
-        },
-        {
             "type": "custom",
             "format": "\u001b[90m└────────────────────────────────────────────────────┘"
         },
