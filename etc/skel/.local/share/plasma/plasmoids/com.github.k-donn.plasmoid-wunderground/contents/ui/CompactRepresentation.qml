@@ -14,9 +14,7 @@ import "../code/utils.js" as Utils
 Loader {
     id: compactRoot
 
-    readonly property bool showTemperature: !inTray
-
-    sourceComponent: showTemperature ? iconAndTextComponent : iconComponent
+    sourceComponent: (!inTray && plasmoid.configuration.showCompactTemp) ? iconAndTextComponent : iconComponent
 
     function printDebug(msg) {
         if (plasmoid.configuration.logConsole) {
@@ -98,7 +96,8 @@ Loader {
         Kirigami.Icon {
             id: soleIcon
 
-            // readonly property int minIconSize: Math.max((compactRoot.vertical ? compactRoot.width : compactRoot.height), Kirigami.Units.iconSizes.small)
+            isMask: plasmoid.configuration.applyColorScheme ? true : false
+            color: Kirigami.Theme.textColor
 
             source: Utils.getConditionIcon(iconCode)
             active: compactMouseArea.containsMouse

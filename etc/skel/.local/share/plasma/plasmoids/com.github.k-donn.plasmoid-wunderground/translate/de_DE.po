@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plasmoid-wunderground\n"
 "Report-Msgid-Bugs-To: https://github.com/k-donn/plasmoid-wunderground\n"
-"POT-Creation-Date: 2024-09-01 15:04-0400\n"
+"POT-Creation-Date: 2024-11-10 16:16-0500\n"
 "PO-Revision-Date: DA-Mo-YEAR HO:MI+ZONE\n"
 "Last-Translator: Stefan Wannemacher <swannema@t-online.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -102,16 +102,32 @@ msgid "Compact Representation"
 msgstr "Kontrollleistenansicht"
 
 #: ../contents/ui/config/ConfigAppearance.qml
-msgid "Font"
+msgid "Show temperature:"
+msgstr "Zeige Temperatur"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Text display:"
 msgstr "Schriftart"
 
 #: ../contents/ui/config/ConfigAppearance.qml
-msgid "Font size (0px=scale to widget)"
-msgstr "Schriftzeichengröße (0px=Auf Widget skalieren) "
+msgid "Automatic"
+msgstr "Automatisch"
 
 #: ../contents/ui/config/ConfigAppearance.qml
-msgid "Font styles"
-msgstr "Schriftartenstil"
+msgid "Text will follow the system font and expand to fill the available space."
+msgstr "System Schriftart, vorhandener Platz wird ausgefüllt"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Manual"
+msgstr "Manuell"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Choose Style…"
+msgstr "Wähle Schriftartenstil"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Choose a Font"
+msgstr "Wähle Schriftart"
 
 #: ../contents/ui/config/ConfigAppearance.qml
 msgid "Full Representation"
@@ -130,8 +146,44 @@ msgid "Temperature text size"
 msgstr "Temperatur"
 
 #: ../contents/ui/config/ConfigAppearance.qml
+msgid "small (16x16)"
+msgstr "Klein"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "smallMedium (22x22)"
+msgstr "Klein-Medium"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "medium (32x32)"
+msgstr "Medium"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "large (48x48)"
+msgstr "Groß"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "huge (64x64)"
+msgstr "Riesig"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "enormous (128x128)"
+msgstr "Enorm"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Details icon size:"
+msgstr "Größe der Symbole in der Wettervorhersage"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Top panel icon margins:"
+msgstr "Abstand der Symbole zum oberen Rand"
+
+#: ../contents/ui/config/ConfigAppearance.qml
 msgid "Use system theme icons:"
 msgstr "Systemdesignsymbole verwenden"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Apply system colors to icons:"
+msgstr "Symbole in Systemfarben darstellen"
 
 #: ../contents/ui/config/ConfigAppearance.qml
 msgid "Auto-color temperature:"
@@ -308,11 +360,6 @@ msgstr "Desktop-Widget"
 msgid "Configure Wunderground"
 msgstr "Wunderground einrichten"
 
-#: ../contents/ui/lib/ConfigFontFamily.qml
-msgctxt "Use default font"
-msgid "Default"
-msgstr "Standard"
-
 #: ../contents/ui/lib/StationPickerDialog.qml
 msgid "Saved Weather Stations"
 msgstr "Gespeicherte Wetterstationen"
@@ -343,7 +390,7 @@ msgstr "Abbrechen"
 
 #: ../contents/ui/lib/StationPicker.qml
 msgid "Choose…"
-msgstr "Wählen"
+msgstr "Auswählen"
 
 #: ../contents/ui/main.qml
 msgid "Set the weather station to pull data from."
