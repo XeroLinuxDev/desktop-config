@@ -11,16 +11,17 @@ import org.kde.iconthemes
 import org.kde.kirigami as Kirigami
 
 import "../../tools/tools.js" as JS
-import "../components" as DataSource
 
 
 ColumnLayout {
     ListModel {
         id: rulesModel
         Component.onCompleted: {
-            sh.exec(JS.readFile(JS.rulesFile), (cmd, out, err, code) => {
-                if (!out) return
-                JSON.parse(out).forEach(el => rulesModel.append({type: el.type, value: el.value, icon: el.icon, excluded: el.excluded}))
+            JS.execute(JS.readFile(JS.rulesFile), (cmd, out, err, code) => {
+                if (JS.Error(code, err)) return
+                if (out && JS.validJSON(out, JS.rulesFile)) {
+                    JSON.parse(out).forEach(el => rulesModel.append({type: el.type, value: el.value, icon: el.icon, excluded: el.excluded}))
+                }
             })
         }
     }
@@ -53,8 +54,8 @@ ColumnLayout {
 
         actions: [
             Kirigami.Action {
-                text: i18n("Dismiss")
-                icon.name: "dialog-close"
+                text: "OK"
+                icon.name: "checkmark"
                 onTriggered: plasmoid.configuration.rulesMsg = false
             }
         ]
@@ -66,7 +67,7 @@ ColumnLayout {
             width: rulesList.width - Kirigami.Units.largeSpacing * 2
             contentItem: RowLayout {
                 ComboBox {
-                    Layout.fillWidth: true
+                    implicitWidth: 200
                     id: type
                     model: typesModel
                     textRole: "name"
@@ -100,6 +101,7 @@ ColumnLayout {
                 }
 
                 ToolButton {
+                    ToolTip { text: model.icon }
                     icon.name: model.icon
                     onClicked: iconDialog.open()
 
@@ -107,12 +109,11 @@ ColumnLayout {
                         id: iconDialog
                         onIconNameChanged: model.icon = iconName
                     }
-
-                    ToolTip {text: model.icon }
                 }
 
                 ToolButton {
-                    icon.name: model.excluded ? "gnumeric-visible" : "gnumeric-row-hide"
+                    ToolTip { text: model.excluded ? i18n("Show in the list") : i18n("Exclude from the list") }
+                    icon.name: model.excluded ? "view-visible" : "hint"
                     onClicked: model.excluded = !model.excluded
                 }
 
@@ -129,6 +130,7 @@ ColumnLayout {
                 }
 
                 ToolButton {
+                    ToolTip { text: i18n("Remove") }
                     icon.name: 'delete'
                     onClicked: rulesList.model.remove(index)
                 }
@@ -179,14 +181,10 @@ ColumnLayout {
                 for (var i = 0; i < rulesModel.count; i++) {
                     array.push(rulesModel.get(i))
                 }
-                var rules = JSON.stringify(array)
+                var rules = JS.toFileFormat(array)
                 plasmoid.configuration.rules = rules
-                sh.exec(JS.writeFile(JS.formatJson(rules), JS.rulesFile))
+                JS.execute(JS.writeFile(rules, '>', JS.rulesFile))
             }
         }
-    }
-
-    DataSource.Shell {
-        id: sh
     }
 }

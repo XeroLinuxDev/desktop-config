@@ -15,7 +15,6 @@ import org.kde.kquickcontrolsaddons
 import org.kde.kirigami as Kirigami
 import org.kde.plasma.core as PlasmaCore
 
-import "../components" as DataSource
 import "../../tools/tools.js" as JS
 
 SimpleKCM {
@@ -28,7 +27,11 @@ SimpleKCM {
     property alias cfg_counterRadius: counterRadius.value
     property alias cfg_counterOpacity: counterOpacity.value
     property alias cfg_counterShadow: counterShadow.checked
-    property alias cfg_counterBold: counterBold.checked
+    property string cfg_counterFontFamily: plasmoid.configuration.counterFontFamily
+    property alias cfg_counterFontBold: counterFontBold.checked
+    property alias cfg_counterFontSize: counterFontSize.value
+    property alias cfg_counterSpacing: counterSpacing.value
+    property alias cfg_counterMargins: counterMargins.value
     property alias cfg_counterOffsetX: counterOffsetX.value
     property alias cfg_counterOffsetY: counterOffsetY.value
     property alias cfg_counterCenter: counterCenter.checked
@@ -49,18 +52,47 @@ SimpleKCM {
     property alias cfg_managementButton: managementButton.checked
     property alias cfg_upgradeButton: upgradeButton.checked
     property alias cfg_checkButton: checkButton.checked
-    property alias cfg_showTabBar: showTabBar.checked
+    property alias cfg_tabBarVisible: tabBarVisible.checked
+    property alias cfg_tabBarTexts: tabBarTexts.checked
+    property alias cfg_tabBarNewsRelevant: tabBarNewsRelevant.checked
+
+    property bool inTray: (plasmoid.containmentDisplayHints & PlasmaCore.Types.ContainmentDrawsPlasmoidHeading)
+    property bool horizontal: plasmoid.location === 3 || plasmoid.location === 4
+    property bool counterOverlay: inTray || !horizontal
+    property bool counterRow: !inTray && horizontal
+
+    property int currentTab
+    signal tabChanged(currentTab: int)
+    onCurrentTabChanged: tabChanged(currentTab)
+ 
+    header: Kirigami.NavigationTabBar {
+        actions: [
+            Kirigami.Action {
+                icon.name: "view-list-icons"
+                text: i18n("Panel Icon View")
+                checked: currentTab === 0
+                onTriggered: currentTab = 0
+            },
+            Kirigami.Action {
+                icon.name: "view-split-left-right"
+                text: i18n("List View")
+                checked: currentTab === 1
+                onTriggered: currentTab = 1
+            }
+        ]
+    }
 
     Kirigami.FormLayout {
-        id: appearancePage
+        id: iconViewTab
+        visible: currentTab === 0
 
-        Kirigami.Separator {
+        Item {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: i18n("Panel Icon View")
         }
 
         RowLayout {
             Kirigami.FormData.label: i18n("Shown when")
+            enabled: counterOverlay
 
             SpinBox {
                 id: relevantIcon
@@ -71,7 +103,7 @@ SimpleKCM {
             }
 
             Label {
-                text: i18np("update is pending", "updates are pending", relevantIcon.value)
+                text: i18np("update is pending ", "updates are pending ", relevantIcon.value)
             }
         }
 
@@ -114,10 +146,21 @@ SimpleKCM {
                     enabled: cfg_selectedIcon !== JS.defaultIcon
                     onClicked: cfg_selectedIcon = JS.defaultIcon
                 }
-
                 MenuItem {
                     text: i18n("Default") + " 2"
                     icon.name: "apdatifier-packages"
+                    enabled: cfg_selectedIcon !== icon.name
+                    onClicked: cfg_selectedIcon = icon.name
+                }
+                MenuItem {
+                    text: i18n("Default") + " 3"
+                    icon.name: "apdatifier-package"
+                    enabled: cfg_selectedIcon !== icon.name
+                    onClicked: cfg_selectedIcon = icon.name
+                }
+                MenuItem {
+                    text: i18n("Default") + " 4"
+                    icon.name: "apdatifier-flatpak"
                     enabled: cfg_selectedIcon !== icon.name
                     onClicked: cfg_selectedIcon = icon.name
                 }
@@ -168,6 +211,7 @@ SimpleKCM {
 
             implicitWidth: Kirigami.Units.gridUnit
             implicitHeight: implicitWidth
+            visible: counterOverlay
             enabled: counterEnabled.checked
 
             background: Rectangle {
@@ -221,6 +265,7 @@ SimpleKCM {
 
         RowLayout {
             Kirigami.FormData.label: i18n("Size") + ":"
+            visible: counterOverlay
             enabled: counterEnabled.checked
 
             Slider {
@@ -239,6 +284,7 @@ SimpleKCM {
 
         RowLayout {
             Kirigami.FormData.label: i18n("Radius") + ":"
+            visible: counterOverlay
             enabled: counterEnabled.checked
 
             Slider {
@@ -257,6 +303,7 @@ SimpleKCM {
 
         RowLayout {
             Kirigami.FormData.label: i18n("Opacity") + ":"
+            visible: counterOverlay
             enabled: counterEnabled.checked
 
             Slider {
@@ -276,20 +323,77 @@ SimpleKCM {
 
         CheckBox {
             Kirigami.FormData.label: i18n("Shadow") + ":"
+            visible: counterOverlay
             enabled: counterEnabled.checked
             id: counterShadow
             text: i18n("Enable")
         }
 
-        CheckBox {
-            Kirigami.FormData.label: i18n("Bold") + ":"
+        ComboBox {
+            Kirigami.FormData.label: i18n("Font") + ":"
             enabled: counterEnabled.checked
-            id: counterBold
+            implicitWidth: 250
+            editable: true
+            textRole: "name"
+            model: {
+                let fonts = Qt.fontFamilies()
+                let arr = []
+                arr.push({"name": i18n("Default system font"), "value": ""})
+                for (let i = 0; i < fonts.length; i++) {
+                    arr.push({"name": fonts[i], "value": fonts[i]})
+                }
+                return arr
+            }
+
+            onCurrentIndexChanged: cfg_counterFontFamily = model[currentIndex]["value"]
+            Component.onCompleted: currentIndex = JS.setIndex(plasmoid.configuration.counterFontFamily, model)
+        }
+
+        CheckBox {
+            Kirigami.FormData.label: i18n("Font bold") + ":"
+            enabled: counterEnabled.checked
+            id: counterFontBold
             text: i18n("Enable")
+        }
+
+        Slider {
+            Kirigami.FormData.label: i18n("Font size") + ":"
+            visible: counterRow
+            enabled: counterEnabled.checked
+            id: counterFontSize
+            from: 4
+            to: 8
+            stepSize: 1
+            value: counterFontSize.value
+            onValueChanged: plasmoid.configuration.counterFontSize = counterFontSize.value
+        }
+
+        SpinBox {
+            Kirigami.FormData.label: i18n("Left spacing") + ":"
+            visible: counterRow
+            enabled: counterEnabled.checked
+            id: counterSpacing
+            from: 0
+            to: 99
+            stepSize: 1
+            value: counterSpacing.value
+            onValueChanged: plasmoid.configuration.counterSpacing = counterSpacing.value
+        }
+
+        SpinBox {
+            Kirigami.FormData.label: i18n("Side margins") + ":"
+            visible: counterRow
+            id: counterMargins
+            from: 0
+            to: 99
+            stepSize: 1
+            value: counterMargins.value
+            onValueChanged: plasmoid.configuration.counterMargins = counterMargins.value
         }
 
         RowLayout {
             Kirigami.FormData.label: i18n("Offset") + ":"
+            visible: counterOverlay
             enabled: counterEnabled.checked
 
             Label { text: "X:" }
@@ -319,6 +423,7 @@ SimpleKCM {
 
         CheckBox {
             Kirigami.FormData.label: i18n("Position") + ":"
+            visible: counterOverlay
             enabled: counterEnabled.checked
             id: counterCenter
             text: i18n("Center")
@@ -326,6 +431,7 @@ SimpleKCM {
 
         GridLayout {
             Layout.fillWidth: true
+            visible: counterOverlay
             enabled: counterEnabled.checked
             columns: 4
             rowSpacing: 0
@@ -453,10 +559,14 @@ SimpleKCM {
         Item {
             Kirigami.FormData.isSection: true
         }
+    }
 
-        Kirigami.Separator {
+    Kirigami.FormLayout {
+        id: listViewTab
+        visible: currentTab === 1
+
+        Item {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: i18n("List View")
         }
 
         RowLayout {
@@ -466,7 +576,7 @@ SimpleKCM {
                 text: i18n("Use built-in icons")
             }
             
-            ContextualHelpButton {
+            Kirigami.ContextualHelpButton {
                 toolTipText: i18n("Override custom icon theme and use default Apdatifier icons instead.")
             }
         }
@@ -589,21 +699,27 @@ SimpleKCM {
             Kirigami.FormData.label: i18n("Footer") + ":"
 
             CheckBox {
-                id: showTabBar
+                id: tabBarVisible
                 text: i18n("Show tab bar")
             }
 
-            ContextualHelpButton {
+            Kirigami.ContextualHelpButton {
                 toolTipText: i18n("You can also switch tabs by dragging the mouse left and right with the right mouse button held.")
             }
+        }
+
+        CheckBox {
+            id: tabBarTexts
+            text: i18n("Show tab texts")
+        }
+
+        CheckBox {
+            id: tabBarNewsRelevant
+            text: i18n("Hide \"News\" tab if no content")
         }
 
         Item {
             Kirigami.FormData.isSection: true
         }
-    }
-
-    DataSource.Shell {
-        id: sh
     }
 }

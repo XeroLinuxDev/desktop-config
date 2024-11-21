@@ -12,10 +12,10 @@ import org.kde.kirigami as Kirigami
 import org.kde.plasma.core as PlasmaCore
 
 import "representation" as Rep
-import "components" as DataSource
 import "../tools/tools.js" as JS
 
 PlasmoidItem {
+    id: root
     compactRepresentation: Rep.Panel {}
     fullRepresentation: Rep.Expanded {
         Layout.minimumWidth: Kirigami.Units.gridUnit * 24
@@ -35,9 +35,8 @@ PlasmoidItem {
     toolTipMainText: !interval && sts.idle ? i18n("Auto check disabled") : ""
     toolTipSubText: sts.busy ? sts.statusMsg : sts.err ? sts.errMsg : sts.checktime
 
-    property var listModel: listModel
+    property var check
     property var cache: []
-    property var cmd: []
     property var notify: JS.notifyParams
     property int time: plasmoid.configuration.time
     property bool interval: plasmoid.configuration.interval
@@ -56,6 +55,7 @@ PlasmoidItem {
         property bool idle: !busy && !err
         property bool updated: idle && !count
         property bool pending: idle && count
+        property bool paused: idle && cfg.indicatorStop && !cfg.interval
         property string errMsg: ""
         property string statusMsg: ""
         property string statusIco: ""
@@ -64,6 +64,14 @@ PlasmoidItem {
 
     ListModel  {
         id: listModel
+    }
+
+    ListModel  {
+        id: newsModel
+    }
+
+    ListModel {
+        id: activeNewsModel
     }
 
     Notification {
@@ -75,16 +83,6 @@ PlasmoidItem {
         iconName: notify.icon
         flags: cfg.notifyPersistent ? Notification.Persistent : Notification.CloseOnTimeout
         urgency: Notification[notify.urgency] || Notification.DefaultUrgency
-        actions: [
-            NotificationAction {
-                label: notify.label
-                onActivated: JS[notify.action]()
-            }
-        ]
-    }
-
-    DataSource.Shell {
-        id: sh
     }
 
     Plasmoid.contextualActions: [
@@ -117,7 +115,7 @@ PlasmoidItem {
 
     Timer {
         id: upgradeTimer
-        interval: 5000
+        interval: 1000
         repeat: true
         onTriggered: JS.upgradingState()
     }
@@ -144,5 +142,5 @@ PlasmoidItem {
     onSortingChanged: refresh()
     onRulesChanged: refresh()
     onConfigurationChanged: saveTimer.start()
-	Component.onCompleted: JS.start()
+	Component.onCompleted: JS.init()
 }

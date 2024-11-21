@@ -1,7 +1,7 @@
-# Translation of apdatifier in nl
-# Copyright (C) 2023
+# Translation of apdatifier in pt_BR
+# Copyright (C) 2024
 # This file is distributed under the same license as the apdatifier package.
-# Heimen Stoffels <vistausss@fastmail.com>, 2023.
+# João Victor Leal <victorsouzaleal@gmail.com>, 2024.
 #
 #, fuzzy
 msgid ""
@@ -9,596 +9,597 @@ msgstr ""
 "Project-Id-Version: apdatifier\n"
 "Report-Msgid-Bugs-To: https://github.com/exequtic/apdatifier\n"
 "POT-Creation-Date: 2024-11-17 22:34+0300\n"
-"PO-Revision-Date: 2024-06-02 14:38+0200\n"
-"Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
+"PO-Revision-Date: 2024-11-20 22:37-0300\n"
+"Last-Translator: João Victor Leal\n"
 "Language-Team: \n"
-"Language: nl\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 3.4.2\n"
 
 #: ../contents/config/config.qml
 msgid "General"
-msgstr "Algemeen"
+msgstr "Geral"
 
 #: ../contents/config/config.qml ../contents/tools/sh/messages
 msgid "Upgrade"
-msgstr "Bijwerken"
+msgstr "Atualizar"
 
 #: ../contents/config/config.qml
 msgid "Appearance"
-msgstr "Vormgeving"
+msgstr "Aparência"
 
 #: ../contents/config/config.qml
 msgid "Rules"
-msgstr "Regels"
+msgstr "Regras"
 
 #: ../contents/config/config.qml
 msgid "Support me"
-msgstr "Doneren"
+msgstr "Apoie-me"
 
 #: ../contents/tools/sh/messages
 msgid "Full system upgrade"
-msgstr "Systeem volledig bijwerken"
+msgstr "Atualização completa do sistema"
 
 #: ../contents/tools/sh/messages
 msgid "Flatpak Upgrade"
-msgstr ""
+msgstr "Atualização de Flatpak"
 
 #: ../contents/tools/sh/messages
 msgid "Plasma Widgets Upgrade"
-msgstr ""
+msgstr "Atualização dos widgets do Plasma"
 
 #: ../contents/tools/sh/messages
 msgid "Read the Arch Wiki - Partial Upgrades"
-msgstr "Lees over gedeeltelijke opwaarderingen op de Arch-wiki"
+msgstr "Leia a wiki do Arch - Atualizações parciais"
 
 #: ../contents/tools/sh/messages
 msgid "Perform full system upgrade instead partial upgrade!"
-msgstr "Voer een volledige opwaardering uit in plaats van een gedeeltelijke!"
+msgstr ""
+"Realize uma atualização completa do sistema ao invés de uma atualização "
+"parcial!"
 
 #: ../contents/tools/sh/messages
 msgid "Total execution time:"
-msgstr ""
+msgstr "Tempo total de execução:"
 
 #: ../contents/tools/sh/messages
 msgid "Press Enter to close"
-msgstr "Druk op enter om te sluiten"
+msgstr "Pressione Enter para fechar"
 
 #: ../contents/tools/sh/messages
 msgid "Skipped..."
-msgstr ""
+msgstr "Ignorado..."
 
 #: ../contents/tools/sh/messages
 msgid "Fetching the latest filtered mirror list"
-msgstr "Bezig met ophalen van recentste, gefilterde spiegelserverlijst"
+msgstr "Buscando a última lista de mirrors filtrados"
 
 #: ../contents/tools/sh/messages
 msgid "Ranking mirrors by their connection and opening speed"
-msgstr "Bezig met classificeren van spiegelservers op verbinding en snelheid"
+msgstr "Classificando mirrors por sua conexão e velocidade de abertura"
 
 #: ../contents/tools/sh/messages
 msgid "Check your mirrorlist generator settings..."
-msgstr "Bezig met controleren van genereerinstellingen…"
+msgstr "Verifique as configurações do seu gerador de mirrorlist..."
 
 #: ../contents/tools/sh/messages
 msgid "was updated with the following servers:"
-msgstr "is voorzien van de volgende servers:"
+msgstr "foi atualizado com os seguintes servidores:"
 
 #: ../contents/tools/sh/messages
 msgid "To write to the mirrorlist file, sudo privileges are required"
-msgstr ""
-"Voor het opslaan van de spiegelserverlijst zijn beheerdersrechten vereist"
+msgstr "Para escrever no arquivo mirrorlist, são necessários privilégios sudo"
 
 #: ../contents/tools/sh/messages
 msgid "Your current mirrorlist:"
-msgstr "Huidige spiegelserverlijst:"
+msgstr "Sua mirrorlist atual:"
 
 #: ../contents/tools/sh/messages
 msgid ""
 "For some widgets you may need to Log Out or restart plasmashell after upgrade"
 msgstr ""
-"Voor enkele widgets kan het nodig zijn om je af te melden of plasmashell te "
-"herstarten"
+"Para alguns widgets, pode ser necessário fazer logout ou reiniciar o "
+"plasmashell após a atualização"
 
 #: ../contents/tools/sh/messages
 msgid "Checking widgets for updates"
-msgstr "Bezig met controleren op widgetupdates"
+msgstr "Verificando por atualizações de widgets"
 
 #: ../contents/tools/sh/messages
 msgid "Fetching data from the API"
-msgstr ""
+msgstr "Obtendo dados da API"
 
 #: ../contents/tools/sh/messages
 msgid "Getting the download link"
-msgstr ""
+msgstr "Obtendo o link para download"
 
 #: ../contents/tools/sh/messages
 msgid "Downloading package"
-msgstr ""
+msgstr "Baixando pacote"
 
 #: ../contents/tools/sh/messages
 msgid "Proceed with upgrade?"
-msgstr ""
+msgstr "Continuar com a atualização?"
 
 #: ../contents/tools/sh/messages
 msgid "Restart plasmashell now?"
-msgstr "Wil je plasmashell nu herstarten?"
+msgstr "Reiniciar o plasmashell agora?"
 
 #: ../contents/tools/sh/messages
 msgid "No description"
-msgstr ""
+msgstr "Sem descrição"
 
 #: ../contents/tools/sh/messages ../contents/tools/tools.js
 msgid ""
 "Too many API requests in the last 15 minutes from your IP address, please "
 "try again later"
 msgstr ""
-"Er zijn in de afgelopen 15 minuten teveel api-verzoeken vanaf je ip-adres "
-"geweest - probeer het later opnieuw"
+"Muitas solicitações de API do seu endereço IP nos últimos 15 minutos, tente "
+"novamente mais tarde"
 
 #: ../contents/tools/sh/messages ../contents/tools/tools.js
 msgid "Failed to retrieve data from the API"
-msgstr ""
+msgstr "Falha ao recuperar dados da API"
 
 #: ../contents/tools/sh/messages ../contents/tools/tools.js
 msgid "Unkwnown error"
-msgstr ""
+msgstr "Erro desconhecido"
 
 #: ../contents/tools/sh/messages
 msgid "File metadata.json not found"
-msgstr "metadata.json is niet aangetroffen"
+msgstr "Arquivo metadata.json não encontrado"
 
 #: ../contents/tools/sh/messages
 msgid "Errors in metadata.json file"
-msgstr "Fouten in metadata.json"
+msgstr "Erros no arquivo metadata.json"
 
 #: ../contents/tools/sh/messages
 msgid "Unsupported file format"
-msgstr "Niet-ondersteund bestandstype"
+msgstr "Formato de arquivo não suportado"
 
 #: ../contents/tools/sh/messages
 msgid "No files for download"
-msgstr ""
+msgstr "Não há arquivos para download"
 
 #: ../contents/tools/sh/messages
 msgid "No file tagged with version"
-msgstr ""
+msgstr "Nenhum arquivo marcado com versão"
 
 #: ../contents/tools/sh/messages
 msgid "Multiple files are tagged with version"
-msgstr ""
+msgstr "Vários arquivos são marcados com versão"
 
 #: ../contents/tools/sh/messages
 msgid "Failed to download the package"
-msgstr ""
+msgstr "Falha ao baixar o pacote"
 
 #: ../contents/tools/sh/messages
 msgid "List all available packages in repositories"
-msgstr "Alle beschikbare pakketten tonen"
+msgstr "Listar todos os pacotes disponíveis nos repositórios"
 
 #: ../contents/tools/sh/messages
 msgid "List all installed packages"
-msgstr "Alle geïnstalleerde pakketten tonen"
+msgstr "Listar todos os pacotes instalados"
 
 #: ../contents/tools/sh/messages
 msgid "List explicitly installed packages"
-msgstr "Alle gedwongen geïnstalleerde pakketten tonen"
+msgstr "Listar pacotes instalados explicitamente"
 
 #: ../contents/tools/sh/messages
 msgid "List explicitly installed packages and isn't a dependency of anything"
-msgstr "Alle gedwongen geïnstalleerde pakketten zonder afhankelijkheden tonen"
+msgstr ""
+"Listar pacotes instalados explicitamente e que não são dependências de nada"
 
 #: ../contents/tools/sh/messages
 msgid "List installed dependencies that aren't needed anymore (orphans)"
-msgstr "Alle onnodige geïnstalleerde afhankelijkheden (onteigend) tonen"
+msgstr "Listar dependências instaladas que não são mais necessárias (órfãs)"
 
 #: ../contents/tools/sh/messages
 msgid "Uninstall orphan packages"
-msgstr "Onteigende pakketten verwijderen"
+msgstr "Desinstalar pacotes órfãos"
 
 #: ../contents/tools/sh/messages
 msgid "Install (downgrade) a package from cache"
-msgstr "Pakket installeren (afwaarderen) uit cache"
+msgstr "Instalar (downgrade) de um pacote do cache"
 
 #: ../contents/tools/sh/messages
 msgid "Remove ALL cached packages"
-msgstr "ALLE gecachete pakketten verwijderen"
+msgstr "Remover TODOS os pacotes em cache"
 
 #: ../contents/tools/sh/messages
 msgid "Remove cached packages that are not currently installed"
-msgstr "Alle niet-geïnstalleerde gecachete pakketten verwijderen"
+msgstr "Remover pacotes em cache que não estão instalados no momento"
 
 #: ../contents/tools/sh/messages
 msgid "Rebuild AUR python packages after python upgrade"
-msgstr "Python-pakketten van AUR herbouwen na Python-upgrades"
+msgstr "Reconstruir pacotes python AUR após atualização python"
 
 #: ../contents/tools/sh/messages
 msgid "Refresh mirrorlist"
-msgstr "Spiegelserverlijst vernieuwen"
+msgstr "Atualizar mirrorlist"
 
 #: ../contents/tools/sh/messages
 msgid "Exit"
-msgstr "Afsluiten"
+msgstr "Sair"
 
 #: ../contents/tools/sh/messages
 msgid "Review dependency warnings before removing"
-msgstr "Afhankelijkheidswaarschuwingen tonen alvorens te verwijderen"
+msgstr "Revise os avisos de dependência antes de remover"
 
 #: ../contents/tools/sh/messages
 msgid "Resume?"
-msgstr "Hervatten?"
+msgstr "Retomar?"
 
 #: ../contents/tools/sh/messages
 msgid "Press Enter to return menu"
-msgstr "Druk op enter om terug te keren naar het menu"
+msgstr "Pressione Enter para retornar ao menu"
 
 #: ../contents/tools/sh/messages
 msgid "Search:"
-msgstr "Zoeken:"
+msgstr "Procurar:"
 
 #: ../contents/tools/sh/messages
 msgid "Executed:"
-msgstr "Uitgevoerd:"
+msgstr "Executado:"
 
 #: ../contents/tools/sh/messages
 msgid "Nothing to do"
-msgstr "Er valt niets te doen"
+msgstr "Nada a fazer"
 
-# Required installed <util name>
 #: ../contents/tools/sh/messages
 msgid "Required installed"
-msgstr "Vereist"
+msgstr "Requer instalado"
 
 #: ../contents/tools/tools.js
 msgid "Exit code: "
-msgstr ""
+msgstr "Código de saída: "
 
 #: ../contents/tools/tools.js
 msgid "Upgrade in progress..."
-msgstr ""
+msgstr "Atualização em andamento..."
 
 #: ../contents/tools/tools.js
 msgid "Checking latest news..."
-msgstr "Bezig met ophalen van nieuws…"
+msgstr "Verificando as últimas notícias..."
 
 #: ../contents/tools/tools.js
 msgid "Checking system updates..."
-msgstr "Bezig met controleren op systeemupdates…"
+msgstr "Verificando atualizações do sistema..."
 
 #: ../contents/tools/tools.js
 msgid "Checking flatpak updates..."
-msgstr "Bezig met controleren op flatpakupdates…"
+msgstr "Verificando atualizações de Flatpak..."
 
 #: ../contents/tools/tools.js
 msgid "Checking widgets updates..."
-msgstr "Bezig met controleren op widgetupdates…"
+msgstr "Verificando atualizações de widgets..."
 
 #: ../contents/tools/tools.js
 msgid "Unable check widgets: "
-msgstr "De widget-updatecontrole is mislukt: "
+msgstr "Incapaz de verificar atualizações de widgets: "
 
 #: ../contents/tools/tools.js
 msgid "some required utilities are not installed (curl, jq)"
-msgstr "Enkele vereiste hulpmiddelen zijn niet aangetroffen (curl, jq)"
+msgstr "alguns dos utilitários requeridos não estão instalados (curl, jq)"
 
 #: ../contents/tools/tools.js
 msgid "latest commit"
-msgstr ""
+msgstr "último commit"
 
 #: ../contents/tools/tools.js
 msgid "+%1 new update"
 msgid_plural "+%1 new updates"
-msgstr[0] "+%1 update"
-msgstr[1] "+%1 updates"
+msgstr[0] "+%1 nova atualização"
+msgstr[1] "+%1 novas atualizações"
 
 #: ../contents/tools/tools.js
 msgid "update is pending"
 msgid_plural "updates are pending"
-msgstr[0] "update in de wachtrij"
-msgstr[1] "updates in de wachtrij"
+msgstr[0] "atualização está pendente"
+msgstr[1] "atualizações estão pendentes"
 
 #: ../contents/tools/tools.js
 msgid "Last check:"
-msgstr "Recentste controle:"
+msgstr "Última verificação:"
 
 #: ../contents/tools/tools.js
 msgid "%1 second"
 msgid_plural "%1 seconds"
-msgstr[0] "%1 seconde"
-msgstr[1] "%1 seconden"
+msgstr[0] "%1 segundo"
+msgstr[1] "%1 segundos"
 
 #: ../contents/tools/tools.js
 msgid "%1 minute"
 msgid_plural "%1 minutes"
-msgstr[0] "%1 minuut"
-msgstr[1] "%1 minuten"
+msgstr[0] "%1 minuto"
+msgstr[1] "%1 minutos"
 
 #: ../contents/tools/tools.js
 msgid "%1 hour"
 msgid_plural "%1 hours"
-msgstr[0] "%1 uur"
-msgstr[1] "%1 uur"
+msgstr[0] "%1 hora"
+msgstr[1] "%1 horas"
 
 #: ../contents/tools/tools.js
 msgid "ago"
-msgstr "geleden"
+msgstr "atrás"
 
 #: ../contents/ui/components/ComboBox.qml
 msgid "None"
-msgstr "Geen"
+msgstr "Nenhum"
 
 #: ../contents/ui/components/ComboBox.qml ../contents/ui/main.qml
 #: ../contents/ui/representation/Expanded.qml
 msgid "Check updates"
-msgstr "Controleren op updates"
+msgstr "Verificar atualizações"
 
 #: ../contents/ui/components/ComboBox.qml ../contents/ui/main.qml
 #: ../contents/ui/representation/Expanded.qml
 msgid "Upgrade system"
-msgstr "Systeem bijwerken"
+msgstr "Atualizar sistema"
 
 #: ../contents/ui/components/ComboBox.qml
 msgid "Switch interval"
-msgstr "Wisselen, iedere"
+msgstr "Alternar intervalo"
 
 #: ../contents/ui/components/ComboBox.qml ../contents/ui/main.qml
 #: ../contents/ui/representation/Expanded.qml
 msgid "Management"
-msgstr "Beheer"
+msgstr "Gerenciamento"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Panel Icon View"
-msgstr "Paneelpictogramweergave"
+msgstr "Visualização de ícone do painel"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "List View"
-msgstr "Lijstweergave"
+msgstr "Visualização de lista"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Shown when"
-msgstr "Getoond indien"
+msgstr "Mostrado quando"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "update is pending "
 msgid_plural "updates are pending "
-msgstr[0] "update in de wachtrij"
-msgstr[1] "updates in de wachtrij"
+msgstr[0] "atualização está pendente "
+msgstr[1] "atualizações estão pendentes "
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Default"
-msgstr "Standaard"
+msgstr "Padrão"
 
 #: ../contents/ui/configuration/Appearance.qml
 #: ../contents/ui/representation/Expanded.qml
 msgid "Select..."
-msgstr "Kiezen…"
+msgstr "Selecione..."
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Default icon"
-msgstr "Standaardpictogram"
+msgstr "Ícone padrão"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Stopped interval"
-msgstr "Stoptussenpoos"
+msgstr "Intervalo parado"
 
 #: ../contents/ui/configuration/Appearance.qml
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Enable"
-msgstr "Inschakelen"
+msgstr "Habilitar"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Counter"
-msgstr "Embleem"
+msgstr "Contador"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Color"
-msgstr "Kleur"
+msgstr "Cor"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Default color"
-msgstr "Standaardkleur"
+msgstr "Cor padrão"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Select counter background color"
-msgstr "Kies de achtergrondkleur van het embleem"
+msgstr "Selecione a cor de fundo do contador"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Default background color from current theme"
-msgstr "Standaard achtergrondkleur uit het huidige thema"
+msgstr "Cor de fundo padrão do tema atual"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Size"
-msgstr "Grootte"
+msgstr "Tamanho"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Radius"
-msgstr "Straal"
+msgstr "Raio"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Opacity"
-msgstr "Doorzichtigheid"
+msgstr "Opacidade"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Shadow"
-msgstr "Schaduw"
+msgstr "Sombra"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Font"
-msgstr ""
+msgstr "Fonte"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Default system font"
-msgstr "Systeemlettertype"
+msgstr "Fonte padrão do sistema"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Font bold"
-msgstr ""
+msgstr "Fonte em negrito"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Font size"
-msgstr ""
+msgstr "Tamanho da fonte"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Left spacing"
-msgstr ""
+msgstr "Espaçamento à esquerda"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Side margins"
-msgstr ""
+msgstr "Margens laterais"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Offset"
-msgstr "Verschuiving"
+msgstr "Deslocar"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Position"
-msgstr "Locatie"
+msgstr "Posição"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Center"
-msgstr "Centreren"
+msgstr "Centro"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Top-Left"
-msgstr "Linksboven"
+msgstr "Canto superior esquerdo"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Top-Right"
-msgstr "Rechtsboven"
+msgstr "Canto superior direito"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Bottom-Left"
-msgstr "Linksonder"
+msgstr "Canto inferior esquerdo"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Bottom-Right"
-msgstr "Rechtsonder"
+msgstr "Canto inferior direito"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Use built-in icons"
-msgstr "Meegeleverde pictogrammen"
+msgstr "Use ícones integrados"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Override custom icon theme and use default Apdatifier icons instead."
 msgstr ""
-"Overschrijf aangepaste pictogramthema en gebruik in plaats daarvan de "
-"standaard Apdatifier pictogrammen."
+"Substitua o tema de ícones personalizados e use os ícones padrão do "
+"Apdatifier."
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "View"
-msgstr "Weergave"
+msgstr "Visualização"
 
 #: ../contents/ui/configuration/Appearance.qml
 #: ../contents/ui/representation/Expanded.qml
 msgid "Compact"
-msgstr "Compact"
+msgstr "Compacto"
 
 #: ../contents/ui/configuration/Appearance.qml
 #: ../contents/ui/representation/Expanded.qml
 msgid "Extended"
-msgstr "Uitgebreid"
+msgstr "Extendido"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Sorting"
-msgstr "Sorteren"
+msgstr "Ordenação"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "By repository"
-msgstr "Op pakketbron"
+msgstr "Por repositório"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "By name"
-msgstr "Op naam"
+msgstr "Por nome"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Header"
-msgstr "Kop"
+msgstr "Cabeçalho"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Show status"
-msgstr "Status tonen"
+msgstr "Mostrar status"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Show tool bar"
-msgstr "Werkbalk tonen"
+msgstr "Mostrar barra de ferramentas"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Footer"
-msgstr "Statusbalk tonen"
+msgstr "Rodapé"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Show tab bar"
-msgstr "Tabbladbalk tonen"
+msgstr "Mostrar guias"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid ""
 "You can also switch tabs by dragging the mouse left and right with the right "
 "mouse button held."
 msgstr ""
-"Tip: wisselen van tabblad kan ook door de muis naar links en rechts te "
-"verplaatsen en de rechtermuisknop ingedrukt te houden."
+"Você também pode alternar entre as guias arrastando o mouse para a esquerda "
+"e para a direita enquanto mantém o botão direito do mouse pressionado."
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Show tab texts"
-msgstr ""
+msgstr "Mostrar textos das guias"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Hide \"News\" tab if no content"
-msgstr ""
+msgstr "Ocultar a guia \"Notícias\" se não houver conteúdo"
 
 #: ../contents/ui/configuration/General.qml
 msgid "Search"
-msgstr "Zoeken"
+msgstr "Procurar"
 
 #: ../contents/ui/configuration/General.qml
 msgid "Notifications"
-msgstr "Meldingen"
+msgstr "Notificações"
 
 #: ../contents/ui/configuration/General.qml
 msgid "Mouse actions"
-msgstr "Muisacties"
+msgstr "Ações do mouse"
 
 #: ../contents/ui/configuration/General.qml
 msgid "Misc"
-msgstr ""
+msgstr "Variado"
 
 #: ../contents/ui/configuration/General.qml
 msgid ""
 "Configuration is automatically saved in a config file and loaded at every "
 "startup, ensuring you never lose your settings. The config file is stored in "
 msgstr ""
-"Configuratie wordt automatisch opgeslagen in een configuratiebestand en "
-"geladen bij elke start, zodat u uw instellingen nooit kwijtraakt. Het "
-"configuratiebestand is opgeslagen in "
+"A configuração é salva automaticamente em um arquivo de configuração e "
+"carregada a cada inicialização, garantindo que você nunca perca suas "
+"configurações. O arquivo de configuração é armazenado em "
 
 #: ../contents/ui/configuration/General.qml
 msgid ""
 " not installed! Highly recommended to install it for getting the latest "
 "updates without the need to download fresh package databases."
 msgstr ""
-" is niet geïnstalleerd! Dit pakket wordt sterk aanbevolen voor het "
-"controleren op updates zonder de databanken te hoeven vernieuwen."
+" não instalado! É altamente recomendável instalá-lo para obter as últimas "
+"atualizações sem a necessidade de baixar novos bancos de dados de pacotes."
 
 #: ../contents/ui/configuration/General.qml
 msgid "Interval"
-msgstr "Periodiek bijwerken"
+msgstr "Intervalo"
 
 #: ../contents/ui/configuration/General.qml
 msgid "minutes"
-msgstr "minuten"
+msgstr "minutos"
 
 #: ../contents/ui/configuration/General.qml
 msgid "The current timer is reset when either of these settings is changed."
 msgstr ""
-"De huidige tijdklok wordt op nul ingesteld indien een van deze instellingen "
-"wordt gewijzigd."
+"O temporizador atual é reiniciado quando qualquer uma dessas configurações é "
+"alterada."
 
 #: ../contents/ui/configuration/General.qml
 msgid "Check on start up"
-msgstr "Controleren na opstarten"
+msgstr "Verifique na inicialização"
 
 #: ../contents/ui/configuration/General.qml
 msgid ""
@@ -607,34 +608,36 @@ msgid ""
 "will be initiated after a specified time interval has passed since the "
 "widget was started. <b>Recommended.</b>"
 msgstr ""
-"<b>Schakel in</b> om te controleren op updates zodra de widget geladen is."
-"<br><br><b>Schakel uit</b> om te controleren op het opgegeven tijdstip. "
-"<b>Aanbevolen.</b>"
+"Se a opção estiver <b>habilitada</b>, a verificação de atualizações começará "
+"imediatamente após a inicialização do widget.<br><br>Se a opção estiver "
+"<b>desabilitada</b>, a verificação de atualizações será iniciada após um "
+"intervalo de tempo especificado desde que o widget foi iniciado. "
+"<b>Recomendado.</b>"
 
 #: ../contents/ui/configuration/General.qml
 msgid "Updates"
-msgstr ""
+msgstr "Atualizações"
 
 #: ../contents/ui/configuration/General.qml
 msgid "Arch Official Repositories"
-msgstr "Officiële Arch-pakketbronnen"
+msgstr "Repositórios oficiais do Arch"
 
 #: ../contents/ui/configuration/General.qml
 msgid "Arch User Repository"
-msgstr "Arch User Repository"
+msgstr "Repositório de usuário do Arch"
 
 #: ../contents/ui/configuration/General.qml
 msgid "Flatpak applications"
-msgstr "Flatpakprogramma's"
+msgstr "Aplicações Flatpak"
 
 #: ../contents/ui/configuration/General.qml
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Not installed"
-msgstr "Niet geïnstalleerd"
+msgstr "Não instalado"
 
 #: ../contents/ui/configuration/General.qml
 msgid "Plasma Widgets"
-msgstr "Plasmawidgets"
+msgstr "Widgets do Plasma"
 
 #: ../contents/ui/configuration/General.qml
 msgid ""
@@ -643,37 +646,37 @@ msgid ""
 "forget to update the metadata.json and specify the name of the applet and "
 "its version <b>exactly</b> as they appear on the KDE Store."
 msgstr ""
-"Voor het gebruik van deze functie zijn de volgende hulpmiddelen vereist:"
-"<br><b>curl, jq, unzip, tar</b>.<br><br>Tip voor widgetontwikkelaars:"
-"<br>vergeet niet om metadata.json bij te werken en de naam van het applet en "
-"de versie <b>precies</b> zo in te vullen als in de KDE Store."
+"Para usar este recurso, os seguintes utilitários instalados são necessários:"
+"<br><b>curl, jq, unzip, tar</b>.<br><br>Para desenvolvedores de widgets:"
+"<br>Não se esqueça de atualizar o metadata.json e especificar o nome do "
+"applet e sua versão <b>exatamente</b> como aparecem na Loja KDE."
 
 #: ../contents/ui/configuration/General.qml
 #: ../contents/ui/representation/Expanded.qml
 msgid "News"
-msgstr ""
+msgstr "Notícias"
 
 #: ../contents/ui/configuration/General.qml
 msgid "Arch Linux News"
-msgstr "Arch Linux-nieuws"
+msgstr "Notícias do Arch Linux"
 
 #: ../contents/ui/configuration/General.qml
 msgid "Keep"
-msgstr ""
+msgstr "Manter"
 
 #: ../contents/ui/configuration/General.qml
 msgid "news item from the feed"
 msgid_plural "news items from the feed"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "item de notícia do feed"
+msgstr[1] "itens de notícia do feed"
 
 #: ../contents/ui/configuration/General.qml
 msgid "For new updates"
-msgstr ""
+msgstr "Para novas atualizações"
 
 #: ../contents/ui/configuration/General.qml
 msgid "For every version bump"
-msgstr "Bij elk nieuwe versie"
+msgstr "Para cada nova versão"
 
 #: ../contents/ui/configuration/General.qml
 msgid ""
@@ -683,84 +686,88 @@ msgid ""
 "notifications will only be sent for packages that are not yet on the list. "
 "<b>Less notifications.</b>"
 msgstr ""
-"<b>Schakel in</b> om meldingen te tonen bij elke nieuwe pakketversie, zelfs "
-"als de pakketten in kwestie al op de lijst staan. <b>Meer meldingen.</b> "
-"<br><br><b>Schakel uit</b> om alleen meldingen te tonen van pakketten die "
-"nog niet op de lijst staan. <b>Minder meldingen.</b>"
+"Se a opção estiver <b>habilitada</b>, notificações serão enviadas quando uma "
+"nova versão do pacote for lançada, mesmo que o pacote já esteja na lista. "
+"<b>Mais notificações.</b> <br><br>Se a opção estiver <b>desabilitada</b>, "
+"notificações serão enviadas somente para pacotes que ainda não estejam na "
+"lista. <b>Menos notificações.</b>"
 
 #: ../contents/ui/configuration/General.qml
 msgid "For news"
-msgstr ""
+msgstr "Para notícias"
 
 #: ../contents/ui/configuration/General.qml
 msgid "For errors"
-msgstr "Voor fouten"
+msgstr "Para erros"
 
 #: ../contents/ui/configuration/General.qml
 msgid "With sound"
-msgstr "Geluid"
+msgstr "Com som"
 
 #: ../contents/ui/configuration/General.qml
 msgid "Persistent"
-msgstr "Persistent"
+msgstr "Persistente"
 
 #: ../contents/ui/configuration/General.qml
 msgid ""
 "To further configure, click the button below -> Application Settings -> "
 "Apdatifier"
 msgstr ""
-"De rest van de instellingen zijn beschikbaar via onderstaande knop → "
-"Speciale programma-instellingen → Apdatifier"
+"Para configurar ainda mais, clique no botão abaixo -> Configurações do "
+"aplicativo -> Apdatifier"
 
 #: ../contents/ui/configuration/General.qml
 msgid "Configure..."
-msgstr "Instellen…"
+msgstr "Configurar..."
 
 #: ../contents/ui/configuration/General.qml
 msgid "Middle click"
-msgstr "Middelklikken"
+msgstr "Clique do meio"
 
 #: ../contents/ui/configuration/General.qml
 msgid "Right click"
-msgstr "Rechtsklikken"
+msgstr "Clique direito"
 
 #: ../contents/ui/configuration/General.qml
 msgid ""
 "Do not enable this option if the widget is not used in the system tray; "
 "otherwise, you will not be able to open the settings by right-clicking."
 msgstr ""
+"Não habilite esta opção se o widget não for utilizado na bandeja do sistema, "
+"caso contrário, você não conseguirá abrir as configurações clicando com o "
+"botão direito."
 
 #: ../contents/ui/configuration/General.qml
 msgid "Scroll up"
-msgstr "Omhoog scrollen"
+msgstr "Rolar para cima"
 
 #: ../contents/ui/configuration/General.qml
 msgid "Scroll down"
-msgstr "Omlaag scrollen"
+msgstr "Rolar para baixo"
 
 #: ../contents/ui/configuration/General.qml
 msgid "Restore hidden tooltips"
-msgstr ""
+msgstr "Restaurar dicas de ferramentas ocultas"
 
 #: ../contents/ui/configuration/Rules.qml
 msgid "Unimportant"
-msgstr "Onbelangrijk"
+msgstr "Sem importância"
 
 #: ../contents/ui/configuration/Rules.qml
 msgid "Repository"
-msgstr "Repository"
+msgstr "Repositório"
 
 #: ../contents/ui/configuration/Rules.qml
 msgid "Exact repository match"
-msgstr "Exacte repository-overeenkomst"
+msgstr "Correspondência exata do repositório"
 
 #: ../contents/ui/configuration/Rules.qml
 msgid "Group"
-msgstr "Groep"
+msgstr "Grupo"
 
 #: ../contents/ui/configuration/Rules.qml
 msgid "Substring group match"
-msgstr "Substring groepsovereenkomst"
+msgstr "Correspondência de grupo de substring"
 
 #: ../contents/ui/configuration/Rules.qml
 msgid "Substring"
@@ -768,15 +775,15 @@ msgstr "Substring"
 
 #: ../contents/ui/configuration/Rules.qml
 msgid "Substring name match"
-msgstr "Substring naamovereenkomst"
+msgstr "Correspondência de nome de substring"
 
 #: ../contents/ui/configuration/Rules.qml
 msgid "Name"
-msgstr "Naam"
+msgstr "Nome"
 
 #: ../contents/ui/configuration/Rules.qml
 msgid "Exact name match"
-msgstr "Exacte naamovereenkomst"
+msgstr "Correspondência exata do nome"
 
 #: ../contents/ui/configuration/Rules.qml
 msgid ""
@@ -784,78 +791,77 @@ msgid ""
 "list. Each rule overwrites the previous one, so the list of rules should be "
 "in this order: "
 msgstr ""
-"Hier kunt u de standaardpictogrammen van het pakket overschrijven en "
-"uitsluiten van de lijst. Elke regel overschrijft de vorige, dus de lijst met "
-"regels moet in deze volgorde staan: "
+"Aqui você pode substituir os ícones de pacote padrão e excluí-los da lista. "
+"Cada regra substitui a anterior, então a lista de regras deve estar nesta "
+"ordem: "
 
 #: ../contents/ui/configuration/Rules.qml
 msgid "Show in the list"
-msgstr ""
+msgstr "Mostrar na lista"
 
 #: ../contents/ui/configuration/Rules.qml
 msgid "Exclude from the list"
-msgstr ""
+msgstr "Excluir da lista"
 
 #: ../contents/ui/configuration/Rules.qml ../contents/ui/scrollview/News.qml
 msgid "Remove"
-msgstr ""
+msgstr "Remover"
 
 #: ../contents/ui/configuration/Rules.qml
 msgid "Add rule"
-msgstr "Regel toevoegen"
+msgstr "Adicionar regra"
 
 #: ../contents/ui/configuration/Rules.qml
 msgid "Apply"
-msgstr "Toepassen"
+msgstr "Aplicar"
 
 #: ../contents/ui/configuration/Support.qml
 msgid ""
 "Thanks for using my widget! If you appreciate my work, you can support me by "
 "starring the GitHub repository or buying me a coffee ;)"
 msgstr ""
-"Bedankt voor het gebruik van mijn widget! Als je mijn werk waardeert, "
-"ondersteun me dan door de GitHub-pakketbron een ster te geven of me een "
-"kopje koffie te schenken. ;)"
+"Obrigado por usar meu widget! Se você aprecia meu trabalho, pode me apoiar "
+"estrelando o repositório do GitHub ou me pagando um café ;)"
 
 #: ../contents/ui/configuration/Support.qml
 msgid "Visit %1"
-msgstr "%1 openen"
+msgstr "Visite %1"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Widgets"
-msgstr ""
+msgstr "Widgets"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Terminal"
-msgstr "Terminalvenster"
+msgstr "Terminal"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Wrapper"
-msgstr "Wrapper"
+msgstr "Auxiliar Pacman"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Upgrade options"
-msgstr ""
+msgstr "Opções de atualização"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Options"
-msgstr "Opties"
+msgstr "Opções"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Pacman Mirrorlist Generator"
-msgstr "Pacman-spiegelserverlijst genereren"
+msgstr "Gerador de mirrorlist do pacman"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Only for official repositories"
-msgstr ""
+msgstr "Apenas para repositórios oficiais"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Generator"
-msgstr "Genereren"
+msgstr "Gerador"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Suggest before upgrading"
-msgstr "Vragen alvorens op te waarderen"
+msgstr "Sugerir antes de atualizar"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid ""
@@ -863,37 +869,37 @@ msgid ""
 "<br><b>curl, pacman-contrib.</b> <br><br>Also see https://archlinux.org/"
 "mirrorlist (click button to open link)"
 msgstr ""
-"Voor het gebruik van deze functie zijn de volgende hulpmiddelen vereist:"
-"<br><b>curl, pacman-contrib.</b> <br><br>Zie ook https://archlinux.org/"
-"mirrorlist (klik op de knop om de link te openen)"
+"Para usar este recurso, os seguintes utilitários instalados são necessários:"
+"<br><b>curl, pacman-contrib.</b> <br><br>Veja também https:/archlinux.org/"
+"mirrorlist (clique no botão para abrir o link)"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Protocol"
-msgstr "Protocol"
+msgstr "Protocolo"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "IP version"
-msgstr "Ip-versie"
+msgstr "versão do IP"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Mirror status"
-msgstr "Spiegelserverstatus"
+msgstr "Status do mirror"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Number output"
-msgstr "Aantal"
+msgstr "Número de servidores"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Number of servers to write to mirrorlist file. 0 for all."
-msgstr "Het aantal servers dat in het bestand moet worden opgenomen. 0 = alle."
+msgstr "Número de servidores para gravar no arquivo mirrorlist. 0 para todos."
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Country"
-msgstr "Land"
+msgstr "País"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Select at least one!"
-msgstr "Kies minimaal één land!"
+msgstr "Selecione pelo menos um!"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid ""
@@ -902,139 +908,139 @@ msgid ""
 "to generate the mirrors!</b> <br><br>It is optimal to choose <b>1-2</b> "
 "countries closest to you."
 msgstr ""
-"Kies minimaal één land om te voorkomen dat alle landen worden gekozen."
-"<br><br><b>Hoe meer landen je kiest, des te langer het duurt om de "
-"spiegelservers te genereren!</b><br><br>Optimale suggestie: kies <b>1-2</b> "
-"naburige landen."
+"Você deve selecionar pelo menos um país, caso contrário, todos serão "
+"escolhidos por padrão. <br><br><b>Quanto mais países você selecionar, mais "
+"tempo levará para gerar os espelhos!</b> <br><br>É ideal escolher <b>1-2</b> "
+"países mais próximos de você."
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Normal, skip questions"
-msgstr ""
+msgstr "Normal, pular perguntas"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Non interactive, skip questions"
-msgstr ""
+msgstr "Não interativo, pular perguntas"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Verbose"
-msgstr ""
+msgstr "Detalhado"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Upgrade confirmation"
-msgstr ""
+msgstr "Confirmação de atualização"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Restart plasmashell"
-msgstr "Plasmashell herstarten"
+msgstr "Reiniciar o plasmashell"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Suggest after upgrading"
-msgstr "Vragen na opwaarderen"
+msgstr "Sugerir após a atualização"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid ""
 "After upgrading widget, the old version will still remain in memory until "
 "you restart plasmashell. To avoid doing this manually, enable this option."
 msgstr ""
-"Na het opwaarderen van de widget blijft de oude versie in het geheugen "
-"totdat je plasmashell herstart. Schakel deze optie in om niet handmatig te "
-"hoeven herstarten."
+"Após atualizar o widget, a versão antiga ainda permanecerá na memória até "
+"que você reinicie o plasmashell. Para evitar fazer isso manualmente, "
+"habilite esta opção."
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Command"
-msgstr ""
+msgstr "Comando"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Use NerdFont icons"
-msgstr "NerdFont-pictogrammen gebruiken"
+msgstr "Use ícones NerdFont"
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid ""
 "If your terminal utilizes any <b>Nerd Font</b>, icons from that font will be "
 "used."
 msgstr ""
-"Als je terminalvenster gebruikmaakt van <b>Nerd Font</b>, dan worden "
-"pictogrammen daaruit gebruikt."
+"Se o seu terminal utilizar qualquer <b>NerdFont</b>, os ícones dessa fonte "
+"serão usados."
 
 #: ../contents/ui/main.qml
 msgid "Auto check disabled"
-msgstr "Automatische controle is uitgeschakeld"
+msgstr "Verificação automática desabilitada"
 
 #: ../contents/ui/representation/Expanded.qml
 msgid "Filter by package name"
-msgstr "Filteren op pakketnaam"
+msgstr "Filtrar por nome do pacote"
 
 #: ../contents/ui/representation/Expanded.qml
 msgid "Disable auto search updates"
-msgstr "Automatische updatecontrole uitschakelen"
+msgstr "Desativar busca automática de atualizações"
 
 #: ../contents/ui/representation/Expanded.qml
 msgid "Enable auto search updates"
-msgstr "Automatische updatecontrole inschakelen"
+msgstr "Ativar busca automática de atualizações"
 
 #: ../contents/ui/representation/Expanded.qml
 msgid "Sort packages by name"
-msgstr "Pakketten sorteren op naam"
+msgstr "Ordenar pacotes por nome"
 
 #: ../contents/ui/representation/Expanded.qml
 msgid "Sort packages by repository"
-msgstr "Pakketten sorteren op pakketbron"
+msgstr "Ordenar pacotes por repositório"
 
 #: ../contents/ui/representation/Expanded.qml
 msgid "Stop checking"
-msgstr "Controle afbreken"
+msgstr "Pare a verificação"
 
 #: ../contents/ui/representation/Expanded.qml
 msgid "Compact view"
-msgstr "Compacte weergave"
+msgstr "Visualização compacta"
 
 #: ../contents/ui/representation/Expanded.qml
 msgid "Extended view"
-msgstr "Uitgebreide weergave"
+msgstr "Visualização extendida"
 
 #: ../contents/ui/representation/Expanded.qml
 msgid "Check out release notes"
-msgstr "Bekijk de release-opmerkingen"
+msgstr "Confira as notas de lançamento"
 
 #: ../contents/ui/representation/Expanded.qml
 msgid "Dismiss"
-msgstr "Negeren"
+msgstr "Recusar"
 
 #: ../contents/ui/representation/Expanded.qml
 msgid "System updated"
-msgstr "Het systeem is bijgewerkt"
+msgstr "Sistema atualizado"
 
 #: ../contents/ui/representation/Expanded.qml
 msgid "No unread news"
-msgstr ""
+msgstr "Nenhuma notícia não lida"
 
 #: ../contents/ui/representation/Expanded.qml
 msgid "Restore list"
-msgstr ""
+msgstr "Restaurar lista"
 
 #: ../contents/ui/scrollview/Extended.qml
 msgid "Upgrade package"
-msgstr "Pakket bijwerken"
+msgstr "Atualizar pacote"
 
 #: ../contents/ui/scrollview/Extended.qml
 msgid "Description"
-msgstr "Beschrijving"
+msgstr "Descrição"
 
 #: ../contents/ui/scrollview/Extended.qml
 msgid "Author"
-msgstr "Maker"
+msgstr "Autor"
 
 #: ../contents/ui/scrollview/Extended.qml
 msgid "App ID"
-msgstr "Programma-id"
+msgstr "App ID"
 
 #: ../contents/ui/scrollview/Extended.qml
 msgid "Branch"
-msgstr "Afsplitsing"
+msgstr "Branch"
 
 #: ../contents/ui/scrollview/Extended.qml
 msgid "Commit"
@@ -1042,48 +1048,48 @@ msgstr "Commit"
 
 #: ../contents/ui/scrollview/Extended.qml
 msgid "Runtime"
-msgstr "Uitvoerbaar bestand"
+msgstr "Runtime"
 
 #: ../contents/ui/scrollview/Extended.qml
 msgid "Groups"
-msgstr "Groepen"
+msgstr "Grupos"
 
 #: ../contents/ui/scrollview/Extended.qml
 msgid "Provides"
-msgstr "Biedt"
+msgstr "Fornece"
 
 #: ../contents/ui/scrollview/Extended.qml
 msgid "Depends on"
-msgstr "Vereist"
+msgstr "Depende de"
 
 #: ../contents/ui/scrollview/Extended.qml
 msgid "Required by"
-msgstr "Vereist door"
+msgstr "Exigido por"
 
 #: ../contents/ui/scrollview/Extended.qml
 msgid "Conflicts with"
-msgstr "Botst met"
+msgstr "Conflita com"
 
 #: ../contents/ui/scrollview/Extended.qml
 msgid "Replaces"
-msgstr "Vervangt"
+msgstr "Substitui"
 
 #: ../contents/ui/scrollview/Extended.qml
 msgid "Installed size"
-msgstr "Installatiegrootte"
+msgstr "Tamanho instalado"
 
 #: ../contents/ui/scrollview/Extended.qml
 msgid "Download size"
-msgstr "Downloadgrootte"
+msgstr "Tamanho do download"
 
 #: ../contents/ui/scrollview/Extended.qml
 msgid "Install date"
-msgstr "Installatiedatum"
+msgstr "Data de instalação"
 
 #: ../contents/ui/scrollview/Extended.qml
 msgid "Install reason"
-msgstr "Installatiereden"
+msgstr "Motivo da instalação"
 
 #: ../contents/ui/scrollview/News.qml
 msgid "Read article"
-msgstr "Artikel lezen"
+msgstr "Ler artigo"

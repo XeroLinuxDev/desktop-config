@@ -15,68 +15,100 @@ import "../../tools/tools.js" as JS
 SimpleKCM {
     property string cfg_terminal: plasmoid.configuration.terminal
     property alias cfg_termFont: termFont.checked
+
+    property string cfg_wrapper: plasmoid.configuration.wrapper
     property alias cfg_upgradeFlags: upgradeFlags.checked
     property alias cfg_upgradeFlagsText: upgradeFlagsText.text
     property alias cfg_sudoBin: sudoBin.text
-    property alias cfg_restartShell: restartShell.checked
-    property alias cfg_restartCommand: restartCommand.text
-
     property alias cfg_mirrors: mirrors.checked
     property alias cfg_mirrorCount: mirrorCount.value
     property var countryList: []
     property string cfg_dynamicUrl: plasmoid.configuration.dynamicUrl
 
+    property string cfg_flatpakFlags: plasmoid.configuration.flatpakFlags
+
+    property alias cfg_widgetConfirmation: widgetConfirmation.checked
+    property alias cfg_restartShell: restartShell.checked
+    property alias cfg_restartCommand: restartCommand.text
+
     property var pkg: plasmoid.configuration.packages
     property var terminals: plasmoid.configuration.terminals
 
+    property int currentTab
+    signal tabChanged(currentTab: int)
+    onCurrentTabChanged: tabChanged(currentTab)
+ 
+    header: Kirigami.NavigationTabBar {
+        actions: [
+            Kirigami.Action {
+                icon.name: "apdatifier-package"
+                text: "Arch"
+                checked: currentTab === 0
+                onTriggered: currentTab = 0
+            },
+            Kirigami.Action {
+                icon.name: "apdatifier-flatpak"
+                text: "Flatpak"
+                checked: currentTab === 1
+                onTriggered: currentTab = 1
+            },
+            Kirigami.Action {
+                icon.name: "start-here-kde-plasma-symbolic"
+                text: i18n("Widgets")
+                checked: currentTab === 2
+                onTriggered: currentTab = 2
+            },
+            Kirigami.Action {
+                icon.name: "akonadiconsole"
+                text: i18n("Terminal")
+                checked: currentTab === 3
+                onTriggered: currentTab = 3
+            }
+        ]
+    }
+
     Kirigami.FormLayout {
-        id: upgradePage
+        id: archTab
+        visible: currentTab === 0
 
         Item {
             Kirigami.FormData.isSection: true
         }
 
         RowLayout {
-            Kirigami.FormData.label: i18n("Terminal") + ":"
+            Kirigami.FormData.label: i18n("Wrapper") + ":"
+            spacing: Kirigami.Units.largeSpacing * 2
 
-            ComboBox {
-                model: terminals
-                textRole: "name"
-                enabled: terminals
-                implicitWidth: 150
-
-                onCurrentIndexChanged: {
-                    cfg_terminal = model[currentIndex]["value"]
-                }
-
-                Component.onCompleted: {
-                    if (terminals) {
-                        currentIndex = JS.setIndex(plasmoid.configuration.terminal, terminals)
-
-                        if (!plasmoid.configuration.terminal) {
-                            plasmoid.configuration.terminal = model[0]["value"]
-                        }
-                    }
-                }
+            ButtonGroup {
+                id: wrappersGroup
             }
 
-            Kirigami.UrlButton {
-                url: "https://github.com/exequtic/apdatifier#supported-terminals"
-                text: i18n("Not installed")
-                font.pointSize: Kirigami.Theme.smallFont.pointSize
-                color: Kirigami.Theme.neutralTextColor
-                visible: !terminals
+            RadioButton {
+                ButtonGroup.group: wrappersGroup
+                text: "paru"
+                enabled: pkg.paru
+                onCheckedChanged: cfg_wrapper = checked ? "paru" : "yay"
+                Component.onCompleted: checked = plasmoid.configuration.wrapper === text
+            }
+
+            RadioButton {
+                ButtonGroup.group: wrappersGroup
+                text: "yay"
+                enabled: pkg.yay
+                Component.onCompleted: checked = plasmoid.configuration.wrapper === text
             }
         }
 
-        RowLayout {
-            CheckBox {
-                id: termFont
-                text: i18n("Use NerdFont icons")
-            }
+        Item {
+            Kirigami.FormData.isSection: true
+        }
 
-            ContextualHelpButton {
-                toolTipText: i18n("If your terminal utilizes any <b>Nerd Font</b>, icons from that font will be used.")
+        RowLayout {
+            Kirigami.FormData.label: i18n("Upgrade options") + ":"
+            CheckBox {
+                id: upgradeFlags
+                text: i18n("Enable")
+                enabled: terminals
             }
         }
 
@@ -85,17 +117,22 @@ SimpleKCM {
             spacing: 0
             visible: pkg.pacman
 
-            CheckBox {
-                id: upgradeFlags
-                enabled: terminals
-            }
-
             TextField {
                 id: upgradeFlagsText
                 placeholderText: "--noconfirm"
                 placeholderTextColor: "grey"
                 enabled: pkg.pacman && upgradeFlags.checked
+
+                onTextChanged: {
+                    var allow = /^[a-z\- ]*$/
+                    if (!allow.test(upgradeFlagsText.text))
+                        upgradeFlagsText.text = upgradeFlagsText.text.replace(/[^a-z\- ]/g, "")
+                }
             }
+        }
+
+        Item {
+            Kirigami.FormData.isSection: true
         }
 
         RowLayout {
@@ -108,31 +145,23 @@ SimpleKCM {
             }
         }
 
-        Item {
+        Kirigami.Separator {
+            Kirigami.FormData.label: i18n("Pacman Mirrorlist Generator")
             Kirigami.FormData.isSection: true
         }
 
         RowLayout {
-            Kirigami.FormData.label: i18n("Restart plasmashell") + ":"
-
-            CheckBox {
-                id: restartShell
-                text: i18n("Suggest after upgrading")
-            }
-
-            ContextualHelpButton {
-                toolTipText: i18n("After upgrading widget, the old version will still remain in memory until you restart plasmashell. To avoid doing this manually, enable this option.")
+            Label {
+                horizontalAlignment: Text.AlignHCenter
+                font.pointSize: Kirigami.Theme.smallFont.pointSize
+                font.bold: true
+                color: Kirigami.Theme.negativeTextColor
+                text: i18n("Only for official repositories")
             }
         }
 
-        TextField {
-            id: restartCommand
-            visible: restartShell.checked
-        }
-
-        Kirigami.Separator {
-            Kirigami.FormData.label: i18n("Pacman Mirrorlist Generator")
-            Kirigami.FormData.isSection: true
+        Item {
+            Layout.preferredHeight: Kirigami.Units.smallSpacing * 2
         }
 
         RowLayout {
@@ -141,14 +170,13 @@ SimpleKCM {
             CheckBox {
                 id: mirrors
                 text: i18n("Suggest before upgrading")
-                enabled: pkg.pacman
+                enabled: pkg.pacman && pkg.checkupdates && pkg.curl
+                Component.onCompleted: if (checked && !enabled) checked = plasmoid.configuration.mirrors = false
             }
 
-            ContextualHelpButton {
+            Kirigami.ContextualHelpButton {
                 toolTipText: i18n("To use this feature, the following installed utilities are required:<br><b>curl, pacman-contrib.</b> <br><br>Also see https://archlinux.org/mirrorlist (click button to open link)")
-                onClicked: {
-                    Qt.openUrlExternally("https://archlinux.org/mirrorlist")
-                }
+                onClicked: Qt.openUrlExternally("https://archlinux.org/mirrorlist")
             }
         }
 
@@ -209,7 +237,7 @@ SimpleKCM {
                 enabled: mirrors.checked
             }
 
-            ContextualHelpButton {
+            Kirigami.ContextualHelpButton {
                 toolTipText: i18n("Number of servers to write to mirrorlist file. 0 for all.")
             }
         }
@@ -234,18 +262,18 @@ SimpleKCM {
                 }
             }
 
-            ContextualHelpButton {
+            Kirigami.ContextualHelpButton {
                 toolTipText: i18n("You must select at least one country, otherwise all will be chosen by default. <br><br><b>The more countries you select, the longer it will take to generate the mirrors!</b> <br><br>It is optimal to choose <b>1-2</b> countries closest to you.")
             }
         }
 
         ColumnLayout {
-            Layout.maximumWidth: upgradePage.width / 2
+            Layout.maximumWidth: archTab.width / 2.5
             Layout.maximumHeight: 200
             enabled: mirrors.checked
 
             ScrollView {
-                Layout.preferredWidth: upgradePage.width / 2
+                Layout.preferredWidth: archTab.width / 2.5
                 Layout.preferredHeight: 200
 
                 GridLayout {
@@ -269,6 +297,157 @@ SimpleKCM {
 
         Item {
             Kirigami.FormData.isSection: true
+        }
+    }
+
+    Kirigami.FormLayout {
+        id: flatpakTab
+        visible: currentTab === 1
+
+        Item {
+            Kirigami.FormData.isSection: true
+        }
+
+        ButtonGroup {
+            id: flatpakFlags
+        }
+
+        RowLayout{
+            Kirigami.FormData.label: i18n("Upgrade options") + ":"
+
+            RadioButton {
+                ButtonGroup.group: flatpakFlags
+                text: i18n("Normal")
+                checked: plasmoid.configuration.flatpakFlags === ""
+                onCheckedChanged: {
+                    if (checked) cfg_flatpakFlags = ""
+                }
+            }
+        }
+
+        RadioButton {
+            ButtonGroup.group: flatpakFlags
+            text: i18n("Normal, skip questions")
+            checked: plasmoid.configuration.flatpakFlags === "--assumeyes"
+            onCheckedChanged: {
+                if (checked) cfg_flatpakFlags = "--assumeyes"
+            }
+        }
+
+        RadioButton {
+            ButtonGroup.group: flatpakFlags
+            text: i18n("Non interactive, skip questions")
+            checked: plasmoid.configuration.flatpakFlags === "--noninteractive"
+            onCheckedChanged: {
+                if (checked) cfg_flatpakFlags = "--noninteractive"
+            }
+        }
+
+        RadioButton {
+            ButtonGroup.group: flatpakFlags
+            text: i18n("Verbose")
+            checked: plasmoid.configuration.flatpakFlags === "--verbose"
+            onCheckedChanged: {
+                if (checked) cfg_flatpakFlags = "--verbose"
+            }
+        }
+    }
+
+    Kirigami.FormLayout {
+        id: widgetsTab
+        visible: currentTab === 2
+
+        Item {
+            Kirigami.FormData.isSection: true
+        }
+
+        RowLayout {
+            Kirigami.FormData.label: i18n("Upgrade confirmation") + ":"
+
+            CheckBox {
+                id: widgetConfirmation
+                text: i18n("Enable")
+            }
+        }
+
+        Item {
+            Kirigami.FormData.isSection: true
+        }
+
+        RowLayout {
+            Kirigami.FormData.label: i18n("Restart plasmashell") + ":"
+
+            CheckBox {
+                id: restartShell
+                text: i18n("Suggest after upgrading")
+            }
+
+            Kirigami.ContextualHelpButton {
+                toolTipText: i18n("After upgrading widget, the old version will still remain in memory until you restart plasmashell. To avoid doing this manually, enable this option.")
+            }
+        }
+
+        RowLayout {
+            Kirigami.FormData.label: i18n("Command") + ":"
+
+            TextField {
+                id: restartCommand
+                enabled: restartShell.checked
+            }
+        }
+    }
+
+    Kirigami.FormLayout {
+        id: terminalTab
+        visible: currentTab === 3
+
+        Item {
+            Kirigami.FormData.isSection: true
+        }
+
+        RowLayout {
+            Kirigami.FormData.label: i18n("Terminal") + ":"
+
+            ComboBox {
+                model: terminals
+                textRole: "name"
+                enabled: terminals
+
+                onCurrentIndexChanged: cfg_terminal = model[currentIndex]["value"]
+
+                Component.onCompleted: {
+                    if (terminals) {
+                        currentIndex = JS.setIndex(plasmoid.configuration.terminal, terminals)
+
+                        if (!plasmoid.configuration.terminal) {
+                            plasmoid.configuration.terminal = model[0]["value"]
+                        }
+                    }
+                }
+            }
+
+            Kirigami.UrlButton {
+                url: "https://github.com/exequtic/apdatifier#supported-terminals"
+                text: i18n("Not installed")
+                font.pointSize: Kirigami.Theme.smallFont.pointSize
+                color: Kirigami.Theme.neutralTextColor
+                visible: !terminals
+            }
+        }
+
+        Item {
+            Kirigami.FormData.isSection: true
+        }
+
+        RowLayout {
+            CheckBox {
+                id: termFont
+                text: i18n("Use NerdFont icons")
+            }
+
+            Kirigami.ContextualHelpButton {
+                toolTipText: i18n("If your terminal utilizes any <b>Nerd Font</b>, icons from that font will be used.")
+            }
         }
     }
 

@@ -20,10 +20,14 @@ SimpleKCM {
 
     property alias cfg_arch: arch.checked
     property alias cfg_aur: aur.checked
-    property alias cfg_archNews: archNews.checked
     property alias cfg_flatpak: flatpak.checked
     property alias cfg_widgets: widgets.checked
-    property string cfg_wrapper: plasmoid.configuration.wrapper
+
+    property alias cfg_newsArch: newsArch.checked
+    property alias cfg_newsKDE: newsKDE.checked
+    property alias cfg_newsTWIK: newsTWIK.checked
+    property alias cfg_newsTWIKA: newsTWIKA.checked
+    property alias cfg_newsKeep: newsKeep.value
 
     property string cfg_middleAction: plasmoid.configuration.middleAction
     property string cfg_rightAction: plasmoid.configuration.rightAction
@@ -31,15 +35,63 @@ SimpleKCM {
     property string cfg_scrollDownAction: plasmoid.configuration.scrollDownAction
 
     property alias cfg_notifyUpdates: notifyUpdates.checked
+    property alias cfg_notifyEveryBump: notifyEveryBump.checked
+    property alias cfg_notifyNews: notifyNews.checked
     property alias cfg_notifyErrors: notifyErrors.checked
     property alias cfg_notifySound: notifySound.checked
-    property alias cfg_notifyEveryBump: notifyEveryBump.checked
     property alias cfg_notifyPersistent: notifyPersistent.checked
 
+    property var cfg: plasmoid.configuration
     property var pkg: plasmoid.configuration.packages
-    property var wrappers: plasmoid.configuration.wrappers
     property var terminals: plasmoid.configuration.terminals
     property var packageLink: "https://archlinux.org/packages/extra/x86_64/pacman-contrib"
+
+    property int currentTab
+    signal tabChanged(currentTab: int)
+    onCurrentTabChanged: tabChanged(currentTab)
+
+    property bool widgetsAvail: pkg.curl && pkg.jq && pkg.unzip && pkg.tar
+    property bool newsAvail: pkg.curl && pkg.jq
+    Component.onCompleted: {
+        JS.checkDependencies()
+        if (arch.checked && !pkg.pacman) arch.checked = plasmoid.configuration.arch = false
+        if (aur.checked && !pkg.pacman && !pkg.yay && !pkg.paru) aur.checked = plasmoid.configuration.aur = false
+        if (flatpak.checked && !pkg.flatpak) flatpak.checked = plasmoid.configuration.flatpak = false
+        if (widgets.checked && !widgetsAvail) widgets.checked = plasmoid.configuration.widgets = false
+        if (newsArch.checked && !newsAvail) newsArch.checked = plasmoid.configuration.newsArch = false
+        if (newsKDE.checked && !newsAvail) newsKDE.checked = plasmoid.configuration.newsKDE = false
+        if (newsTWIK.checked && !newsAvail) newsTWIK.checked = plasmoid.configuration.newsTWIK = false
+        if (newsTWIKA.checked && !newsAvail) newsTWIKA.checked = plasmoid.configuration.newsTWIKA = false
+    }
+ 
+    header: Kirigami.NavigationTabBar {
+        actions: [
+            Kirigami.Action {
+                icon.name: "search"
+                text: i18n("Search")
+                checked: currentTab === 0
+                onTriggered: currentTab = 0
+            },
+            Kirigami.Action {
+                icon.name: "notification-active"
+                text: i18n("Notifications")
+                checked: currentTab === 1
+                onTriggered: currentTab = 1
+            },
+            Kirigami.Action {
+                icon.name: "followmouse-symbolic"
+                text: i18n("Mouse actions")
+                checked: currentTab === 2
+                onTriggered: currentTab = 2
+            },
+            Kirigami.Action {
+                icon.name: "documentinfo"
+                text: i18n("Misc")
+                checked: currentTab === 3
+                onTriggered: currentTab = 3
+            }
+        ]
+    }
 
     ColumnLayout {
         Kirigami.InlineMessage {
@@ -52,8 +104,8 @@ SimpleKCM {
 
             actions: [
                 Kirigami.Action {
-                    text: i18n("Dismiss")
-                    icon.name: "dialog-close"
+                    text: "OK"
+                    icon.name: "checkmark"
                     onTriggered: plasmoid.configuration.configMsg = false
                 }
             ]
@@ -69,7 +121,12 @@ SimpleKCM {
         }
 
         Kirigami.FormLayout {
-            id: generalPage
+            id: searchTab
+            visible: currentTab === 0
+
+            Item {
+                Kirigami.FormData.isSection: true
+            }
 
             RowLayout {
                 Kirigami.FormData.label: i18n("Interval") + ":"
@@ -91,7 +148,7 @@ SimpleKCM {
                     text: i18n("minutes")
                 }
 
-                ContextualHelpButton {
+                Kirigami.ContextualHelpButton {
                     toolTipText: i18n("The current timer is reset when either of these settings is changed.")
                 }
             }
@@ -103,7 +160,7 @@ SimpleKCM {
                     enabled: interval.checked
                 }
 
-                ContextualHelpButton {
+                Kirigami.ContextualHelpButton {
                     toolTipText: i18n("If the option is <b>enabled</b>, update checking will begin immediately upon widget startup.<br><br>If the option is <b>disabled</b>, update checking will be initiated after a specified time interval has passed since the widget was started. <b>Recommended.</b>")
                 }
             }
@@ -113,19 +170,13 @@ SimpleKCM {
             }
 
             RowLayout {
-                Kirigami.FormData.label: i18n("Search") + ":"
+                Kirigami.FormData.label: i18n("Updates") + ":"
 
                 CheckBox {
                     id: arch
                     text: i18n("Arch Official Repositories")
                     enabled: pkg.pacman
-
-                    Component.onCompleted: {
-                        if (checked && !pkg.pacman) {
-                            checked = false
-                            cfg_arch = checked
-                        }
-                    }
+                    onCheckedChanged: if (!checked) aur.checked = false
                 }
             }
 
@@ -135,15 +186,8 @@ SimpleKCM {
 
                 CheckBox {
                     id: aur
-                    text: i18n("Arch User Repository")
-                    enabled: arch.checked && pkg.pacman && wrappers
-
-                    Component.onCompleted: {
-                        if (checked && !wrappers) {
-                            checked = false
-                            cfg_aur = checked
-                        }
-                    }
+                    text: i18n("Arch User Repository") + " (AUR)"
+                    enabled: arch.checked && (pkg.paru || pkg.yay)
                 }
 
                 Kirigami.UrlButton {
@@ -151,21 +195,7 @@ SimpleKCM {
                     text: instTip.text
                     font.pointSize: instTip.font.pointSize
                     color: instTip.color
-                    visible: pkg.pacman && !wrappers
-                }
-            }
-
-            RowLayout {
-                visible: pkg.pacman
-
-                CheckBox {
-                    id: archNews
-                    text: i18n("Arch Linux News")
-                    enabled: pkg.pacman && wrappers
-                }
-
-                ContextualHelpButton {
-                    toolTipText: i18n("It is necessary to have paru or yay installed.")
+                    visible: !pkg.paru && !pkg.yay
                 }
             }
 
@@ -176,13 +206,6 @@ SimpleKCM {
                     id: flatpak
                     text: i18n("Flatpak applications")
                     enabled: pkg.flatpak
-
-                    Component.onCompleted: {
-                        if (checked && !pkg.flatpak) {
-                            checked = false
-                            plasmoid.configuration.flatpak = checked
-                        }
-                    }
                 }
 
                 Kirigami.UrlButton {
@@ -199,63 +222,69 @@ SimpleKCM {
                 CheckBox {
                     id: widgets
                     text: i18n("Plasma Widgets")
+                    enabled: widgetsAvail
                 }
 
-                ContextualHelpButton {
-                    toolTipText: i18n("To use this feature, the following installed utilities are required:<br><b>curl, jq, xmlstarlet, unzip, tar</b>.<br><br>For widget developers:<br>Don't forget to update the metadata.json and specify the name of the applet and its version <b>exactly</b> as they appear on the KDE Store.")
+                Kirigami.ContextualHelpButton {
+                    toolTipText: i18n("To use this feature, the following installed utilities are required:<br><b>curl, jq, unzip, tar</b>.<br><br>For widget developers:<br>Don't forget to update the metadata.json and specify the name of the applet and its version <b>exactly</b> as they appear on the KDE Store.")
                 }
             }
 
             Item {
                 Kirigami.FormData.isSection: true
-                visible: aur.checked
             }
 
             RowLayout {
-                Kirigami.FormData.label: i18n("Wrapper") + ":"
-                visible: aur.checked
+                Kirigami.FormData.label: i18n("News") + ":"
 
-                ComboBox {
-                    model: wrappers
-                    textRole: "name"
-                    enabled: wrappers
-                    implicitWidth: 150
-
-                    onCurrentIndexChanged: {
-                        cfg_wrapper = model[currentIndex]["value"]
-                    }
-
-                    Component.onCompleted: {
-                        if (wrappers) {
-                            currentIndex = JS.setIndex(plasmoid.configuration.wrapper, wrappers)
-                        } else {
-                            plasmoid.configuration.wrapper = ""
-                        }
-                    }
+                CheckBox {
+                    id: newsArch
+                    text: i18n("Arch Linux News")
+                    enabled: newsAvail
                 }
             }
 
-            Item {
-                Kirigami.FormData.isSection: true
+            CheckBox {
+                id: newsKDE
+                text: "\"KDE Announcements\""
+                enabled: newsAvail
             }
 
-            QQC.ComboBox {
-                Kirigami.FormData.label: i18n("Mouse actions") + ":"
-                type: "middle"
-                labelText: i18n("middle click")
+            CheckBox {
+                id: newsTWIK
+                text: "\"This Week in KDE\""
+                enabled: newsAvail
             }
-            QQC.ComboBox {
-                type: "right"
-                labelText: i18n("right click")
+
+            CheckBox {
+                id: newsTWIKA
+                text: "\"This Week in KDE Apps\""
+                enabled: newsAvail
             }
-            QQC.ComboBox {
-                type: "scrollUp"
-                labelText: i18n("scroll up")
+
+            RowLayout {
+                Label {
+                    text: i18n("Keep")
+                }
+
+                SpinBox {
+                    id: newsKeep
+                    from: 1
+                    to: 10
+                    stepSize: 1
+                    value: newsKeep
+                    enabled: newsArch.checked || newsKDE.checked || newsTWIK.checked || newsTWIKA.checked
+                }
+
+                Label {
+                    text: i18np("news item from the feed", "news items from the feed", newsKeep.value)
+                }
             }
-            QQC.ComboBox {
-                type: "scrollDown"
-                labelText: i18n("scroll down")
-            }
+        }
+
+        Kirigami.FormLayout {
+            id: notificationsTab
+            visible: currentTab === 1
 
             Item {
                 Kirigami.FormData.isSection: true
@@ -264,7 +293,7 @@ SimpleKCM {
             CheckBox {
                 Kirigami.FormData.label: i18n("Notifications") + ":"
                 id: notifyUpdates
-                text: i18n("For new updates and news")
+                text: i18n("For new updates")
             }
 
             RowLayout {
@@ -274,9 +303,14 @@ SimpleKCM {
                     enabled: notifyUpdates.checked
                 }
 
-                ContextualHelpButton {
+                Kirigami.ContextualHelpButton {
                     toolTipText: i18n("If the option is <b>enabled</b>, notifications will be sent when a new version of the package is bumped, even if the package is already on the list. <b>More notifications.</b> <br><br>If the option is <b>disabled</b>, notifications will only be sent for packages that are not yet on the list. <b>Less notifications.</b>")
                 }
+            }
+
+            CheckBox {
+                id: notifyNews
+                text: i18n("For news")
             }
 
             CheckBox {
@@ -287,13 +321,17 @@ SimpleKCM {
             CheckBox {
                 id: notifySound
                 text: i18n("With sound")
-                enabled: notifyUpdates.checked || notifyErrors.checked
+                enabled: notifyUpdates.checked || notifyNews.checked || notifyErrors.checked
             }
 
             CheckBox {
                 id: notifyPersistent
                 text: i18n("Persistent")
-                enabled: notifyUpdates.checked || notifyErrors.checked
+                enabled: notifyUpdates.checked || notifyNews.checked || notifyErrors.checked
+            }
+
+            Item {
+                Kirigami.FormData.isSection: true
             }
 
             Kirigami.Separator {
@@ -307,9 +345,13 @@ SimpleKCM {
                     horizontalAlignment: Text.AlignHCenter
                     Layout.maximumWidth: 250
                     font.pointSize: instTip.font.pointSize
-                    text: i18n("To further configure, click the button below -> Application-specific settings -> Apdatifier")
+                    text: i18n("To further configure, click the button below -> Application Settings -> Apdatifier")
                     wrapMode: Text.WordWrap
                 }
+            }
+
+            Item {
+                Kirigami.FormData.isSection: true
             }
 
             Button {
@@ -322,6 +364,67 @@ SimpleKCM {
 
             Item {
                 Kirigami.FormData.isSection: true
+            }
+        }
+
+        Kirigami.FormLayout {
+            id: mouseActionsTab
+            visible: currentTab === 2
+
+            Item {
+                Kirigami.FormData.isSection: true
+            }
+
+            QQC.ComboBox {
+                Kirigami.FormData.label: i18n("Middle click") + ":"
+                type: "middle"
+            }
+
+            QQC.ComboBox {
+                Kirigami.FormData.label: i18n("Right click") + ":"
+                type: "right"
+                Kirigami.ContextualHelpButton {
+                    toolTipText: i18n("Do not enable this option if the widget is not used in the system tray; otherwise, you will not be able to open the settings by right-clicking.")
+                }
+            }
+
+            QQC.ComboBox {
+                Kirigami.FormData.label: i18n("Scroll up") + ":"
+                type: "scrollUp"
+            }
+
+            QQC.ComboBox {
+                Kirigami.FormData.label: i18n("Scroll down") + ":"
+                type: "scrollDown"
+            }
+
+            Item {
+                Kirigami.FormData.isSection: true
+            }
+        }
+
+        Kirigami.FormLayout {
+            id: miscTab
+            visible: currentTab === 3
+
+            Item {
+                Kirigami.FormData.isSection: true
+            }
+
+            RowLayout {
+                Layout.preferredWidth: miscTab.width - Kirigami.Units.largeSpacing * 10
+                Button {
+                    Layout.fillWidth: true
+                    Layout.maximumWidth: 500
+                    icon.name: "backup"
+                    text: i18n("Restore hidden tooltips")
+                    onClicked: {
+                        plasmoid.configuration.configMsg = true
+                        plasmoid.configuration.rulesMsg = true
+                        plasmoid.configuration.newsMsg = true
+                        plasmoid.configuration.version = "v0"
+                    }
+                }
             }
         }
     }

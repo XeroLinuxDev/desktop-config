@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apdatifier\n"
 "Report-Msgid-Bugs-To: https://github.com/exequtic/apdatifier\n"
-"POT-Creation-Date: 2024-07-06 11:23+0300\n"
+"POT-Creation-Date: 2024-11-17 22:34+0300\n"
 "PO-Revision-Date: 2024-06-15 01:04+0200\n"
 "Last-Translator: Peter Boos <mizu@posteo.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "General"
 msgstr "Allgemein"
 
-#: ../contents/config/config.qml ../contents/tools/tools.js
+#: ../contents/config/config.qml ../contents/tools/sh/messages
 msgid "Upgrade"
 msgstr "Aktualisierung"
 
@@ -38,26 +38,231 @@ msgstr "Regeln"
 msgid "Support me"
 msgstr "Unterstütze mich"
 
-#: ../contents/tools/tools.js
+#: ../contents/tools/sh/messages
 msgid "Full system upgrade"
 msgstr "Vollständiges System-Upgrade"
 
-#: ../contents/tools/tools.js
-msgid "Press Enter to close"
-msgstr "Eingabetaste drücken zum Beenden"
+#: ../contents/tools/sh/messages
+msgid "Flatpak Upgrade"
+msgstr ""
 
-#: ../contents/tools/tools.js ../contents/ui/components/Messages.qml
-msgid "Executed:"
-msgstr "Ausgeführt:"
+#: ../contents/tools/sh/messages
+msgid "Plasma Widgets Upgrade"
+msgstr ""
 
-#: ../contents/tools/tools.js
+#: ../contents/tools/sh/messages
 msgid "Read the Arch Wiki - Partial Upgrades"
 msgstr "Lesen Sie das Arch Wiki - Partielle Upgrades"
 
-#: ../contents/tools/tools.js
+#: ../contents/tools/sh/messages
 msgid "Perform full system upgrade instead partial upgrade!"
 msgstr ""
 "Führen Sie ein vollständiges System-Upgrade statt eines Teil-Upgrades durch!"
+
+#: ../contents/tools/sh/messages
+msgid "Total execution time:"
+msgstr ""
+
+#: ../contents/tools/sh/messages
+msgid "Press Enter to close"
+msgstr "Eingabetaste drücken zum Beenden"
+
+#: ../contents/tools/sh/messages
+msgid "Skipped..."
+msgstr ""
+
+#: ../contents/tools/sh/messages
+msgid "Fetching the latest filtered mirror list"
+msgstr "Abrufen der letzten gefilterten Spiegelserverliste"
+
+#: ../contents/tools/sh/messages
+msgid "Ranking mirrors by their connection and opening speed"
+msgstr ""
+"Ranking der Spiegelserver nach ihrer Verbindungs- und Öffnungsgeschwindigkeit"
+
+#: ../contents/tools/sh/messages
+msgid "Check your mirrorlist generator settings..."
+msgstr "Überprüfen Sie die Einstellungen Ihres Spiegellistengenerators..."
+
+#: ../contents/tools/sh/messages
+msgid "was updated with the following servers:"
+msgstr "wurde mit den folgenden Servern aktualisiert:"
+
+#: ../contents/tools/sh/messages
+msgid "To write to the mirrorlist file, sudo privileges are required"
+msgstr "Um in die Mirrorlist-Datei zu schreiben, sind sudo-Rechte erforderlich"
+
+#: ../contents/tools/sh/messages
+msgid "Your current mirrorlist:"
+msgstr "Ihre aktuelle Spiegelserverliste:"
+
+#: ../contents/tools/sh/messages
+msgid ""
+"For some widgets you may need to Log Out or restart plasmashell after upgrade"
+msgstr ""
+"Nach dem Upgrade mancher Widgets, müssen Sie sich neu anmelden oder "
+"Plasmashell neu starten"
+
+#: ../contents/tools/sh/messages
+msgid "Checking widgets for updates"
+msgstr "Prüfe Widgets auf Aktualisierungen"
+
+#: ../contents/tools/sh/messages
+msgid "Fetching data from the API"
+msgstr ""
+
+#: ../contents/tools/sh/messages
+msgid "Getting the download link"
+msgstr ""
+
+#: ../contents/tools/sh/messages
+msgid "Downloading package"
+msgstr ""
+
+#: ../contents/tools/sh/messages
+msgid "Proceed with upgrade?"
+msgstr ""
+
+#: ../contents/tools/sh/messages
+msgid "Restart plasmashell now?"
+msgstr "Plasmashell jetzt neu starten?"
+
+#: ../contents/tools/sh/messages
+msgid "No description"
+msgstr ""
+
+#: ../contents/tools/sh/messages ../contents/tools/tools.js
+msgid ""
+"Too many API requests in the last 15 minutes from your IP address, please "
+"try again later"
+msgstr ""
+"Zu viele API-Anfragen in den letzten 15 Minuten von Ihrer IP-Adresse, bitte "
+"versuchen Sie es später noch einmal"
+
+#: ../contents/tools/sh/messages ../contents/tools/tools.js
+msgid "Failed to retrieve data from the API"
+msgstr ""
+
+#: ../contents/tools/sh/messages ../contents/tools/tools.js
+msgid "Unkwnown error"
+msgstr ""
+
+#: ../contents/tools/sh/messages
+msgid "File metadata.json not found"
+msgstr "Die Datei metadata.json wurde nicht gefunden"
+
+#: ../contents/tools/sh/messages
+msgid "Errors in metadata.json file"
+msgstr "Fehler in der Datei metadata.json"
+
+#: ../contents/tools/sh/messages
+msgid "Unsupported file format"
+msgstr "Nicht unterstütztes Dateiformat"
+
+#: ../contents/tools/sh/messages
+msgid "No files for download"
+msgstr ""
+
+#: ../contents/tools/sh/messages
+msgid "No file tagged with version"
+msgstr ""
+
+#: ../contents/tools/sh/messages
+msgid "Multiple files are tagged with version"
+msgstr ""
+
+#: ../contents/tools/sh/messages
+msgid "Failed to download the package"
+msgstr ""
+
+#: ../contents/tools/sh/messages
+msgid "List all available packages in repositories"
+msgstr "Alle verfügbaren Pakete in Repositories auflisten"
+
+#: ../contents/tools/sh/messages
+msgid "List all installed packages"
+msgstr "Alle installierten Pakete auflisten"
+
+#: ../contents/tools/sh/messages
+msgid "List explicitly installed packages"
+msgstr "Explizit installierte Pakete auflisten"
+
+#: ../contents/tools/sh/messages
+msgid "List explicitly installed packages and isn't a dependency of anything"
+msgstr ""
+"Explizit installierte Pakete auflisten, die nicht als Abhängigkeiten "
+"installiert wurden"
+
+#: ../contents/tools/sh/messages
+msgid "List installed dependencies that aren't needed anymore (orphans)"
+msgstr ""
+"Installierte Abhängigkeiten auflisten, die nicht mehr benötigt werden "
+"(Waisen)"
+
+#: ../contents/tools/sh/messages
+msgid "Uninstall orphan packages"
+msgstr "Verwaiste Pakete deinstallieren"
+
+#: ../contents/tools/sh/messages
+msgid "Install (downgrade) a package from cache"
+msgstr "Pakete aus dem Zwischenspeicher installieren (downgraden)"
+
+#: ../contents/tools/sh/messages
+msgid "Remove ALL cached packages"
+msgstr "ALLE zwischengespeicherten Pakete entfernen"
+
+#: ../contents/tools/sh/messages
+msgid "Remove cached packages that are not currently installed"
+msgstr ""
+"Zwischengespeicherte Pakete entfernen, die derzeit nicht installiert sind"
+
+#: ../contents/tools/sh/messages
+msgid "Rebuild AUR python packages after python upgrade"
+msgstr "AUR Python-Pakete neu erstellen nach einem Python-Upgrade"
+
+#: ../contents/tools/sh/messages
+msgid "Refresh mirrorlist"
+msgstr "Spiegelserverliste auffrischen"
+
+#: ../contents/tools/sh/messages
+msgid "Exit"
+msgstr "Verlassen"
+
+#: ../contents/tools/sh/messages
+msgid "Review dependency warnings before removing"
+msgstr "Überprüfung von Warnungen vor dem Entfernen von Abhängigkeiten"
+
+#: ../contents/tools/sh/messages
+msgid "Resume?"
+msgstr "Fortfahren?"
+
+#: ../contents/tools/sh/messages
+msgid "Press Enter to return menu"
+msgstr "Drücken Sie die Enter, um zum Menü zurückzukehren"
+
+#: ../contents/tools/sh/messages
+msgid "Search:"
+msgstr "Suche:"
+
+#: ../contents/tools/sh/messages
+msgid "Executed:"
+msgstr "Ausgeführt:"
+
+#: ../contents/tools/sh/messages
+msgid "Nothing to do"
+msgstr "Nichts zu tun"
+
+#: ../contents/tools/sh/messages
+msgid "Required installed"
+msgstr "Erforderlich installiert"
+
+#: ../contents/tools/tools.js
+msgid "Exit code: "
+msgstr ""
+
+#: ../contents/tools/tools.js
+msgid "Upgrade in progress..."
+msgstr ""
 
 #: ../contents/tools/tools.js
 msgid "Checking latest news..."
@@ -79,27 +284,13 @@ msgstr "Prüfe auf Widgets-Updates..."
 msgid "Unable check widgets: "
 msgstr "Widgets können nicht überprüft werden: "
 
-#: ../contents/tools/tools.js ../contents/ui/components/Messages.qml
-msgid ""
-"Too many API requests in the last 15 minutes from your IP address, please "
-"try again later"
-msgstr ""
-"Zu viele API-Anfragen in den letzten 15 Minuten von Ihrer IP-Adresse, bitte "
-"versuchen Sie es später noch einmal"
+#: ../contents/tools/tools.js
+msgid "some required utilities are not installed (curl, jq)"
+msgstr "einige erforderliche Dienstprogramme sind nicht installiert (curl, jq)"
 
 #: ../contents/tools/tools.js
-msgid "some required utilities are not installed (curl, jq, xmlstarlet)"
+msgid "latest commit"
 msgstr ""
-"einige erforderliche Dienstprogramme sind nicht installiert (curl, jq, "
-"xmlstarlet)"
-
-#: ../contents/tools/tools.js
-msgid "could not get data from the API"
-msgstr "konnte keine Daten von der API erhalten"
-
-#: ../contents/tools/tools.js ../contents/ui/configuration/General.qml
-msgid "Arch Linux News"
-msgstr "Arch Linux Nachrichten"
 
 #: ../contents/tools/tools.js
 msgid "+%1 new update"
@@ -107,25 +298,11 @@ msgid_plural "+%1 new updates"
 msgstr[0] "+%1 neues Update"
 msgstr[1] "+%1 neue Updates"
 
-#: ../contents/tools/tools.js ../contents/ui/configuration/Appearance.qml
+#: ../contents/tools/tools.js
 msgid "update is pending"
 msgid_plural "updates are pending"
 msgstr[0] "Update steht noch aus"
 msgstr[1] "Updates stehen noch aus"
-
-#: ../contents/tools/tools.js ../contents/ui/components/ComboBox.qml
-#: ../contents/ui/main.qml ../contents/ui/representation/Expanded.qml
-msgid "Upgrade system"
-msgstr "System aktualisieren"
-
-#: ../contents/tools/tools.js ../contents/ui/representation/Expanded.qml
-msgid "Read article"
-msgstr "Lese Artikel"
-
-#: ../contents/tools/tools.js ../contents/ui/components/ComboBox.qml
-#: ../contents/ui/main.qml ../contents/ui/representation/Expanded.qml
-msgid "Check updates"
-msgstr "Prüfe auf Updates"
 
 #: ../contents/tools/tools.js
 msgid "Last check:"
@@ -157,6 +334,16 @@ msgstr "vor"
 msgid "None"
 msgstr "Kein(e)"
 
+#: ../contents/ui/components/ComboBox.qml ../contents/ui/main.qml
+#: ../contents/ui/representation/Expanded.qml
+msgid "Check updates"
+msgstr "Prüfe auf Updates"
+
+#: ../contents/ui/components/ComboBox.qml ../contents/ui/main.qml
+#: ../contents/ui/representation/Expanded.qml
+msgid "Upgrade system"
+msgstr "System aktualisieren"
+
 #: ../contents/ui/components/ComboBox.qml
 msgid "Switch interval"
 msgstr "Intervall wechseln"
@@ -166,151 +353,23 @@ msgstr "Intervall wechseln"
 msgid "Management"
 msgstr "Verwaltung"
 
-#: ../contents/ui/components/Messages.qml
-msgid "Fetching the latest filtered mirror list..."
-msgstr "Abrufen der letzten gefilterten Spiegelserverliste..."
-
-#: ../contents/ui/components/Messages.qml
-msgid "Ranking mirrors by their connection and opening speed..."
-msgstr ""
-"Ranking der Spiegelserver nach ihrer Verbindungs- und "
-"Öffnungsgeschwindigkeit..."
-
-#: ../contents/ui/components/Messages.qml
-msgid "Check your mirrorlist generator settings..."
-msgstr "Überprüfen Sie die Einstellungen Ihres Spiegellistengenerators..."
-
-#: ../contents/ui/components/Messages.qml
-msgid "was updated with the following servers:"
-msgstr "wurde mit den folgenden Servern aktualisiert:"
-
-#: ../contents/ui/components/Messages.qml
-msgid "To write to the mirrorlist file, sudo privileges are required"
-msgstr "Um in die Mirrorlist-Datei zu schreiben, sind sudo-Rechte erforderlich"
-
-#: ../contents/ui/components/Messages.qml
-msgid "Your current mirrorlist:"
-msgstr "Ihre aktuelle Spiegelserverliste:"
-
-#: ../contents/ui/components/Messages.qml
-msgid ""
-"For some widgets you may need to Log Out or restart plasmashell after upgrade"
-msgstr ""
-"Nach dem Upgrade mancher Widgets, müssen Sie sich neu anmelden oder "
-"Plasmashell neu starten"
-
-#: ../contents/ui/components/Messages.qml
-msgid "Checking widgets for updates..."
-msgstr "Prüfe Widgets auf Aktualisierungen..."
-
-#: ../contents/ui/components/Messages.qml
-msgid "Fetching information about widget..."
-msgstr "Hole Informationen über Widget..."
-
-#: ../contents/ui/components/Messages.qml
-msgid "Downloading"
-msgstr "Herunterladen"
-
-#: ../contents/ui/components/Messages.qml
-msgid "Restart plasmashell now?"
-msgstr "Plasmashell jetzt neu starten?"
-
-#: ../contents/ui/components/Messages.qml
-msgid "File metadata.json not found"
-msgstr "Die Datei metadata.json wurde nicht gefunden"
-
-#: ../contents/ui/components/Messages.qml
-msgid "Errors in metadata.json file"
-msgstr "Fehler in der Datei metadata.json"
-
-#: ../contents/ui/components/Messages.qml
-msgid "Unsupported file format"
-msgstr "Nicht unterstütztes Dateiformat"
-
-#: ../contents/ui/components/Messages.qml
-msgid "List all available packages in repositories"
-msgstr "Alle verfügbaren Pakete in Repositories auflisten"
-
-#: ../contents/ui/components/Messages.qml
-msgid "List all installed packages"
-msgstr "Alle installierten Pakete auflisten"
-
-#: ../contents/ui/components/Messages.qml
-msgid "List explicitly installed packages"
-msgstr "Explizit installierte Pakete auflisten"
-
-#: ../contents/ui/components/Messages.qml
-msgid "List explicitly installed packages and isn't a dependency of anything"
-msgstr ""
-"Explizit installierte Pakete auflisten, die nicht als Abhängigkeiten "
-"installiert wurden"
-
-#: ../contents/ui/components/Messages.qml
-msgid "List installed dependencies that aren't needed anymore (orphans)"
-msgstr ""
-"Installierte Abhängigkeiten auflisten, die nicht mehr benötigt werden "
-"(Waisen)"
-
-#: ../contents/ui/components/Messages.qml
-msgid "Uninstall orphan packages"
-msgstr "Verwaiste Pakete deinstallieren"
-
-#: ../contents/ui/components/Messages.qml
-msgid "Install (downgrade) a package from cache"
-msgstr "Pakete aus dem Zwischenspeicher installieren (downgraden)"
-
-#: ../contents/ui/components/Messages.qml
-msgid "Remove ALL cached packages"
-msgstr "ALLE zwischengespeicherten Pakete entfernen"
-
-#: ../contents/ui/components/Messages.qml
-msgid "Remove cached packages that are not currently installed"
-msgstr ""
-"Zwischengespeicherte Pakete entfernen, die derzeit nicht installiert sind"
-
-#: ../contents/ui/components/Messages.qml
-msgid "Rebuild AUR python packages after python upgrade"
-msgstr "AUR Python-Pakete neu erstellen nach einem Python-Upgrade"
-
-#: ../contents/ui/components/Messages.qml
-msgid "Refresh mirrorlist"
-msgstr "Spiegelserverliste auffrischen"
-
-#: ../contents/ui/components/Messages.qml
-msgid "Exit"
-msgstr "Verlassen"
-
-#: ../contents/ui/components/Messages.qml
-msgid "Review dependency warnings before removing"
-msgstr "Überprüfung von Warnungen vor dem Entfernen von Abhängigkeiten"
-
-#: ../contents/ui/components/Messages.qml
-msgid "Resume?"
-msgstr "Fortfahren?"
-
-#: ../contents/ui/components/Messages.qml
-msgid "Press Enter to return menu"
-msgstr "Drücken Sie die Enter, um zum Menü zurückzukehren"
-
-#: ../contents/ui/components/Messages.qml
-msgid "Search:"
-msgstr "Suche:"
-
-#: ../contents/ui/components/Messages.qml
-msgid "Nothing to do"
-msgstr "Nichts zu tun"
-
-#: ../contents/ui/components/Messages.qml
-msgid "Required installed"
-msgstr "Erforderlich installiert"
-
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Panel Icon View"
 msgstr "Panel-Symbolansicht"
 
 #: ../contents/ui/configuration/Appearance.qml
+msgid "List View"
+msgstr "Listenansicht"
+
+#: ../contents/ui/configuration/Appearance.qml
 msgid "Shown when"
 msgstr "Angezeigt, wenn"
+
+#: ../contents/ui/configuration/Appearance.qml
+msgid "update is pending "
+msgid_plural "updates are pending "
+msgstr[0] "Update steht noch aus"
+msgstr[1] "Updates stehen noch aus"
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Default"
@@ -371,8 +430,28 @@ msgid "Shadow"
 msgstr "Schatten"
 
 #: ../contents/ui/configuration/Appearance.qml
-msgid "Bold"
-msgstr "Fett"
+msgid "Font"
+msgstr ""
+
+#: ../contents/ui/configuration/Appearance.qml
+msgid "Default system font"
+msgstr ""
+
+#: ../contents/ui/configuration/Appearance.qml
+msgid "Font bold"
+msgstr ""
+
+#: ../contents/ui/configuration/Appearance.qml
+msgid "Font size"
+msgstr ""
+
+#: ../contents/ui/configuration/Appearance.qml
+msgid "Left spacing"
+msgstr ""
+
+#: ../contents/ui/configuration/Appearance.qml
+msgid "Side margins"
+msgstr ""
 
 #: ../contents/ui/configuration/Appearance.qml
 msgid "Offset"
@@ -403,10 +482,6 @@ msgid "Bottom-Right"
 msgstr "Unten rechts"
 
 #: ../contents/ui/configuration/Appearance.qml
-msgid "List View"
-msgstr "Listenansicht"
-
-#: ../contents/ui/configuration/Appearance.qml
 msgid "Use built-in icons"
 msgstr "Integrierte Symbole"
 
@@ -421,10 +496,12 @@ msgid "View"
 msgstr "Ansicht"
 
 #: ../contents/ui/configuration/Appearance.qml
+#: ../contents/ui/representation/Expanded.qml
 msgid "Compact"
 msgstr "Kompakt"
 
 #: ../contents/ui/configuration/Appearance.qml
+#: ../contents/ui/representation/Expanded.qml
 msgid "Extended"
 msgstr "Erweitert"
 
@@ -468,6 +545,30 @@ msgstr ""
 "Sie können die Registerkarten auch wechseln, indem Sie die Maus mit "
 "gedrückter rechter Maustaste nach links und rechts ziehen."
 
+#: ../contents/ui/configuration/Appearance.qml
+msgid "Show tab texts"
+msgstr ""
+
+#: ../contents/ui/configuration/Appearance.qml
+msgid "Hide \"News\" tab if no content"
+msgstr ""
+
+#: ../contents/ui/configuration/General.qml
+msgid "Search"
+msgstr "Suche"
+
+#: ../contents/ui/configuration/General.qml
+msgid "Notifications"
+msgstr "Benachrichtigungen"
+
+#: ../contents/ui/configuration/General.qml
+msgid "Mouse actions"
+msgstr "Maus-Aktionen"
+
+#: ../contents/ui/configuration/General.qml
+msgid "Misc"
+msgstr ""
+
 #: ../contents/ui/configuration/General.qml
 msgid ""
 "Configuration is automatically saved in a config file and loaded at every "
@@ -476,12 +577,6 @@ msgstr ""
 "Die Konfiguration wird automatisch in einer Konfigurationsdatei gespeichert "
 "und bei jedem Start geladen, sodass Sie Ihre Einstellungen nie verlieren. "
 "Die Konfigurationsdatei wird gespeichert in "
-
-#: ../contents/ui/configuration/General.qml
-#: ../contents/ui/configuration/Rules.qml
-#: ../contents/ui/representation/Expanded.qml
-msgid "Dismiss"
-msgstr "Ablehnen"
 
 #: ../contents/ui/configuration/General.qml
 msgid ""
@@ -523,8 +618,8 @@ msgstr ""
 "Start des Widgets eingeleitet. <b>Empfohlen.</b>"
 
 #: ../contents/ui/configuration/General.qml
-msgid "Search"
-msgstr "Suche"
+msgid "Updates"
+msgstr ""
 
 #: ../contents/ui/configuration/General.qml
 msgid "Arch Official Repositories"
@@ -533,10 +628,6 @@ msgstr "Arch offizielle Repositorien"
 #: ../contents/ui/configuration/General.qml
 msgid "Arch User Repository"
 msgstr "Arch Nutzer Repositorien"
-
-#: ../contents/ui/configuration/General.qml
-msgid "It is necessary to have paru or yay installed."
-msgstr "Es ist erforderlich, dass paru oder yay installiert ist."
 
 #: ../contents/ui/configuration/General.qml
 msgid "Flatpak applications"
@@ -554,47 +645,38 @@ msgstr "Plasma Widgets"
 #: ../contents/ui/configuration/General.qml
 msgid ""
 "To use this feature, the following installed utilities are required:"
-"<br><b>curl, jq, xmlstarlet, unzip, tar</b>.<br><br>For widget developers:"
-"<br>Don't forget to update the metadata.json and specify the name of the "
-"applet and its version <b>exactly</b> as they appear on the KDE Store."
+"<br><b>curl, jq, unzip, tar</b>.<br><br>For widget developers:<br>Don't "
+"forget to update the metadata.json and specify the name of the applet and "
+"its version <b>exactly</b> as they appear on the KDE Store."
 msgstr ""
 "Um diese Funktion nutzen zu können, müssen die folgenden Dienstprogramme "
-"installiert sein:<br><b>curl, jq, xmlstarlet, unzip, tar</b>.<br><br>Für "
-"Widget-Entwickler:<br>Vergessen Sie nicht, die metadata.json zu "
-"aktualisieren und den Namen des Applets und seine Version <b>genau</b> so "
-"anzugeben, wie sie im im KDE Store erscheinen."
+"installiert sein:<br><b>curl, jq, unzip, tar</b>.<br><br>Für Widget-"
+"Entwickler:<br>Vergessen Sie nicht, die metadata.json zu aktualisieren und "
+"den Namen des Applets und seine Version <b>genau</b> so anzugeben, wie sie "
+"im im KDE Store erscheinen."
 
 #: ../contents/ui/configuration/General.qml
-msgid "Wrapper"
-msgstr "Hülle"
+#: ../contents/ui/representation/Expanded.qml
+msgid "News"
+msgstr ""
 
 #: ../contents/ui/configuration/General.qml
-msgid "Mouse actions"
-msgstr "Maus-Aktionen"
+msgid "Arch Linux News"
+msgstr "Arch Linux Nachrichten"
 
 #: ../contents/ui/configuration/General.qml
-msgid "middle click"
-msgstr "Mittelklick"
+msgid "Keep"
+msgstr ""
 
 #: ../contents/ui/configuration/General.qml
-msgid "right click"
-msgstr "Rechtsklick"
+msgid "news item from the feed"
+msgid_plural "news items from the feed"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../contents/ui/configuration/General.qml
-msgid "scroll up"
-msgstr "nach oben scrollen"
-
-#: ../contents/ui/configuration/General.qml
-msgid "scroll down"
-msgstr "nach unten scrollen"
-
-#: ../contents/ui/configuration/General.qml
-msgid "Notifications"
-msgstr "Benachrichtigungen"
-
-#: ../contents/ui/configuration/General.qml
-msgid "For new updates and news"
-msgstr "Für neue Updates und Nachrichten"
+msgid "For new updates"
+msgstr ""
 
 #: ../contents/ui/configuration/General.qml
 msgid "For every version bump"
@@ -616,6 +698,10 @@ msgstr ""
 "<b>Weniger Benachrichtigungen.</b>"
 
 #: ../contents/ui/configuration/General.qml
+msgid "For news"
+msgstr ""
+
+#: ../contents/ui/configuration/General.qml
 msgid "For errors"
 msgstr "Für Fehler"
 
@@ -629,8 +715,8 @@ msgstr "Persistente"
 
 #: ../contents/ui/configuration/General.qml
 msgid ""
-"To further configure, click the button below -> Application-specific "
-"settings -> Apdatifier"
+"To further configure, click the button below -> Application Settings -> "
+"Apdatifier"
 msgstr ""
 "Um weitere Einstellungen vorzunehmen, klicken Sie auf die Schaltfläche unten "
 "-> Anwendungsspezifische Einstellungen -> Apdatierer"
@@ -638,6 +724,32 @@ msgstr ""
 #: ../contents/ui/configuration/General.qml
 msgid "Configure..."
 msgstr "Konfigurieren..."
+
+#: ../contents/ui/configuration/General.qml
+msgid "Middle click"
+msgstr "Mittelklick"
+
+#: ../contents/ui/configuration/General.qml
+msgid "Right click"
+msgstr "Rechtsklick"
+
+#: ../contents/ui/configuration/General.qml
+msgid ""
+"Do not enable this option if the widget is not used in the system tray; "
+"otherwise, you will not be able to open the settings by right-clicking."
+msgstr ""
+
+#: ../contents/ui/configuration/General.qml
+msgid "Scroll up"
+msgstr "Nach oben scrollen"
+
+#: ../contents/ui/configuration/General.qml
+msgid "Scroll down"
+msgstr "Nach unten scrollen"
+
+#: ../contents/ui/configuration/General.qml
+msgid "Restore hidden tooltips"
+msgstr ""
 
 #: ../contents/ui/configuration/Rules.qml
 msgid "Unimportant"
@@ -686,6 +798,18 @@ msgstr ""
 "Liste der Regeln in dieser Reihenfolge stehen: "
 
 #: ../contents/ui/configuration/Rules.qml
+msgid "Show in the list"
+msgstr ""
+
+#: ../contents/ui/configuration/Rules.qml
+msgid "Exclude from the list"
+msgstr ""
+
+#: ../contents/ui/configuration/Rules.qml ../contents/ui/scrollview/News.qml
+msgid "Remove"
+msgstr ""
+
+#: ../contents/ui/configuration/Rules.qml
 msgid "Add rule"
 msgstr "Regel hinzufügen"
 
@@ -707,45 +831,32 @@ msgid "Visit %1"
 msgstr "Besuch %1"
 
 #: ../contents/ui/configuration/Upgrade.qml
+msgid "Widgets"
+msgstr ""
+
+#: ../contents/ui/configuration/Upgrade.qml
 msgid "Terminal"
 msgstr "Terminal"
 
 #: ../contents/ui/configuration/Upgrade.qml
-msgid "Use NerdFont icons"
-msgstr "Benutze Nerd-Schriftartsymbole"
+msgid "Wrapper"
+msgstr "Hülle"
 
 #: ../contents/ui/configuration/Upgrade.qml
-msgid ""
-"If your terminal utilizes any <b>Nerd Font</b>, icons from that font will be "
-"used."
+msgid "Upgrade options"
 msgstr ""
-"Wenn Ihr Terminal eine <b>Nerd-Schriftart</b> verwendet, werden die Symbole "
-"dieser Schriftart verwendet."
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Options"
 msgstr "Optionen"
 
 #: ../contents/ui/configuration/Upgrade.qml
-msgid "Restart plasmashell"
-msgstr "Plasmashell neustarten"
-
-#: ../contents/ui/configuration/Upgrade.qml
-msgid "Suggest after upgrading"
-msgstr "Nach dem Upgrade vorschlagen"
-
-#: ../contents/ui/configuration/Upgrade.qml
-msgid ""
-"After upgrading widget, the old version will still remain in memory until "
-"you restart plasmashell. To avoid doing this manually, enable this option."
-msgstr ""
-"Nach der Aktualisierung des Widgets verbleibt die alte Version im Speicher, "
-"bis SiePlasmashell neu starten. Um zu vermeiden dies manuell machen zu "
-"müssen, aktivieren Sie diese Option."
-
-#: ../contents/ui/configuration/Upgrade.qml
 msgid "Pacman Mirrorlist Generator"
 msgstr "Pacman-Spiegellisten-Generator"
+
+#: ../contents/ui/configuration/Upgrade.qml
+msgid "Only for official repositories"
+msgstr ""
 
 #: ../contents/ui/configuration/Upgrade.qml
 msgid "Generator"
@@ -808,6 +919,59 @@ msgstr ""
 "Spiegel zu erstellen!</b> <br><br>Optimal ist es die Länder auszuwählen,  "
 "<b>1-2</b> die Ihnen am nächsten liegen."
 
+#: ../contents/ui/configuration/Upgrade.qml
+msgid "Normal"
+msgstr ""
+
+#: ../contents/ui/configuration/Upgrade.qml
+msgid "Normal, skip questions"
+msgstr ""
+
+#: ../contents/ui/configuration/Upgrade.qml
+msgid "Non interactive, skip questions"
+msgstr ""
+
+#: ../contents/ui/configuration/Upgrade.qml
+msgid "Verbose"
+msgstr ""
+
+#: ../contents/ui/configuration/Upgrade.qml
+msgid "Upgrade confirmation"
+msgstr ""
+
+#: ../contents/ui/configuration/Upgrade.qml
+msgid "Restart plasmashell"
+msgstr "Plasmashell neustarten"
+
+#: ../contents/ui/configuration/Upgrade.qml
+msgid "Suggest after upgrading"
+msgstr "Nach dem Upgrade vorschlagen"
+
+#: ../contents/ui/configuration/Upgrade.qml
+msgid ""
+"After upgrading widget, the old version will still remain in memory until "
+"you restart plasmashell. To avoid doing this manually, enable this option."
+msgstr ""
+"Nach der Aktualisierung des Widgets verbleibt die alte Version im Speicher, "
+"bis SiePlasmashell neu starten. Um zu vermeiden dies manuell machen zu "
+"müssen, aktivieren Sie diese Option."
+
+#: ../contents/ui/configuration/Upgrade.qml
+msgid "Command"
+msgstr ""
+
+#: ../contents/ui/configuration/Upgrade.qml
+msgid "Use NerdFont icons"
+msgstr "Benutze Nerd-Schriftartsymbole"
+
+#: ../contents/ui/configuration/Upgrade.qml
+msgid ""
+"If your terminal utilizes any <b>Nerd Font</b>, icons from that font will be "
+"used."
+msgstr ""
+"Wenn Ihr Terminal eine <b>Nerd-Schriftart</b> verwendet, werden die Symbole "
+"dieser Schriftart verwendet."
+
 #: ../contents/ui/main.qml
 msgid "Auto check disabled"
 msgstr "Automatische Prüfung deaktiviert"
@@ -849,12 +1013,20 @@ msgid "Check out release notes"
 msgstr "Versionshinweise ansehen"
 
 #: ../contents/ui/representation/Expanded.qml
-msgid "Hide"
-msgstr "Verbergen"
+msgid "Dismiss"
+msgstr "Ablehnen"
 
 #: ../contents/ui/representation/Expanded.qml
 msgid "System updated"
 msgstr "System aktualisiert"
+
+#: ../contents/ui/representation/Expanded.qml
+msgid "No unread news"
+msgstr ""
+
+#: ../contents/ui/representation/Expanded.qml
+msgid "Restore list"
+msgstr ""
 
 #: ../contents/ui/scrollview/Extended.qml
 msgid "Upgrade package"
@@ -923,3 +1095,7 @@ msgstr "Installationsdatum"
 #: ../contents/ui/scrollview/Extended.qml
 msgid "Install reason"
 msgstr "Installationsgrund"
+
+#: ../contents/ui/scrollview/News.qml
+msgid "Read article"
+msgstr "Lese Artikel"
