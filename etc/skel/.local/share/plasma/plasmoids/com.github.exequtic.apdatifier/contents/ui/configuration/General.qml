@@ -35,6 +35,7 @@ SimpleKCM {
     property string cfg_scrollDownAction: plasmoid.configuration.scrollDownAction
 
     property alias cfg_notifyUpdates: notifyUpdates.checked
+    property alias cfg_notifyAction: notifyAction.checked
     property alias cfg_notifyEveryBump: notifyEveryBump.checked
     property alias cfg_notifyNews: notifyNews.checked
     property alias cfg_notifyErrors: notifyErrors.checked
@@ -55,7 +56,7 @@ SimpleKCM {
     Component.onCompleted: {
         JS.checkDependencies()
         if (arch.checked && !pkg.pacman) arch.checked = plasmoid.configuration.arch = false
-        if (aur.checked && !pkg.pacman && !pkg.yay && !pkg.paru) aur.checked = plasmoid.configuration.aur = false
+        if (aur.checked && (!pkg.pacman || (!pkg.yay && !pkg.paru))) aur.checked = plasmoid.configuration.aur = false
         if (flatpak.checked && !pkg.flatpak) flatpak.checked = plasmoid.configuration.flatpak = false
         if (widgets.checked && !widgetsAvail) widgets.checked = plasmoid.configuration.widgets = false
         if (newsArch.checked && !newsAvail) newsArch.checked = plasmoid.configuration.newsArch = false
@@ -290,10 +291,18 @@ SimpleKCM {
                 Kirigami.FormData.isSection: true
             }
 
-            CheckBox {
-                Kirigami.FormData.label: i18n("Notifications") + ":"
-                id: notifyUpdates
-                text: i18n("For new updates")
+            RowLayout {
+                spacing: Kirigami.Units.largeSpacing * 2
+                CheckBox {
+                    Kirigami.FormData.label: i18n("Notifications") + ":"
+                    id: notifyUpdates
+                    text: i18n("For new updates")
+                }
+                CheckBox {
+                    id: notifyAction
+                    text: i18n("Upgrade button")
+                    enabled: notifyUpdates.checked
+                }
             }
 
             RowLayout {

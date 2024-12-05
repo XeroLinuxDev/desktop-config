@@ -23,6 +23,7 @@ PlasmoidItem {
        id: base
        Layout.minimumWidth: isVertical ? root.width : anchoDeSepardor + margins
        Layout.maximumHeight: isVertical ? anchoDeSepardor + margins : root.height
+
        Row {
           height: separator.height
           width: separator.width
