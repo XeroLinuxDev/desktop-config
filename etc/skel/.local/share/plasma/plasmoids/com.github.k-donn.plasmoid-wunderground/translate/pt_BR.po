@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plasmoid-wunderground\n"
 "Report-Msgid-Bugs-To: https://github.com/k-donn/plasmoid-wunderground\n"
-"POT-Creation-Date: 2024-11-10 16:16-0500\n"
+"POT-Creation-Date: 2024-12-18 16:43-0500\n"
 "PO-Revision-Date: 2024-10-01 00:00+0000\n"
 "Last-Translator: JULIANO MADEIRA <julianomadeira@yahoo.com>\n"
 "Language-Team: Portuguese (Brazil) <LL@li.org>\n"
@@ -32,7 +32,7 @@ msgstr "Estação"
 msgid "Appearance"
 msgstr "Aparência"
 
-#: ../contents/config/config.qml
+#: ../contents/config/config.qml ../contents/ui/config/ConfigUnits.qml
 msgid "Units"
 msgstr "Unidades"
 
@@ -146,35 +146,35 @@ msgstr "Tamanho do texto da temperatura"
 
 #: ../contents/ui/config/ConfigAppearance.qml
 msgid "small (16x16)"
-msgstr ""
+msgstr "pequeno (16x16)"
 
 #: ../contents/ui/config/ConfigAppearance.qml
 msgid "smallMedium (22x22)"
-msgstr ""
+msgstr "pequeno-médio (22x22)"
 
 #: ../contents/ui/config/ConfigAppearance.qml
 msgid "medium (32x32)"
-msgstr ""
+msgstr "médio (32x32)"
 
 #: ../contents/ui/config/ConfigAppearance.qml
 msgid "large (48x48)"
-msgstr ""
+msgstr "grande (48x48)"
 
 #: ../contents/ui/config/ConfigAppearance.qml
 msgid "huge (64x64)"
-msgstr ""
+msgstr "enorme (64x64)"
 
 #: ../contents/ui/config/ConfigAppearance.qml
 msgid "enormous (128x128)"
-msgstr ""
+msgstr "gigante (128x128)"
 
 #: ../contents/ui/config/ConfigAppearance.qml
 msgid "Details icon size:"
-msgstr ""
+msgstr "Tamanho dos ícones de detalhes:"
 
 #: ../contents/ui/config/ConfigAppearance.qml
 msgid "Top panel icon margins:"
-msgstr ""
+msgstr "Margens dos ícones do painel superior:"
 
 #: ../contents/ui/config/ConfigAppearance.qml
 msgid "Use system theme icons:"
@@ -182,7 +182,7 @@ msgstr "Usar ícones do tema do sistema:"
 
 #: ../contents/ui/config/ConfigAppearance.qml
 msgid "Apply system colors to icons:"
-msgstr ""
+msgstr "Aplicar cores do sistema aos ícones:"
 
 #: ../contents/ui/config/ConfigAppearance.qml
 msgid "Auto-color temperature:"
@@ -192,7 +192,7 @@ msgstr "Temperatura de cor automática:"
 msgid "Weather Details"
 msgstr "Detalhes do Tempo"
 
-#: ../contents/ui/config/ConfigAppearance.qml ../contents/ui/SwitchPanel.qml
+#: ../contents/ui/config/ConfigAppearance.qml ../contents/ui/config/ConfigUnits.qml ../contents/ui/SwitchPanel.qml
 msgid "Forecast"
 msgstr "Previsão"
 
@@ -249,6 +249,27 @@ msgid "Refresh period (s):"
 msgstr "Período de atualização (s):"
 
 #: ../contents/ui/config/ConfigUnits.qml
+msgid "Precision"
+msgstr ""
+
+#: ../contents/ui/config/ConfigUnits.qml
+msgid "Temperature:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigUnits.qml ../contents/ui/DetailsItem.qml
+msgid "WIND & GUST"
+msgstr "VENTO E RAJADA"
+
+#. i18n strings
+#: ../contents/ui/config/ConfigUnits.qml ../contents/ui/DetailsItem.qml
+msgid "Feels like %1"
+msgstr "Sensação de %1"
+
+#: ../contents/ui/config/ConfigUnits.qml ../contents/ui/DetailsItem.qml
+msgid "DEWPOINT"
+msgstr "PONTO DE ORVALHO"
+
+#: ../contents/ui/config/ConfigUnits.qml
 msgctxt "The unit system"
 msgid "Metric"
 msgstr "Métrico"
@@ -296,20 +317,8 @@ msgid "Elevation unit:"
 msgstr "Unidade de elevação:"
 
 #: ../contents/ui/DetailsItem.qml
-msgid "WIND & GUST"
-msgstr "VENTO E RAJADA"
-
-#: ../contents/ui/DetailsItem.qml
-msgid "Feels like %1"
-msgstr "Sensação de %1"
-
-#: ../contents/ui/DetailsItem.qml
 msgid "Wind from: %1 (%2°)"
 msgstr "Vento de: %1 (%2°)"
-
-#: ../contents/ui/DetailsItem.qml
-msgid "DEWPOINT"
-msgstr "PONTO DE ORVALHO"
 
 #: ../contents/ui/DetailsItem.qml
 msgctxt "Precipitaion rate"
