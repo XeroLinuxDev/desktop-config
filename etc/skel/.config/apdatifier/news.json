@@ -1,1 +1,44 @@
-[]
+[
+  {
+    "title": "KDE Community",
+    "article": "KDE Plasma 6.2.5, Bugfix Release for December",
+    "date": "Tuesday, 31 December 2024, 01:00",
+    "link": "https://kde.org/announcements/plasma/6/6.2.5/",
+    "removed": true
+  },
+  {
+    "title": "This Week in Plasma on KDE Blogs",
+    "article": "This Week in Plasma: end-of-year bug fixing",
+    "date": "Saturday, 21 December 2024, 05:00",
+    "link": "https://blogs.kde.org/2024/12/21/this-week-in-plasma-end-of-year-bug-fixing/",
+    "removed": true
+  },
+  {
+    "title": "This Week in Plasma on KDE Blogs",
+    "article": "This Week in Plasma: Better fractional scaling",
+    "date": "Saturday, 14 December 2024, 05:00",
+    "link": "https://blogs.kde.org/2024/12/14/this-week-in-plasma-better-fractional-scaling/",
+    "removed": true
+  },
+  {
+    "title": "KDE Community",
+    "article": "KDE Ships Frameworks 6.9.0",
+    "date": "Friday, 13 December 2024, 01:00",
+    "link": "https://kde.org/announcements/frameworks/6/6.9.0/",
+    "removed": true
+  },
+  {
+    "title": "KDE Community",
+    "article": "KDE ⚙️ Gear 24.12",
+    "date": "Thursday, 12 December 2024, 01:00",
+    "link": "https://kde.org/announcements/gear/24.12.0/",
+    "removed": true
+  },
+  {
+    "title": "Arch Linux: Recent news updates",
+    "article": "Providing a license for package sources",
+    "date": "Tuesday, 19 November 2024, 10:13",
+    "link": "https://archlinux.org/news/providing-a-license-for-package-sources/",
+    "removed": true
+  }
+]
