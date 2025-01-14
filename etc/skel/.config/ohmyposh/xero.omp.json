@@ -3,52 +3,72 @@
   "blocks": [
     {
       "alignment": "left",
+      "newline": true,
       "segments": [
         {
+          "background": "#0c7bbb",
           "foreground": "#ffffff",
-          "style": "plain",
-          "template": "<#C591E8>\u276f</><#69FF94>\u276f</> ",
+          "leading_diamond": "\u256d\u2500\ue0b2",
+          "properties": {
+            "alpine": "\uf300",
+            "arch": "\uf303",
+            "centos": "\uf304",
+            "debian": "\uf306",
+            "elementary": "\uf309",
+            "fedora": "\uf30a",
+            "gentoo": "\uf30d",
+            "linux": "\ue712",
+            "macos": "\ue711",
+            "manjaro": "\uf312",
+            "mint": "\uf30f",
+            "opensuse": "\uf314",
+            "raspbian": "\uf315",
+            "ubuntu": "\uf31c",
+            "windows": "\ue70f"
+          },
+          "style": "diamond",
+          "template": " {{ if .WSL }}\ue712 on {{ end }}{{ .Icon }}  ",
+          "type": "os"
+        },
+        {
+          "background": "#DA627D",
+          "foreground": "#ffffff",
+          "powerline_symbol": "\ue0b0",
+          "style": "diamond",
+          "template": " 🏠  ",
           "type": "text"
         },
         {
-          "foreground": "#56B6C2",
+          "background": "#8a62da",
+          "foreground": "#ffffff",
+          "powerline_symbol": "\ue0b0",
           "properties": {
             "style": "folder"
           },
-          "style": "plain",
-          "template": "{{ .Path }} ",
+          "style": "powerline",
+          "template": " {{ .Path }} ",
           "type": "path"
         },
         {
-          "foreground": "#D0666F",
+          "background": "#191f48",
+          "foreground": "#43CCEA",
+          "style": "powerline",
+          "powerline_symbol": "\ue0b0",
+          "foreground_templates": [
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}#FF9248{{ end }}",
+            "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#ff4500{{ end }}",
+            "{{ if gt .Ahead 0 }}#B388FF{{ end }}",
+            "{{ if gt .Behind 0 }}#B388FF{{ end }}"
+          ],
           "properties": {
-            "branch_icon": ""
+            "branch_max_length": 25,
+            "fetch_stash_count": true,
+            "fetch_status": true,
+            "fetch_upstream_icon": true
           },
-          "style": "plain",
-          "template": "<#5FAAE8>git:(</>{{ .HEAD }}<#5FAAE8>)</>",
+          "template": " {{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \ueb4b {{ .StashCount }}{{ end }} ",
+          "trailing_diamond": "\ue0b4",
           "type": "git"
-        },
-        {
-          "foreground": "#DCB977",
-          "style": "plain",
-          "template": " \uf119 ",
-          "type": "status"
-        }
-      ],
-      "type": "prompt"
-    },
-    {
-      "alignment": "right",
-      "segments": [
-        {
-          "foreground": "#ffffff",
-          "properties": {
-            "command": "git log --pretty=format:%cr -1 || date +%H:%M:%S",
-            "shell": "bash"
-          },
-          "style": "plain",
-          "template": " {{ .Output }} ",
-          "type": "command"
         }
       ],
       "type": "prompt"
@@ -58,14 +78,15 @@
       "newline": true,
       "segments": [
         {
-          "foreground": "#ffffff",
+          "foreground": "#0c7bbb",
           "style": "plain",
-          "template": "\uf441 ",
+          "template": "\u2570\u2500 >>_",
           "type": "text"
         }
       ],
       "type": "prompt"
     }
   ],
-  "version": 2
+  "final_space": true,
+  "version": 3
 }
