@@ -1,5 +1,26 @@
 [
   {
+    "title": "This Week in Plasma on KDE Blogs",
+    "article": "This Week in Plasma: Getting Plasma 6.3 in Great Shape",
+    "date": "Saturday, 18 January 2025, 08:00",
+    "link": "https://blogs.kde.org/2025/01/18/this-week-in-plasma-getting-plasma-6.3-in-great-shape/",
+    "removed": true
+  },
+  {
+    "title": "Arch Linux: Recent news updates",
+    "article": "Critical rsync security release 3.4.0",
+    "date": "Thursday, 16 January 2025, 19:33",
+    "link": "https://archlinux.org/news/critical-rsync-security-release-340/",
+    "removed": true
+  },
+  {
+    "title": "KDE Community",
+    "article": "KDE Ships Frameworks 6.10.0",
+    "date": "Thursday, 09 January 2025, 04:00",
+    "link": "https://kde.org/announcements/frameworks/6/6.10.0/",
+    "removed": true
+  },
+  {
     "title": "KDE Community",
     "article": "KDE Plasma 6.2.5, Bugfix Release for December",
     "date": "Tuesday, 31 December 2024, 01:00",
@@ -25,13 +46,6 @@
     "article": "KDE Ships Frameworks 6.9.0",
     "date": "Friday, 13 December 2024, 01:00",
     "link": "https://kde.org/announcements/frameworks/6/6.9.0/",
-    "removed": true
-  },
-  {
-    "title": "KDE Community",
-    "article": "KDE ⚙️ Gear 24.12",
-    "date": "Thursday, 12 December 2024, 01:00",
-    "link": "https://kde.org/announcements/gear/24.12.0/",
     "removed": true
   },
   {
