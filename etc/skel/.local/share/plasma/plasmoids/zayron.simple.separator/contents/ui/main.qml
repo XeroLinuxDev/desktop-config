@@ -1,7 +1,6 @@
-import QtQuick 2.12
+import QtQuick
 import QtQuick.Layouts 1.1
 import org.kde.kirigami as Kirigami
-import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.plasmoid
 
 PlasmoidItem {
@@ -16,7 +15,7 @@ PlasmoidItem {
     property int thickness: Plasmoid.configuration.thicknessSeparator
     property bool pointDesing: Plasmoid.configuration.pointDesing
 
-    Plasmoid.backgroundHints: PlasmaCore.Types.NoBackground | PlasmaCore.Types.ConfigurableBackground
+    //Plasmoid.backgroundHints: PlasmaCore.Types.NoBackground | PlasmaCore.Types.ConfigurableBackground
     preferredRepresentation: fullRepresentation
 
     fullRepresentation: RowLayout {
