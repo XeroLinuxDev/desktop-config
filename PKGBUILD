@@ -2,7 +2,7 @@
 pkgname=desktop-config
 _destname1="/etc"
 pkgver=3.3
-pkgrel=3
+pkgrel=4
 pkgdesc="Desktop Config for XeroLinux (Phase 2)"
 arch=('any')
 url="https://github.com/XeroLinuxDev"
