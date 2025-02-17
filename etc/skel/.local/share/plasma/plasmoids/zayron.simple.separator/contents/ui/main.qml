@@ -15,7 +15,6 @@ PlasmoidItem {
     property int thickness: Plasmoid.configuration.thicknessSeparator
     property bool pointDesing: Plasmoid.configuration.pointDesing
 
-    //Plasmoid.backgroundHints: PlasmaCore.Types.NoBackground | PlasmaCore.Types.ConfigurableBackground
     preferredRepresentation: fullRepresentation
 
     fullRepresentation: RowLayout {
@@ -42,10 +41,7 @@ PlasmoidItem {
                 anchors.centerIn: parent
                 radius: pointDesing ? height/2 : 0
              }
-
           }
-
        }
-
     }
 }
