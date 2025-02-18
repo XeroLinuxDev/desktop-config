@@ -194,7 +194,7 @@ immutability=1
 plugin=com.github.k-donn.plasmoid-wunderground
 
 [Containments][126][Applets][221][Configuration]
-PreloadWeight=70
+PreloadWeight=75
 popupHeight=340
 popupWidth=600
 
@@ -231,7 +231,7 @@ DialogHeight=87
 DialogWidth=2560
 
 [Containments][126][General]
-AppletOrder=158;208;216;152;196;151;213;209;221;131;204;211;227
+AppletOrder=158;208;216;152;196;221;151;213;209;131;204;211;227
 
 [Containments][132]
 activityId=
