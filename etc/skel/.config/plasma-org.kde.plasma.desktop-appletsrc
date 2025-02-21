@@ -140,10 +140,10 @@ popupHeight=450
 popupWidth=560
 
 [Containments][126][Applets][196][Configuration][Appearance]
-autoFontAndSize=false
-customDateFormat=ddd d MMM yy
+customDateFormat=ddd d MMM yy |
 dateDisplayFormat=BesideTime
-dateFormat=custom
+dateFormat=longDate
+displayTimezoneFormat=FullText
 fontFamily=Hack Nerd Font
 fontSize=12
 fontStyleName=Regular
@@ -550,7 +550,8 @@ ToolBoxButtonY=56
 positions={"1920x1080":[]}
 
 [Containments][87][Wallpaper][org.kde.image][General]
-Image=/usr/share/wallpapers/Xero-Plasma57.png
+Image=/usr/share/wallpapers/Xero-Plasma23.jpg
+PreviewImage=/usr/share/wallpapers/Xero-Plasma23.jpg
 SlidePaths=/usr/share/wallpapers/
 
 [Containments][9][Applets][24][Configuration]
