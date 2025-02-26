@@ -264,7 +264,7 @@ spinbutton:disabled:not(.vertical), entry:disabled {
 }
 
 colorchooser .popover.osd spinbutton:not(.vertical), notebook > stack:not(:only-child) entry:not(.search),
-notebook > stack:not(:only-child) spinbutton:not(.vertical), popover.background .linked entry, popover.background entry,
+notebook > stack:not(:only-child) spinbutton:not(.vertical), popover.background .linked > entry, popover.background entry,
 popover.background spinbutton:not(.vertical), spinbutton.flat:not(.vertical), entry.flat {
   border-radius: 0;
   transition: all 100ms cubic-bezier(0, 0, 0.2, 1), box-shadow 225ms cubic-bezier(0, 0, 0.2, 1);
@@ -1089,8 +1089,9 @@ splitbutton > separator {
 }
 
 splitbutton > menubutton > button {
-  padding-left: 4px;
-  padding-right: 4px;
+  min-width: 24px;
+  padding-left: 6px;
+  padding-right: 6px;
 }
 
 splitbutton.image-button > button {
@@ -1932,8 +1933,8 @@ banner > revealer > widget:backdrop > label, banner > revealer > widget:backdrop
 
 toolbarview > .top-bar .collapse-spacing,
 toolbarview > .bottom-bar .collapse-spacing {
-  padding-top: 3px;
-  padding-bottom: 3px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 toolbarview > .top-bar.raised,
@@ -2133,11 +2134,11 @@ treeview.view.trough:selected {
 columnview.view > header > button,
 treeview.view > header > button {
   padding: 2px 6px;
-  border-style: none solid solid none;
-  border-width: 1px;
-  border-color: rgba(255, 255, 255, 0.08);
-  border-radius: 0;
   background-clip: border-box;
+  border-style: none solid none none;
+  border-color: transparent;
+  border-radius: 0;
+  border-image: linear-gradient(to bottom, #31313a 20%, rgba(255, 255, 255, 0.08) 20%, rgba(255, 255, 255, 0.08) 80%, #31313a 80%) 0 1 0 0/0 1px 0 0 stretch;
 }
 
 columnview.view > header > button, columnview.view > header > button:hover, columnview.view > header > button:active,
@@ -2156,6 +2157,22 @@ treeview.view > header > button:disabled {
 columnview.view > header > button:last-child,
 treeview.view > header > button:last-child {
   border-right-style: none;
+}
+
+columnview.view > header > button sort-indicator,
+treeview.view > header > button sort-indicator {
+  min-height: 16px;
+  min-width: 16px;
+}
+
+columnview.view > header > button sort-indicator.ascending,
+treeview.view > header > button sort-indicator.ascending {
+  -gtk-icon-source: -gtk-icontheme("pan-up-symbolic");
+}
+
+columnview.view > header > button sort-indicator.descending,
+treeview.view > header > button sort-indicator.descending {
+  -gtk-icon-source: -gtk-icontheme("pan-down-symbolic");
 }
 
 columnview.view button.dnd,
@@ -2275,6 +2292,7 @@ popover.menu label.title {
 window.messagedialog .response-area button, window.dialog.message .dialog-action-area > button {
   color: rgba(255, 255, 255, 0.8);
   background-color: transparent;
+  box-shadow: none;
 }
 
 window.messagedialog .response-area button:hover, window.dialog.message .dialog-action-area > button:hover {
@@ -2712,6 +2730,10 @@ notebook > header.left tabs tab.reorderable-page, notebook > header.right tabs t
 notebook > stack:not(:only-child) {
   background-color: #31313a;
   border-radius: 10px;
+}
+
+notebook > stack:not(:only-child) .linked > entry:not(.vertical):first-child, notebook > stack:not(:only-child) .linked > entry:not(.vertical):last-child, notebook > stack:not(:only-child) .linked > entry:not(.vertical):only-child {
+  border-radius: 0;
 }
 
 /**************
@@ -3420,7 +3442,7 @@ headerbar splitbutton {
 }
 
 headerbar > windowhandle > box {
-  padding: 0 6px;
+  padding: 6px;
 }
 
 headerbar > windowhandle > box,
@@ -3527,6 +3549,11 @@ headerbar.default-decoration {
   box-shadow: none;
 }
 
+headerbar.default-decoration > windowhandle > box {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 headerbar.default-decoration windowcontrols button {
   min-height: 16px;
   min-width: 16px;
@@ -3559,8 +3586,8 @@ toolbarview > .bottom-bar headerbar.default-decoration {
 
 toolbarview > .top-bar headerbar.default-decoration > windowhandle > box,
 toolbarview > .bottom-bar headerbar.default-decoration > windowhandle > box {
-  padding-top: 3px;
-  padding-bottom: 3px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 toolbarview > .top-bar headerbar:backdrop,
@@ -3582,24 +3609,24 @@ toolbarview > .bottom-bar window.devel headerbar > windowhandle {
 
 toolbarview > .top-bar .collapse-spacing headerbar,
 toolbarview > .bottom-bar .collapse-spacing headerbar {
-  min-height: 42px;
+  min-height: 48px;
 }
 
 toolbarview > .top-bar .collapse-spacing headerbar > windowhandle > box,
 toolbarview > .bottom-bar .collapse-spacing headerbar > windowhandle > box {
-  padding-top: 3px;
-  padding-bottom: 3px;
+  padding-top: 6px;
+  padding-bottom: 6px;
 }
 
 toolbarview > .top-bar .collapse-spacing headerbar.default-decoration,
 toolbarview > .bottom-bar .collapse-spacing headerbar.default-decoration {
-  min-height: 30px;
+  min-height: 36px;
 }
 
 toolbarview > .top-bar .collapse-spacing headerbar.default-decoration > windowhandle > box,
 toolbarview > .bottom-bar .collapse-spacing headerbar.default-decoration > windowhandle > box {
-  padding-top: 0px;
-  padding-bottom: 0px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 headerbar separator.titlebutton {
@@ -4305,18 +4332,13 @@ row.combo popover > contents {
 /******************
  * AdwExpanderRow *
  ******************/
-list.content > row, list.content > row.expander row.header,
-list.boxed-list > row,
-list.boxed-list > row.expander row.header, row.expander list.nested > row {
+list.boxed-list-separate > row.expander row.header, list.boxed-list > row, list.boxed-list > row.expander row.header, row.expander list.nested > row {
   transition: 200ms cubic-bezier(0, 0, 0.2, 1);
   color: rgba(255, 255, 255, 0.7);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.osd list.content > row:focus:focus-visible, .osd list.content > row.expander row.header:focus:focus-visible, list.content > row.expander .osd row.header:focus:focus-visible,
-.osd list.boxed-list > row:focus:focus-visible,
-.osd list.boxed-list > row.expander row.header:focus:focus-visible,
-list.boxed-list > row.expander .osd row.header:focus:focus-visible, .osd row.expander list.nested > row:focus:focus-visible, row.expander .osd list.nested > row:focus:focus-visible {
+.osd list.boxed-list-separate > row.expander row.header:focus:focus-visible, list.boxed-list-separate > row.expander .osd row.header:focus:focus-visible, .osd list.boxed-list > row:focus:focus-visible, .osd list.boxed-list > row.expander row.header:focus:focus-visible, list.boxed-list > row.expander .osd row.header:focus:focus-visible, .osd row.expander list.nested > row:focus:focus-visible, row.expander .osd list.nested > row:focus:focus-visible {
   outline-color: rgba(255, 255, 255, 0.1);
 }
 
@@ -4374,32 +4396,48 @@ row.expander image.expander-row-arrow:disabled {
 /*****************
  * Boxed Lists *
  *****************/
-list.content > row.expander,
+list.boxed-list > .dim-label, list.boxed-list > label.separator, headerbar list.boxed-list > .subtitle, row list.boxed-list > label.subtitle, row.expander:not(:checked) list.boxed-list > image.expander-row-arrow {
+  padding: 18px;
+}
+
 list.boxed-list > row.expander {
   border: none;
 }
 
-list.content > row:first-child, list.content > row:first-child.expander row.header,
-list.boxed-list > row:first-child,
-list.boxed-list > row:first-child.expander row.header {
+list.boxed-list > row:first-child, list.boxed-list > row:first-child.expander row.header {
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
 }
 
-list.content > row:last-child, list.content > row:last-child.expander:not(:checked), list.content > row:last-child.expander:not(:checked) row.header, list.content > row:last-child.expander:checked list.nested, list.content > row:last-child.expander:checked list.nested > row:last-child, list.content > row:only-child, list.content > row:only-child.expander:not(:checked), list.content > row:only-child.expander:not(:checked) row.header, list.content > row:only-child.expander:checked list.nested, list.content > row:only-child.expander:checked list.nested > row:last-child,
-list.boxed-list > row:last-child,
-list.boxed-list > row:last-child.expander:not(:checked),
-list.boxed-list > row:last-child.expander:not(:checked) row.header,
-list.boxed-list > row:last-child.expander:checked list.nested,
-list.boxed-list > row:last-child.expander:checked list.nested > row:last-child,
-list.boxed-list > row:only-child,
-list.boxed-list > row:only-child.expander:not(:checked),
-list.boxed-list > row:only-child.expander:not(:checked) row.header,
-list.boxed-list > row:only-child.expander:checked list.nested,
-list.boxed-list > row:only-child.expander:checked list.nested > row:last-child {
+list.boxed-list > row:last-child, list.boxed-list > row:last-child.expander:not(:checked), list.boxed-list > row:last-child.expander:not(:checked) row.header, list.boxed-list > row:last-child.expander:checked list.nested, list.boxed-list > row:last-child.expander:checked list.nested > row:last-child, list.boxed-list > row:only-child, list.boxed-list > row:only-child.expander:not(:checked), list.boxed-list > row:only-child.expander:not(:checked) row.header, list.boxed-list > row:only-child.expander:checked list.nested, list.boxed-list > row:only-child.expander:checked list.nested > row:last-child {
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
   border-bottom-width: 0;
+}
+
+list.boxed-list-separate {
+  background: none;
+  color: #FFFFFF;
+}
+
+list.boxed-list-separate > row {
+  border: none;
+  margin-bottom: 12px;
+}
+
+list.boxed-list-separate > row:last-child {
+  margin-bottom: 0;
+}
+
+list.boxed-list-separate > row.expander row.header {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+list.boxed-list-separate > row.expander:not(:checked) row.header, list.boxed-list-separate > row.expander.expander:checked list.nested, list.boxed-list-separate > row.expander.expander:checked list.nested > row:last-child {
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  border-bottom: none;
 }
 
 /*********************
@@ -4500,6 +4538,10 @@ calendar > grid > label.day-number.other-month {
 /***********
  * Dialogs *
  ***********/
+window.dialog .dialog-content {
+  padding: 6px 12px;
+}
+
 window.dialog.message {
   color: rgba(255, 255, 255, 0.8);
 }
@@ -4541,23 +4583,16 @@ window.dialog.message list, window.dialog.message row, window.dialog.message .vi
   border-color: rgba(255, 255, 255, 0.12);
 }
 
+window.dialog.message .dialog-action-area {
+  padding: 12px;
+}
+
 window.dialog.message .dialog-action-area > button {
   padding: 8px 16px;
   border: none;
-  border-radius: 0;
   color: rgba(255, 255, 255, 0.8);
   margin: 0;
   border-spacing: 0;
-}
-
-window.dialog.message .dialog-action-area > button:first-child {
-  border-bottom-left-radius: 13px;
-  border-top-left-radius: 0;
-}
-
-window.dialog.message .dialog-action-area > button:last-child {
-  border-bottom-right-radius: 13px;
-  border-top-right-radius: 0;
 }
 
 window.dialog.message .linked:not(.vertical).dialog-action-area > button.suggested-action, window.dialog.message .linked:not(.vertical).dialog-action-area > button.suggested-action:hover {
@@ -4621,24 +4656,9 @@ window.messagedialog.background {
   background-color: rgba(68, 69, 75, 0.95);
 }
 
-window.messagedialog .message-area {
-  padding: 24px 30px;
-  border-spacing: 10px;
-}
-
 window.messagedialog .response-area button {
-  margin: 0;
   padding: 8px 16px;
   border: none;
-  border-radius: 0;
-}
-
-window.messagedialog .response-area button:first-child {
-  margin-left: 0;
-}
-
-window.messagedialog .response-area button:last-child {
-  margin-right: 0;
 }
 
 window.messagedialog .response-area button.suggested {
@@ -4651,6 +4671,77 @@ window.messagedialog .response-area button.destructive {
 
 window.messagedialog separator {
   background-color: rgba(255, 255, 255, 0.12);
+}
+
+window.messagedialog .message-area,
+dialog.alert .message-area {
+  padding-top: 32px;
+  padding-bottom: 9px;
+  border-spacing: 24px;
+}
+
+window.messagedialog .message-area.has-heading.has-body,
+dialog.alert .message-area.has-heading.has-body {
+  border-spacing: 10px;
+}
+
+window.messagedialog .message-area.has-heading.has-body > .child,
+dialog.alert .message-area.has-heading.has-body > .child {
+  margin-top: 8px;
+}
+
+window.messagedialog .message-area > .heading-bin, window.messagedialog .message-area > .body, window.messagedialog .message-area > .child,
+dialog.alert .message-area > .heading-bin,
+dialog.alert .message-area > .body,
+dialog.alert .message-area > .child {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+window.messagedialog .response-area,
+dialog.alert .response-area {
+  padding: 12px;
+  padding-top: 12px;
+  border-spacing: 12px;
+}
+
+window.messagedialog .response-area > button,
+dialog.alert .response-area > button {
+  min-height: 24px;
+  min-width: 60px;
+  padding: 10px 20px;
+  border-radius: 7px;
+}
+
+window.messagedialog.short .message-area,
+dialog.alert.short .message-area {
+  padding-top: 24px;
+  border-spacing: 18px;
+}
+
+window.messagedialog.short .message-area > .heading-bin, window.messagedialog.short .message-area > .body, window.messagedialog.short .message-area > .child,
+dialog.alert.short .message-area > .heading-bin,
+dialog.alert.short .message-area > .body,
+dialog.alert.short .message-area > .child {
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
+window.messagedialog.short .message-area.has-heading.has-body,
+dialog.alert.short .message-area.has-heading.has-body {
+  border-spacing: 6px;
+}
+
+window.messagedialog.short .response-area,
+dialog.alert.short .response-area {
+  padding: 12px;
+  padding-top: 9px;
+}
+
+window.messagedialog.short .response-area > button,
+dialog.alert.short .response-area > button {
+  min-width: 0;
+  padding: 8px 16px;
 }
 
 filechooser .dialog-action-box {
@@ -5555,7 +5646,6 @@ statusbar {
 
 .nautilus-window.background.csd #NautilusPathBar {
   border-radius: 9999px;
-  margin: 6px 0;
   padding: 0;
   background-image: linear-gradient(to bottom, #6C6AF2, #4648FB);
   background-size: auto auto;
@@ -5631,6 +5721,10 @@ statusbar {
   color: rgba(255, 255, 255, 0.3);
 }
 
+.nautilus-window.background.csd #NautilusQueryEditor > menubutton {
+  margin: 0;
+}
+
 .nautilus-window.background.csd #NautilusQueryEditor > menubutton > button.image-button {
   min-width: 28px;
   min-height: 28px;
@@ -5672,11 +5766,11 @@ statusbar {
 .nautilus-window.background.csd .floating-bar {
   min-height: 32px;
   padding: 0;
-  margin: 0;
-  border-style: solid solid none;
+  margin: 3px;
+  border-style: solid;
   border-width: 1px;
   border-color: rgba(255, 255, 255, 0.08);
-  border-radius: 13px 13px 0 0;
+  border-radius: 7px;
   color: #FFFFFF;
   background-color: #31313a;
   background-clip: border-box;
@@ -5684,27 +5778,8 @@ statusbar {
   box-shadow: none;
 }
 
-.nautilus-window.background.csd .floating-bar.bottom.left {
-  margin-right: 7px;
-  border-left-style: none;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 13px;
-}
-
-.nautilus-window.background.csd .floating-bar.bottom.right {
-  margin-left: 7px;
-  border-right-style: none;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 13px;
-}
-
 .nautilus-window.background.csd .floating-bar button {
   margin: 4px;
-}
-
-.nautilus-window.background.csd.maximized .floating-bar {
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
 }
 
 .details-page {
@@ -6861,6 +6936,10 @@ agenda-view list.background {
   background: alpha(#FDD835, 0.25);
 }
 
+window.background.view:not(.nautilus-window) {
+  background-color: #31313a;
+}
+
 avatar {
   border-radius: 9999px;
   font-weight: bold;
@@ -7007,8 +7086,7 @@ statuspage.compact > scrolledwindow > viewport > box > clamp > box > .title {
   font-size: 18pt;
 }
 
-list.content,
-list.boxed-list, .card {
+list.boxed-list, list.boxed-list-separate > row, .card {
   border-radius: 7px;
   box-shadow: none;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -7379,11 +7457,6 @@ tabbar.inline .box:backdrop > .end-action {
   transition: none;
 }
 
-toolbarview > .top-bar .collapse-spacing tabbar,
-toolbarview > .bottom-bar .collapse-spacing tabbar {
-  margin-bottom: -3px;
-}
-
 toolbarview > .top-bar .collapse-spacing tabbar tabbox,
 toolbarview > .bottom-bar .collapse-spacing tabbar tabbox,
 toolbarview > .top-bar .collapse-spacing tabbar .start-action,
@@ -7681,12 +7754,12 @@ toolbarview.undershoot-bottom scrolledwindow > undershoot.bottom {
 }
 
 .sidebar-pane banner > revealer > widget {
-  background-color: gtkmix(#5657f5, #3b3b43, 30%);
+  background-color: mix(#5657f5,#3b3b43,0.7);
   color: #FFFFFF;
 }
 
 .sidebar-pane banner > revealer > widget:backdrop {
-  background-color: gtkmix(#5657f5, #3b3b43, 30%);
+  background-color: mix(#5657f5,#3b3b43,0.7);
 }
 
 .sidebar-pane:dir(ltr), .sidebar-pane:dir(ltr) banner > revealer > widget, .sidebar-pane.end:dir(rtl), .sidebar-pane.end:dir(rtl) banner > revealer > widget {
@@ -7840,13 +7913,13 @@ toolbarview.undershoot-bottom scrolledwindow > undershoot.bottom {
 
 .content-pane .sidebar-pane banner > revealer > widget,
 .sidebar-pane .content-pane banner > revealer > widget {
-  background-color: gtkmix(#5657f5, #31313a, 30%);
+  background-color: mix(#5657f5,#31313a,0.7);
   color: #FFFFFF;
 }
 
 .content-pane .sidebar-pane banner > revealer > widget:backdrop,
 .sidebar-pane .content-pane banner > revealer > widget:backdrop {
-  background-color: gtkmix(#5657f5, #31313a, 30%);
+  background-color: mix(#5657f5,#31313a,0.7);
 }
 
 .content-pane .sidebar-pane:dir(ltr), .content-pane .sidebar-pane:dir(ltr) banner > revealer > widget, .content-pane .sidebar-pane.end:dir(rtl), .content-pane .sidebar-pane.end:dir(rtl) banner > revealer > widget,
@@ -7874,12 +7947,7 @@ toolbarview.undershoot-bottom scrolledwindow > undershoot.bottom {
 
 .top-bar {
   padding: 0;
-  background-color: #31313a;
   box-shadow: none;
-}
-
-.top-bar:backdrop {
-  background-color: #31313a;
 }
 
 .about .top-bar, .about .top-bar:backdrop, .sidebar-pane .top-bar, .sidebar-pane .top-bar:backdrop, .content-pane .top-bar, .content-pane .top-bar:backdrop {

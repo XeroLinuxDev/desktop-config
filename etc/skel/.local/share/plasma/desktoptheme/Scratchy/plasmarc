@@ -7,7 +7,7 @@ defaultHeight=1080
 [ContrastEffect]
 enabled=false
 contrast=0.2
-intensity=1.20
+intensity=0.6
 saturation=10
 
 [AdaptiveTransparency]

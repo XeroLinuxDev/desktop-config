@@ -2352,7 +2352,7 @@ popover.background > contents {
   transition: box-shadow 100ms cubic-bezier(0, 0, 0.2, 1);
   padding: 6px;
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.12), 0 4px 3px rgba(0, 0, 0, 0.16);
-  background-color: #3c3c46;
+  background-color: rgba(60, 60, 70, 0.95);
   border-radius: 11px;
   color: rgba(255, 255, 255, 0.7);
   border: none;
@@ -5515,7 +5515,7 @@ statusbar {
   background-size: 48px auto;
   background-position: left bottom;
   background-repeat: no-repeat;
-  background-color: #31313a;
+  background-color: rgba(49, 49, 58, 0.97);
 }
 
 .nautilus-window.background.csd:not(.view) headerbar, .nautilus-window.background.csd .sidebar-pane headerbar {
@@ -8216,3 +8216,4 @@ FIXME this is really an API */
 @define-color BLACK_500 #393634;
 @define-color BLACK_700 #33302F;
 @define-color BLACK_900 #2B2928;
+@import 'colors.css';
