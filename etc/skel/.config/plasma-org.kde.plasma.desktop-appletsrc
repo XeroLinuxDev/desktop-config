@@ -140,6 +140,7 @@ popupHeight=450
 popupWidth=560
 
 [Containments][126][Applets][196][Configuration][Appearance]
+autoFontAndSize=false
 customDateFormat=ddd d MMM yy |
 dateDisplayFormat=BesideTime
 dateFormat=longDate
@@ -425,8 +426,6 @@ aur=true
 checkOnStartup=true
 flatpak=true
 newsArch=true
-newsKDE=true
-newsTWIK=true
 notifyAction=true
 notifyErrors=false
 plasmoids=true
@@ -437,17 +436,18 @@ wrapper=/usr/bin/paru
 [Containments][132][Applets][223][Configuration][Miscellaneous]
 configMsg=false
 rulesMsg=false
-timestamp=1735992688723
-version=v2.9.1
+timestamp=1740566418259
+version=v2.9.2
 
 [Containments][132][Applets][223][Configuration][Upgrade]
-flatpakFlags=--assumeyes
+flatpakRemoveUnused=true
 rebootSystem=true
 refreshShell=true
 restartShell=true
 termFont=true
-terminal=/usr/bin/ghostty
+terminal=/usr/bin/konsole
 upgradeFlags=true
+upgradeFlagsText=--noconfirm
 wrapper=paru
 
 [Containments][132][Applets][228]
@@ -530,6 +530,7 @@ AppletOrder=233;230;169;229;232
 PreloadWeight=90
 
 [Containments][87]
+ItemGeometries-1920x1080=
 ItemGeometriesHorizontal=
 activityId=cd915191-804f-4d50-8fc3-f8e5c0279f54
 formfactor=0
