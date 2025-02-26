@@ -300,7 +300,7 @@ SimpleKCM {
                 }
                 CheckBox {
                     id: notifyAction
-                    text: "Upgrade button"
+                    text: i18n("Upgrade button")
                     enabled: notifyUpdates.checked
                 }
             }
@@ -432,6 +432,21 @@ SimpleKCM {
                         plasmoid.configuration.rulesMsg = true
                         plasmoid.configuration.newsMsg = true
                         plasmoid.configuration.version = "v0"
+                    }
+                }
+            }
+
+            RowLayout {
+                Layout.preferredWidth: miscTab.width - Kirigami.Units.largeSpacing * 10
+                Button {
+                    Layout.fillWidth: true
+                    Layout.maximumWidth: 500
+
+                    icon.name: "install"
+                    icon.color: Kirigami.Theme.negativeTextColor
+                    text: i18n("Install development version")
+                    onClicked: {
+                        JS.execute(JS.runInTerminal("utils", "install"))
                     }
                 }
             }

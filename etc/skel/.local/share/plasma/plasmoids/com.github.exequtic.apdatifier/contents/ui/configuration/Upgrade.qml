@@ -27,6 +27,7 @@ SimpleKCM {
     property var countryList: []
     property string cfg_dynamicUrl: plasmoid.configuration.dynamicUrl
 
+    property alias cfg_flatpakRemoveUnused: flatpakRemoveUnused.checked
     property string cfg_flatpakFlags: plasmoid.configuration.flatpakFlags
 
     property alias cfg_widgetConfirmation: widgetConfirmation.checked
@@ -35,7 +36,8 @@ SimpleKCM {
 
     property var pkg: plasmoid.configuration.packages
     property var terminals: plasmoid.configuration.terminals
-    property alias cfg_execScript: execScript.text
+    property alias cfg_preExec: preExec.text
+    property alias cfg_postExec: postExec.text
 
     property int currentTab
     signal tabChanged(currentTab: int)
@@ -123,32 +125,58 @@ SimpleKCM {
             }
         }
 
-        Item {
+        Kirigami.Separator {
+            Kirigami.FormData.label: i18n("Pre/post upgrade scripts")
             Kirigami.FormData.isSection: true
         }
 
         RowLayout {
-            Kirigami.FormData.label: "Command or script" + ":"
+            Kirigami.FormData.label: i18n("Pre-exec") + ":"
 
             TextField {
-                id: execScript
-                placeholderText: "Enter command or select script"
+                id: preExec
+                placeholderText: i18n("Command or script path")
                 placeholderTextColor: "grey"
             }
 
             Button {
                 icon.name: "document-open"
-                onClicked: fileDialog.open()
+                onClicked: fileDialogPreExec.open()
             }
 
             FileDialog {
-                id: fileDialog
+                id: fileDialogPreExec
                 fileMode: FileDialog.OpenFile
-                onAccepted: execScript.text = selectedFile.toString().substring(7)
+                onAccepted: preExec.text = selectedFile.toString().substring(7)
             }
 
             Kirigami.ContextualHelpButton {
-                toolTipText: "Executing your script or command at the end of the upgrade process."
+                toolTipText: i18n("Running your command or script BEFORE the upgrade.<br>For example, you can specify your command to update the mirrorlist if you have unofficial repositories.")
+            }
+        }
+
+        RowLayout {
+            Kirigami.FormData.label: i18n("Post-exec") + ":"
+
+            TextField {
+                id: postExec
+                placeholderText: i18n("Command or script path")
+                placeholderTextColor: "grey"
+            }
+
+            Button {
+                icon.name: "document-open"
+                onClicked: fileDialogPostExec.open()
+            }
+
+            FileDialog {
+                id: fileDialogPostExec
+                fileMode: FileDialog.OpenFile
+                onAccepted: postExec.text = selectedFile.toString().substring(7)
+            }
+
+            Kirigami.ContextualHelpButton {
+                toolTipText: i18n("Running your command or script AFTER the upgrade.<br>For example, you can specify your command to upgrade something else.")
             }
         }
     }
@@ -162,6 +190,7 @@ SimpleKCM {
         }
 
         RowLayout {
+            enabled: plasmoid.configuration.aur
             Kirigami.FormData.label: i18n("Wrapper") + ":"
             spacing: Kirigami.Units.largeSpacing * 2
 
@@ -182,6 +211,17 @@ SimpleKCM {
                 text: "yay"
                 enabled: pkg.yay
                 Component.onCompleted: checked = plasmoid.configuration.wrapper === text
+            }
+        }
+
+        RowLayout {
+            visible: !plasmoid.configuration.aur
+            Label {
+                horizontalAlignment: Text.AlignHCenter
+                font.pointSize: Kirigami.Theme.smallFont.pointSize
+                font.bold: true
+                color: Kirigami.Theme.negativeTextColor
+                text: i18n("AUR disabled in search settings")
             }
         }
 
@@ -236,7 +276,7 @@ SimpleKCM {
         }
 
         RowLayout {
-            Kirigami.FormData.label: "Reboot system" + ":"
+            Kirigami.FormData.label: i18n("Reboot system") + ":"
 
             CheckBox {
                 id: rebootSystem
@@ -406,6 +446,19 @@ SimpleKCM {
     Kirigami.FormLayout {
         id: flatpakTab
         visible: currentTab === 2
+
+        Item {
+            Kirigami.FormData.isSection: true
+        }
+
+        RowLayout {
+            Kirigami.FormData.label: i18n("Uninstall unused") + ":"
+
+            CheckBox {
+                id: flatpakRemoveUnused
+                text: i18n("Enable")
+            }
+        }
 
         Item {
             Kirigami.FormData.isSection: true

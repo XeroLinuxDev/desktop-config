@@ -210,15 +210,15 @@ rss() {
 
     for url in "$@"; do
         local rssFile=$(mktemp "$tempDir/XXXXXX.xml")
-        curl -m 10 -s -o "$rssFile" "$url" 2>/dev/null
-        [ ! -s $rssFile ] && continue
+        curl -s -o "$rssFile" --connect-timeout 5 --retry 2 --max-time 60 --url "$url" 2>/dev/null
+        xmllint --noout "$rssFile" 2>/dev/null || { echo $url; exit 1; }
 
         local title=$(xmllint --xpath "string(/rss/channel/title)" $rssFile)
         local article=$(xmllint --xpath "string(/rss/channel/item[1]/title)" $rssFile)
         local date=$(date -d "$(xmllint --xpath 'string(/rss/channel/item[1]/pubDate)' $rssFile)" +"%A, %d %B %Y, %H:%M")
         local link=$(xmllint --xpath "string(/rss/channel/item[1]/link)" $rssFile)
 
-        [[ -z "$title" || -z "$article" || -z "$date" || -z "$link" ]] && continue
+        [[ -z "$title" || -z "$article" || -z "$date" || -z "$link" ]] && { echo $url; exit 1; }
 
         while (( $(jq "[.[] | select(.title == \"$title\")] | length" "$newsFile") > newsKeep )); do
             index=$(jq --arg title "$title" 'to_entries | reverse | map(select(.value.title == $title)) | .[0].key' $newsFile)
@@ -236,7 +236,69 @@ rss() {
     jq . $newsFile
 }
 
+install() {
+    printMsg "Downloading latest commit"
+    echo
+
+    required="git jq kpackagetool6"
+    for cmd in ${required}; do command -v "$cmd" >/dev/null || { printError "Required installed ${cmd}"; exit; }; done;
+
+    commit=$(curl -s https://api.github.com/repos/exequtic/apdatifier/commits/main | jq -r '.sha' | cut -c1-7)
+
+    if [[ "github commit: $commit" = "$(jq -r '.KPlugin.Description' $appletDir/metadata.json)" ]]; then
+        printDone "Up to date"
+        printClose
+        exit
+    fi
+
+    while true; do
+        printQuestion "The version with the latest commits may be unstable. $WIDGETS_PROCEED"; read -r answer
+        case "$answer" in
+               [Yy]*) break;;
+            [Nn]*|"") printClose; exit;;
+                   *)  ;;
+        esac
+    done
+
+    if [ ! -z "$(kpackagetool6 -t Plasma/Applet -l 2>/dev/null | grep $applet)" ]; then
+        savedir=$(pwd)
+        clonedir=$(mktemp -d)
+        cd $clonedir
+        echo
+        git clone -n --depth=1 --filter=tree:0 -b main https://github.com/exequtic/apdatifier
+        cd apdatifier
+        git sparse-checkout set --no-cone package && git checkout
+
+        if [ $? -eq 0 ]; then
+            echo
+            printDone "Commit: $(git log -1 --format=%cd --date=short) $commit"
+            printMsg "Upgrading Apdatifier"
+            echo
+            cd package || exit 1
+            updateJson metadata.json "$(jq --arg new_value "github commit: $commit" '.KPlugin.Description = $new_value' metadata.json)"
+            cd translate || exit 1
+            bash build
+            echo
+            cd .. || exit 1
+            kpackagetool6 -t Plasma/Applet -u . 2>/dev/null
+            echo
+        fi
+
+        cd $savedir
+        [ ! -d $clonedir ] || rm -rf $clonedir
+
+        restartShell=true
+        restartPlasmashell
+    else
+        printError "Apdatifier not installed"
+    fi
+
+    printClose
+    exit
+}
+
 case "$1" in
              "rss") shift; rss "$@" ;;
     "combineFiles") shift; combineFiles $1 ;;
+         "install") install ;;
 esac

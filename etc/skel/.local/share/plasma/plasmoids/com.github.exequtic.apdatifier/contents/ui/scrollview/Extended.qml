@@ -13,6 +13,7 @@ import org.kde.plasma.components
 import org.kde.kirigami as Kirigami
 
 import "../../tools/tools.js" as JS
+import "../components"
 
 ScrollView {
     ScrollBar.vertical.policy: (sts.count === 0 || sts.busy || sts.err) ? ScrollBar.AlwaysOff : ScrollBar.AsNeeded
@@ -95,6 +96,7 @@ ScrollView {
 
                     Component.onCompleted: {
                         const details = []
+                        model.TP && details.push(i18n("Package type"), model.TP)
                         model.DE && details.push(i18n("Description"), model.DE)
                         model.AU && details.push(i18n("Author"), model.AU)
                         model.LN && details.push("URL", model.LN)
@@ -116,6 +118,10 @@ ScrollView {
                     }
                 }
             }
+        }
+
+        Placeholder {
+            anchors.fill: parent
         }
     }
 }

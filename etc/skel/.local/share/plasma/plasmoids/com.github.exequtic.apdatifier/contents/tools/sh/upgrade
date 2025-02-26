@@ -53,6 +53,12 @@ fullSystemUpgrade() {
 
         [ "$mirrors" = true ] && { $scriptDir/mirrorlist; echo; }
 
+        if [ -n "$preExec" ]; then
+            printExec "$preExec"
+            eval ${preExec}
+            printf '\n\033[32m'; printf '%.0s:' {1..48}; printf '\033[0m\n\n'
+        fi
+
         local archCmd="$bin -Syu"; [ "$upgradeFlags" = true ] && archCmd="$archCmd $upgradeFlagsText"
 
         printExec "$archCmd"
@@ -88,6 +94,13 @@ fullSystemUpgrade() {
         printExec "$flatpakCmd"
 
         eval ${flatpakCmd}
+
+        if [ "$flatpakRemoveUnused" = true ]; then
+            echo
+            local flatpakCmdUnused="flatpak uninstall --unused $flatpakFlags"
+            printExec "$flatpakCmdUnused"
+            eval ${flatpakCmdUnused}
+        fi
     fi
 
     if [ "$widgets" = true ]; then
@@ -96,12 +109,10 @@ fullSystemUpgrade() {
         $scriptDir/widgets upgradeAll
     fi
 
-    if [ -n "$execScript" ]; then
+    if [ -n "$postExec" ]; then
         printf '\n\033[32m'; printf '%.0s:' {1..48}; printf '\033[0m\n\n'
-
-        printExec "$execScript"
-
-        eval ${execScript}
+        printExec "$postExec"
+        eval ${postExec}
     fi
 
     trap ' ' SIGINT
@@ -113,9 +124,9 @@ fullSystemUpgrade() {
 
     if [ ${#critical_updated[@]} -gt 0 ]; then
         echo
-        printImportant "Critical package(s) updated, reboot may be required:" "${critical_updated[*]}"
+        printImportant "$UPGRADE_CRITICAL" "${critical_updated[*]}"
         while true; do
-            printQuestion "Do you want to reboot now?"; read -r answer
+            printQuestion "$UPGRADE_REBOOT"; read -r answer
             case "$answer" in
                     [Yy]*) qdbus6 org.kde.Shutdown /Shutdown logoutAndReboot;;
                  [Nn]*|"") break;;

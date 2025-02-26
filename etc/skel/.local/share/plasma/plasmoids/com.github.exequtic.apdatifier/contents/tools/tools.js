@@ -117,7 +117,7 @@ function saveConfig() {
 }
 
 function checkDependencies() {
-    const pkgs = "pacman checkupdates flatpak paru yay jq curl unzip tar alacritty foot ghostty gnome-terminal kitty konsole lxterminal terminator tilix wezterm xterm yakuake"
+    const pkgs = "pacman checkupdates flatpak paru yay jq curl unzip tar alacritty foot ghostty gnome-terminal kitty konsole lxterminal ptyxis terminator tilix wezterm xterm yakuake"
     const checkPkg = (pkgs) => `for pkg in ${pkgs}; do command -v $pkg || echo; done`
     const populate = (data) => data.map(item => ({ "name": item.split("/").pop(), "value": item }))
 
@@ -240,8 +240,12 @@ function checkUpdates() {
         sts.statusMsg = i18n("Checking latest news...")
 
         execute(bash('utils', 'rss', feeds), (cmd, out, err, code) => {
-            if (Error(code, err)) return
-            if (out) updateNews(out)
+            if (code) {
+                cfg.notifyErrors && notify.send("error", i18n("Cannot fetch news "), out)
+            } else {
+                if (out) updateNews(out)
+            }
+
             archCmd ? checkArch() : cfg.flatpak ? checkFlatpak() : cfg.widgets ? checkWidgets() : merge()
         }, true )
     }
@@ -264,9 +268,25 @@ function checkUpdates() {
     }
 
     function descArch(upd, all) {
-        execute(`pacman -Qi ${upd.map(s => s.split(" ")[0]).join(' ')}`, (cmd, out, err, code) => {
+        const pkgs = upd.map(l => l.split(" ")[0]).join(' ')
+        execute(`pacman -Qi ${pkgs}`, (cmd, out, err, code) => {
             if (Error(code, err)) return
-            arch = makeArchList(upd, all, out)
+            iconsArch(upd, all, out, pkgs)
+        }, true )
+    }
+
+    function iconsArch(upd, all, desc, pkgs) {
+        const getIcons = `\
+            while read -r pkg file; do
+                [[ "$processed" == *"$pkg"* ]] && continue
+                icon=$(awk -F= '/^Icon=/ {print $2; exit}' "$file") && [ -n "$icon" ] || continue
+                processed="$processed $pkg"
+                echo "$pkg $icon"
+            done < <(pacman -Ql ${pkgs} | grep '/usr/share/applications/.*\.desktop$')`
+
+        execute(getIcons, (cmd, out, err, code) => {
+            const icons = (out && !err) ? out.split('\n').map(l => ({ NM: l.split(' ')[0], IN: l.split(' ')[1] })) : []
+            arch = makeArchList(upd, all, desc, icons)
             cfg.flatpak ? checkFlatpak() : cfg.widgets ? checkWidgets() : merge()
         }, true )
     }
@@ -274,7 +294,7 @@ function checkUpdates() {
     function checkFlatpak() {
         sts.statusIco = cfg.ownIconsUI ? "status_flatpak" : "apdatifier-flatpak"
         sts.statusMsg = i18n("Checking flatpak updates...")
-        execute("flatpak update --appstream >/dev/null 2>&1; flatpak remote-ls --app --updates --show-details", (cmd, out, err, code) => {
+        execute("flatpak remote-ls --app --updates --show-details", (cmd, out, err, code) => {
             if (Error(code, err)) return
             out ? descFlatpak(out.trim()) : cfg.widgets ? checkWidgets() : merge()
         }, true )
@@ -362,7 +382,7 @@ function restoreNewsList() {
 }
 
 
-function makeArchList(updates, all, description) {
+function makeArchList(updates, all, description, icons) {
     if (!updates || !all || !description) return []
     description = description.replace(/^Installed From\s*:.+\n?/gm, '')
     const packagesData = description.split("\n\n")
@@ -384,9 +404,6 @@ function makeArchList(updates, all, description) {
         })
 
         if (Object.keys(packageObj).length > 0) {
-            const found = all.find(str => packageObj.NM === str.split(" ")[1])
-            packageObj.RE = found ? found.split(" ")[0] : (packageObj.NM.endsWith("-git") ? "devel" : "aur")
-            packageObj.LN = packageObj.LN.replace(/\/+$/, '')
             updates.forEach(str => {
                 const [name, verold, , vernew] = str.split(" ")
                 if (packageObj.NM === name) {
@@ -394,6 +411,12 @@ function makeArchList(updates, all, description) {
                     Object.assign(packageObj, { VO: verold, VN: verNew })
                 }
             })
+
+            const foundRepo = all.find(str => packageObj.NM === str.split(" ")[1])
+            packageObj.RE = foundRepo ? foundRepo.split(" ")[0] : (packageObj.NM.endsWith("-git") || packageObj.VN === i18n("latest commit") ? "devel" : "aur")
+
+            const foundIcon = icons.find(item => item.NM === packageObj.NM)
+            if (foundIcon) packageObj.IN = foundIcon.IN
         }
 
         return packageObj
@@ -406,7 +429,7 @@ function makeArchList(updates, all, description) {
 
 function makeFlatpakList(updates, description) {
     if (!updates || !description) return []
-    const list = description.split("\n").slice(1).reduce((obj, line) => {
+    const list = description.split("\n").reduce((obj, line) => {
         const [ID, VO, AC] = line.split("\t").map(entry => entry.trim())
         obj[ID] = { VO, AC }
         return obj
