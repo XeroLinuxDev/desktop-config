@@ -497,7 +497,7 @@ DialogWidth=720
 [Containments][168][Applets][169][Configuration][General]
 fill=false
 iconSpacing=0
-launchers=applications:org.kde.dolphin.desktop,applications:firefox.desktop,applications:org.kde.konsole.desktop,applications:gparted.desktop,applications:systemsettings.desktop
+launchers=applications:org.kde.dolphin.desktop,applications:librewolf.desktop,applications:org.kde.konsole.desktop,applications:gparted.desktop,applications:systemsettings.desktop
 
 [Containments][168][Applets][229]
 immutability=1
