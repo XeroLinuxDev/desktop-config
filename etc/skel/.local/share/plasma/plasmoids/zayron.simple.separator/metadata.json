@@ -2,6 +2,7 @@
   "KPlugin": {
     "Authors": [
       {
+        "Email": "adolfo@librepixels.com",
         "Name": "zayronxio"
       }
     ],
@@ -15,8 +16,8 @@
     "ServiceTypes": [
       "Plasma/Applet"
     ],
-    "Version": "1.2.6",
-    "Website": "https://store.kde.org/p/2137418"
+    "Version": "1.2.8",
+    "Website": "https://store.kde.org/p/2137418/"
   },
   "X-Plasma-API-Minimum-Version": "6.0",
   "X-Plasma-MainScript": "ui/main.qml",

@@ -8,7 +8,7 @@
     ],
     "Name": "Plasma Control Hub",
     "Id": "Plasma.Control.Hub",
-    "Description": "Plasmoid that provides direct access to various configuration aspects as well as multimedia information, inspired by the macOS Control Center.",
+    "Description": "Plasmoid that provides direct access to various configuration aspects as well as multimedia information, inspired by the macOS Control Center",
     "Category": "Utilities",
     "Icon": "configure",
     "EnabledByDefault": true,
@@ -16,7 +16,7 @@
     "ServiceTypes": [
       "Plasma/Applet"
     ],
-    "Version": "0.8.4",
+    "Version": "0.8.6",
     "Website": "https://github.com/zayronxio/Plasma-Control-Hub"
   },
   "X-Plasma-API-Minimum-Version": "6.0",

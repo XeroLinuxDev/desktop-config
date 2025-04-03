@@ -118,7 +118,7 @@ DialogWidth=720
 
 [Containments][126][Applets][158][Configuration][General]
 alphaSort=true
-customButtonImage=/usr/share/logos/xero.png
+customButtonImage=distributor-logo-archlinux
 favoritesPortedToKAstats=true
 showIconsRootLevel=true
 showRecentDocs=false
