@@ -1,9 +1,9 @@
 # Maintainer: DarkXero <info@techxero.com>
 pkgname=desktop-config
-_destname1="/etc"
+_destname1="/"
 pkgver=3.8
-pkgrel=2
-pkgdesc="Desktop Config for XeroLinux (Phase 2)"
+pkgrel=3
+pkgdesc="Desktop Config for XeroLinux (KDE)"
 arch=('any')
 url="https://github.com/XeroLinuxDev"
 license=('GPL3')
