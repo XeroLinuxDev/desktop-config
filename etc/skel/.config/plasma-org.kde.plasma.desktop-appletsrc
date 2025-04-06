@@ -141,14 +141,15 @@ popupWidth=560
 
 [Containments][126][Applets][196][Configuration][Appearance]
 autoFontAndSize=false
+boldText=true
 customDateFormat=ddd d MMM yy |
 dateDisplayFormat=BesideTime
 dateFormat=longDate
 displayTimezoneFormat=FullText
 fontFamily=JetBrains Mono
-fontSize=8
-fontStyleName=Regular
-fontWeight=400
+fontSize=12
+fontStyleName=SemiBold
+fontWeight=600
 
 [Containments][126][Applets][196][Configuration][ConfigDialog]
 DialogHeight=540
@@ -203,7 +204,7 @@ popupWidth=600
 autoFontAndSize=false
 boldText=true
 fontFamily=JetBrains Mono ExtraBold
-fontSize=8
+fontSize=12
 fontStyleName=Italic
 fontWeight=800
 italicText=true
