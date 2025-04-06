@@ -20,7 +20,7 @@ DialogHeight=600
 DialogWidth=800
 
 [Containments][119][General]
-positions={"1920x1080":[]\\,"0x0":[]}
+positions={"1920x1080":[]\,"0x0":[]}
 sortMode=-1
 
 [Containments][119][Wallpaper][org.kde.image][General]
@@ -145,8 +145,8 @@ customDateFormat=ddd d MMM yy |
 dateDisplayFormat=BesideTime
 dateFormat=longDate
 displayTimezoneFormat=FullText
-fontFamily=Hack Nerd Font
-fontSize=12
+fontFamily=JetBrains Mono
+fontSize=8
 fontStyleName=Regular
 fontWeight=400
 
@@ -199,6 +199,15 @@ PreloadWeight=75
 popupHeight=340
 popupWidth=600
 
+[Containments][126][Applets][221][Configuration][Appearance]
+autoFontAndSize=false
+boldText=true
+fontFamily=JetBrains Mono ExtraBold
+fontSize=8
+fontStyleName=Italic
+fontWeight=800
+italicText=true
+
 [Containments][126][Applets][221][Configuration][ConfigDialog]
 DialogHeight=540
 DialogWidth=720
@@ -206,6 +215,7 @@ DialogWidth=720
 [Containments][126][Applets][221][Configuration][Station]
 latitude=33.863663
 longitude=35.597227
+savedStations=IMATND12
 stationID=IMATND12
 stationName=Matn District
 
@@ -436,7 +446,7 @@ wrapper=/usr/bin/paru
 [Containments][132][Applets][223][Configuration][Miscellaneous]
 configMsg=false
 rulesMsg=false
-timestamp=1740566418259
+timestamp=1740565332597
 version=v2.9.2
 
 [Containments][132][Applets][223][Configuration][Upgrade]
@@ -472,9 +482,9 @@ DialogHeight=540
 DialogWidth=720
 
 [Containments][132][General]
-extraItems=org.kde.kscreen,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.notifications,org.kde.plasma.vault,org.kde.plasma.volume,org.kde.plasma.battery,org.kde.plasma.brightness,org.kde.plasma.cameraindicator,org.kde.kdeconnect,com.github.exequtic.apdatifier,org.kde.plasma.networkmanagement
+extraItems=org.kde.kscreen,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.notifications,org.kde.plasma.vault,org.kde.plasma.volume,org.kde.plasma.battery,org.kde.plasma.brightness,org.kde.plasma.cameraindicator,org.kde.kdeconnect,com.github.exequtic.apdatifier,org.kde.plasma.networkmanagement,Plasma.Control.Hub
 hiddenItems=org.kde.merkuro.contact,org.kde.plasma.clipboard,org.kde.plasma.vault,caffeine,org.kde.plasma.brightness,org.kde.plasma.bluetooth
-knownItems=org.kde.kscreen,org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.networkmanagement,org.kde.plasma.notifications,org.kde.plasma.vault,org.kde.plasma.volume,org.kde.plasma.printmanager,org.kde.plasma.brightness,org.kde.plasma.cameraindicator,org.kde.kdeconnect,com.github.exequtic.apdatifier
+knownItems=org.kde.kscreen,org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.networkmanagement,org.kde.plasma.notifications,org.kde.plasma.vault,org.kde.plasma.volume,org.kde.plasma.printmanager,org.kde.plasma.brightness,org.kde.plasma.cameraindicator,org.kde.kdeconnect,com.github.exequtic.apdatifier,Plasma.Control.Hub
 shownItems=Package Manager,org.kde.plasma.devicenotifier,Yakuake,com.github.k-donn.plasmoid-wunderground,com.github.exequtic.apdatifier
 
 [Containments][168]
