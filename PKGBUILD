@@ -16,7 +16,6 @@ sha256sums=('SKIP')
 package() {
 	install -dm755 ${pkgdir}${_destname1}
 	cp -r ${srcdir}/${pkgname}${_destname1}/* ${pkgdir}${_destname1}
-	rm ${srcdir}/${pkgname}/push.sh
 	rm ${srcdir}/${pkgname}/README.md
 	rm ${srcdir}/${pkgname}/PKGBUILD
 	rm ${srcdir}/${pkgname}/LICENSE
