@@ -1,4 +1,4 @@
-import QtQuick 2.15
+import QtQuick
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.11
 import Qt.labs.platform
@@ -47,7 +47,6 @@ Item {
                 from: 5
                 to: 100
                 stepSize: 5
-                // suffix: " " + i18nc("pixels","px.")
             }
 
             Label {
