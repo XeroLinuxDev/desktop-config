@@ -6,7 +6,7 @@
         "height": 15,
         "width": 30,
         "padding": {
-            "top": 6,
+            "top": 8,
             "left": 3
         }
     },
@@ -14,28 +14,33 @@
         "break",
         {
           "type": "custom",
-          "format": "\u001b[36m┌────────────Eat 󰗲, Sleep , XeroLinux  ────────────┐",
-          "keyWidth": 20
+          "format": "\u001b[36m┌───────────────────Eat 󰗲, Sleep , XeroLinux ───────────────────┐",
         },
         {
           "type": "command",
           "key": "󰖟 Web",
           "keyColor": "cyan",
           "text": "echo WwW.XeroLinux.xYz",
-          "keyWidth": 19
+          "keyWidth": 26
         },
         {
           "type": "custom",
-          "format": "\u001b[36m└────────────────────────────────────────────────────┘",
+          "format": "\u001b[36m└─────────────────────────────────────────────────────────────────┘",
           "keyWidth": 20
             },
+            "break",
             {
             "type": "custom",
-            "format": "\u001b[90m┌──────────────────────Hardware──────────────────────┐"
+            "format": "\u001b[90m┌───────────────────────────󰋊 Hardware 󰋊──────────────────────────┐"
         },
         {
             "type": "host",
             "key": " PC",
+            "keyColor": "green"
+        },
+        {
+            "type": "memory",
+            "key": "│ ├󰍛",
             "keyColor": "green"
         },
         {
@@ -44,24 +49,19 @@
             "keyColor": "green"
         },
         {
-            "type": "memory",
-            "key": "│ └󰍛",
-            "keyColor": "green"
-        },
-        {
             "type": "gpu",
-            "key": "│ ├󰍛",
+            "key": "│ └󰍛",
             "keyColor": "green",
             "format": "{2}, {3}"
         },
         {
             "type": "custom",
-            "format": "\u001b[90m└────────────────────────────────────────────────────┘"
+            "format": "\u001b[90m└─────────────────────────────────────────────────────────────────┘"
         },
         "break",
         {
             "type": "custom",
-            "format": "\u001b[90m┌──────────────────────Software──────────────────────┐"
+            "format": "\u001b[90m┌───────────────────────────󰻠 System 󰻠────────────────────────────┐"
         },
         {
             "type": "os",
@@ -70,29 +70,32 @@
             "format": "{name}"
         },
         {
+            "type": "wm",
+            "key": "│ ├",
+            "keyColor": "yellow"
+        },
+        {
+            "type": "de",
+            "key": "│ ├",
+            "keyColor": "yellow"
+        },
+        {
             "type": "kernel",
-            "key": "│ ├",
+            "key": "│ └",
             "keyColor": "yellow"
         },
         {
-            "type": "packages",
-            "key": "│ ├󰏖",
-            "keyColor": "yellow"
-        },
-        {
-            "type": "shell",
-            "key": "└ └",
-            "keyColor": "yellow"
+            "type": "custom",
+            "format": "\u001b[90m└─────────────────────────────────────────────────────────────────┘"
         },
         "break",
         {
-            "type": "de",
-            "key": " DE",
-            "keyColor": "blue"
+            "type": "custom",
+            "format": "\u001b[90m┌─────────────────────────󰔎 Theming/Other 󰔎───────────────────────┐"
         },
         {
-            "type": "wm",
-            "key": "│ ├",
+            "type": "shell",
+            "key": " sh",
             "keyColor": "blue"
         },
         {
@@ -102,17 +105,22 @@
         },
         {
             "type": "terminal",
-            "key": "└ └",
+            "key": "│ ├",
+            "keyColor": "blue"
+        },
+        {
+            "type": "packages",
+            "key": "│ └󰏖",
             "keyColor": "blue"
         },
         {
             "type": "custom",
-            "format": "\u001b[90m└────────────────────────────────────────────────────┘"
+            "format": "\u001b[90m└─────────────────────────────────────────────────────────────────┘"
         },
         "break",
         {
             "type": "custom",
-            "format": "\u001b[90m┌────────────────────Uptime / Age────────────────────┐"
+            "format": "\u001b[90m┌─────────────────────────󰚭 Uptime / Age 󰚭────────────────────────┐"
         },
         {
             "type": "command",
@@ -128,7 +136,7 @@
         },
         {
             "type": "custom",
-            "format": "\u001b[90m└────────────────────────────────────────────────────┘"
+            "format": "\u001b[90m└─────────────────────────────────────────────────────────────────┘"
         },
         "break",
     ]
