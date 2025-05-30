@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "NM": "python-poetry-core",
+    "DE": "Poetry PEP 517 Build Backend & Core Utilities",
+    "LN": "https://github.com/python-poetry/poetry-core",
+    "GR": "python-build-backend",
+    "DP": "python  python-fastjsonschema  python-lark-parser  python-packaging",
+    "RQ": "python-poetry",
+    "IS": "1434.43 KiB",
+    "DT": "Tue 01 Apr 2025 01:54:47 PM EEST",
+    "RN": "Installed as a dependency for another package",
+    "VO": "2.1.2-1",
+    "VN": "2.1.3-1",
+    "RE": "extra"
+  }
+]
