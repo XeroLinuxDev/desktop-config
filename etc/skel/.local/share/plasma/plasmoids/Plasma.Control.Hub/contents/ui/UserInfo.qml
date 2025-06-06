@@ -1,5 +1,4 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
 import org.kde.coreaddons 1.0 as KCoreAddons
 import Qt5Compat.GraphicalEffects
 
@@ -20,8 +19,6 @@ Item {
 
 
     property string name: i18n("Hi") + " " + capitalizeFirstLetter(kuser.fullName)
-    property string urlAvatar: kuser.faceIconUrl
-
-
+    property url urlAvatar: kuser.faceIconUrl
 
 }

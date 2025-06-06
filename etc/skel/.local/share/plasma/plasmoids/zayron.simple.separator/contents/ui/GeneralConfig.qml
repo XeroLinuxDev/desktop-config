@@ -28,7 +28,7 @@ Item {
 
             Label {
                 Layout.minimumWidth: configRoot.width/2
-                text: i18n("replace linear design with point:")
+                text: i18n("Single point mode:")
                 horizontalAlignment: Text.AlignRight
             }
 
@@ -51,7 +51,7 @@ Item {
 
             Label {
                 Layout.minimumWidth: configRoot.width/2
-                text: i18n("separator length percentage:")
+                text: i18n("Separator length (percentage):")
                 horizontalAlignment: Text.AlignRight
             }
 
@@ -65,7 +65,7 @@ Item {
             }
             Label {
                 Layout.minimumWidth: configRoot.width/2
-                text: i18n("thickness:")
+                text: i18n("Thickness:")
                 horizontalAlignment: Text.AlignRight
                 visible: !checkPoinDesing.checked
             }
@@ -80,7 +80,7 @@ Item {
             }
             Label {
                 Layout.minimumWidth: configRoot.width/2
-                text: i18n("Custom RGB Color:")
+                text: i18n("Custom Color:")
                 horizontalAlignment: Text.AlignRight
             }
             CheckBox {

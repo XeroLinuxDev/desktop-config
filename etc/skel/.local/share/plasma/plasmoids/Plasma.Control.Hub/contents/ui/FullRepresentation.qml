@@ -109,7 +109,6 @@ Item {
     // Lists all available network connections
 
     Component.onCompleted: {
-        console.log(nightLight, "pruebas de asignacio de luz nocturna", control.running )
         if (!control.running && !nightLight) {
             control.toggleInhibition()
         }
@@ -131,8 +130,7 @@ Item {
             spacing: 10
             visible: infoUserAvailable
             Lib.Card {
-                id: backgroundNameInfo // seccion de botones de red, bluetooth y config
-                //anchors.right: parent.right
+                id: backgroundNameInfo // seccion de informacion del usuario
                 anchors.left: parent.left
                 width: parent.width - 10 - batteryAndShutdown.width
                 height: Kirigami.Units.gridUnit * 1.5
@@ -160,7 +158,7 @@ Item {
                 Kirigami.Heading {
                     height: parent.height
                     anchors.left: parent.left
-                    anchors.leftMargin: avatar.height*2
+                    anchors.leftMargin: userInfo.urlAvatar ? avatar.height*2 : avatar.height/2
                     verticalAlignment: Text.AlignVCenter
                     font.weight: Font.DemiBold
                     text: userInfo.name
