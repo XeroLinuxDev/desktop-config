@@ -61,7 +61,7 @@ panelVisibility=2
 floating=0
 maxLength=2502
 minLength=2502
-thickness=40
+thickness=44
 
 [PlasmaViews][Panel 126][Horizontal2560]
 maxLength=2502
@@ -78,7 +78,7 @@ panelVisibility=2
 floating=0
 maxLength=1822
 minLength=342
-thickness=46
+thickness=52
 
 [PlasmaViews][Panel 168][Horizontal2560]
 maxLength=1822
