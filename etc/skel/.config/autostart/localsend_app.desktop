@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=localsend_app
+Comment=localsend_app startup script
+Exec=/usr/lib/localsend/localsend --hidden
+Icon=org.localsend.localsend_app
+StartupNotify=false
+Terminal=false
