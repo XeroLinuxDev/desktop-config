@@ -1,4 +1,4 @@
-# Translation of Simple Separator in LANGUAGE
+# Vietnamese translation of Simple Separator
 # Copyright (C) 2025
 # This file is distributed under the same license as the zayron.simple.separator package.
 # ADOLFO <adolfo@librepixels.com>, 2025.
@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: zayron.simple.separator\n"
 "Report-Msgid-Bugs-To: https://store.kde.org/p/2137418/\n"
 "POT-Creation-Date: 2023-05-01 16:59-0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2025-08-31 19:35+0000\n"
+"Last-Translator: FPT Software <ngocbt@fsoft.com.vn>\n"
+"Language-Team: Vietnamese <vi@li.org>\n"
+"Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,24 +20,24 @@ msgstr ""
 
 #: ../contents/ui/GeneralConfig.qml
 msgid "Single point mode:"
-msgstr ""
+msgstr "Chế độ một điểm:"
 
 #: ../contents/ui/GeneralConfig.qml
 msgid "Margin length:"
-msgstr ""
+msgstr "Chiều dài lề:"
 
 #: ../contents/ui/GeneralConfig.qml
 msgid "Separator length (percentage):"
-msgstr ""
+msgstr "Chiều dài đường phân cách (phần trăm):"
 
 #: ../contents/ui/GeneralConfig.qml
 msgid "Thickness:"
-msgstr ""
+msgstr "Độ dày:"
 
 #: ../contents/ui/GeneralConfig.qml
 msgid "Custom Color:"
-msgstr ""
+msgstr "Màu tùy chỉnh:"
 
 #: ../contents/ui/GeneralConfig.qml
 msgid "Opacity:"
-msgstr ""
+msgstr "Độ mờ:"

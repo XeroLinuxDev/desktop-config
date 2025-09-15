@@ -508,7 +508,7 @@ DialogWidth=720
 [Containments][168][Applets][169][Configuration][General]
 fill=false
 iconSpacing=0
-launchers=applications:org.kde.dolphin.desktop,applications:org.kde.falkon.desktop,applications:org.kde.konsole.desktop,applications:org.moson.pacseek.desktop,applications:systemsettings.desktop
+launchers=applications:org.kde.dolphin.desktop,applications:org.kde.konsole.desktop,applications:systemsettings.desktop
 
 [Containments][168][Applets][229]
 immutability=1
