@@ -52,7 +52,7 @@ PlasmoidItem {
     property string iconName: (onDesktop || !runningLatest) ? "error" : "icon"
     property string icon: Qt.resolvedUrl("../icons/" + iconName + ".svg").toString().replace("file://", "")
     property bool hideWidget: plasmoid.configuration.hideWidget
-    property bool fixedSidePaddingEnabled: isEnabled && panelBgItem.cfg.padding.enabled
+    property bool fixedSidePaddingEnabled: isEnabled && panelBgItem !== null && panelBgItem.cfg.padding.enabled
     property bool floatingDialogs: main.isEnabled ? cfg.nativePanel.floatingDialogs : false
     property bool floatingDialogsAllowOverride: main.isEnabled ? cfg.nativePanel.floatingDialogsAllowOverride : false
     property bool isEnabled: plasmoid.configuration.isEnabled
@@ -60,7 +60,7 @@ PlasmoidItem {
     property real nativePanelBackgroundOpacity: isEnabled ? cfg.nativePanel.background.opacity : 1.0
     property bool nativePanelBackgroundShadowEnabled: isEnabled ? cfg.nativePanel.background.shadow : true
     property var panelWidgets: []
-    property int panelWidgetsCount: panelWidgets?.length || 0
+    property int panelWidgetsCount: 0
     property real trayItemThikness: 20
     // keep track of these to allow others to follow their color
     property QtObject panelBgItem
@@ -752,7 +752,7 @@ PlasmoidItem {
             target: rect
             property: "width"
             value: (parent?.width ?? 0) + horizontalWidth
-            when: isWidget
+            when: isWidget && horizontal
             delayed: true
         }
 
@@ -1094,7 +1094,7 @@ PlasmoidItem {
 
         property real blurMaskX: {
             const marginLeft = rect.marginEnabled ? rect.marginLeft : 0;
-            if (panelElement.floating && horizontal) {
+            if (panelElement !== null && panelElement.floating && horizontal) {
                 if (floatigness > 0) {
                     return marginLeft;
                 } else {
@@ -1107,7 +1107,7 @@ PlasmoidItem {
 
         property real blurMaskY: {
             const marginTop = rect.marginEnabled ? rect.marginTop : 0;
-            if (panelElement.floating && !horizontal) {
+            if (panelElement !== null && panelElement.floating && !horizontal) {
                 if (floatigness > 0) {
                     return marginTop;
                 } else {
@@ -1277,7 +1277,7 @@ PlasmoidItem {
     Binding {
         target: panelLayoutContainer
         property: "anchors.leftMargin"
-        value: panelBgItem.cfg.padding.side.left
+        value: fixedSidePaddingEnabled ? panelBgItem.cfg.padding.side.left : 0
         when: fixedSidePaddingEnabled
         delayed: true
     }
@@ -1285,7 +1285,7 @@ PlasmoidItem {
     Binding {
         target: panelLayoutContainer
         property: "anchors.rightMargin"
-        value: panelBgItem.cfg.padding.side.right
+        value: fixedSidePaddingEnabled ? panelBgItem.cfg.padding.side.right : 0
         when: fixedSidePaddingEnabled
         delayed: true
     }
@@ -1293,7 +1293,7 @@ PlasmoidItem {
     Binding {
         target: panelLayoutContainer
         property: "anchors.topMargin"
-        value: panelBgItem.cfg.padding.side.top
+        value: fixedSidePaddingEnabled ? panelBgItem.cfg.padding.side.top : 0
         when: fixedSidePaddingEnabled
         delayed: true
     }
@@ -1301,7 +1301,7 @@ PlasmoidItem {
     Binding {
         target: panelLayoutContainer
         property: "anchors.bottomMargin"
-        value: panelBgItem.cfg.padding.side.bottom
+        value: fixedSidePaddingEnabled ? panelBgItem.cfg.padding.side.bottom : 0
         when: fixedSidePaddingEnabled
         delayed: true
     }
@@ -1316,15 +1316,15 @@ PlasmoidItem {
     Binding {
         target: panelElement
         property: "topShadowMargin"
-        value: -panelView.height - 8
-        when: !nativePanelBackgroundShadowEnabled
+        value: panelView !== null ? -panelView.height - 8 : 0
+        when: (!nativePanelBackgroundShadowEnabled && panelView !== null)
     }
 
     Binding {
         target: panelElement
         property: "bottomShadowMargin"
-        value: -panelView.height - 8
-        when: !nativePanelBackgroundShadowEnabled
+        value: panelView !== null ? -panelView.height - 8 : 0
+        when: (!nativePanelBackgroundShadowEnabled && panelView !== null)
     }
 
     // The panel doesn't like having its spacings set to 0
@@ -1652,10 +1652,6 @@ PlasmoidItem {
         }
     }
 
-    Label {
-        text: Plasmoid.status
-    }
-
     function activatePlasmoidCycle() {
         Plasmoid.activated();
         Plasmoid.activated();
@@ -1686,10 +1682,11 @@ PlasmoidItem {
     function updateCurrentWidgets() {
         panelWidgets = [];
         panelWidgets = Utils.findWidgets(panelLayout, panelWidgets);
-        if (!trayGridView)
-            return;
-        panelWidgets = Utils.findWidgetsTray(trayGridView, panelWidgets);
-        panelWidgets = Utils.findWidgetsTray(trayGridView.parent, panelWidgets);
+        if (trayGridView) {
+            panelWidgets = Utils.findWidgetsTray(trayGridView, panelWidgets);
+            panelWidgets = Utils.findWidgetsTray(trayGridView.parent, panelWidgets);
+        }
+        panelWidgetsCount = panelWidgets.length;
     }
 
     function showTrayAreas(grid) {
@@ -1791,6 +1788,7 @@ PlasmoidItem {
         // console.error( panelWidgetsCount ,JSON.stringify(panelWidgets, null, null))
         plasmoid.configuration.panelWidgets = "";
         plasmoid.configuration.panelWidgets = JSON.stringify(panelWidgets, null, null);
+        plasmoid.configuration.writeConfig();
     }
 
     Component.onCompleted: {

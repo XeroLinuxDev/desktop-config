@@ -1371,6 +1371,13 @@ menubar,
   color: rgba(255, 255, 255, 0.7);
 }
 
+headerbar menubar, headerbar .menubar {
+  box-shadow: none;
+  background-color: transparent;
+  background-image: none;
+  border: none;
+}
+
 menubar > menuitem,
 .menubar > menuitem {
   transition: all 100ms cubic-bezier(0, 0, 0.2, 1);
@@ -3059,7 +3066,7 @@ headerbar.windowhandle viewswitcher button:not(.suggested-action):not(.destructi
 
 headerbar.default-decoration {
   min-height: 24px;
-  padding: 6px 12px;
+  padding: 6px;
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.1);
 }
 
@@ -3087,10 +3094,6 @@ headerbar.default-decoration button.titlebutton {
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.1), inset 0 -1px rgba(255, 255, 255, 0.08);
 }
 
-headerbar.titlebar.default-decoration, .csd headerbar.titlebar.default-decoration {
-  box-shadow: inset 0 1px rgba(255, 255, 255, 0.1);
-}
-
 box headerbar:not(:only-child):first-child, box headerbar:not(:only-child):last-child {
   border-left-color: #31313a;
   border-right-color: #31313a;
@@ -3115,25 +3118,12 @@ window.tiled headerbar, window.tiled headerbar:first-child, window.tiled headerb
   border-radius: 0;
 }
 
-.titlebar,
-.titlebar .background {
-  border-top-left-radius: 13px;
-  border-top-right-radius: 13px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+.titlebar {
+  border-radius: 13px 13px 0 0;
 }
 
-.background.tiled .titlebar,
-.background.tiled-top .titlebar,
-.background.tiled-right .titlebar,
-.background.tiled-bottom .titlebar,
-.background.tiled-left .titlebar,
-.background.maximized .titlebar,
-.background.solid-csd .titlebar {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+.tiled .titlebar, .tiled-top .titlebar, .tiled-right .titlebar, .tiled-bottom .titlebar, .tiled-left .titlebar, .maximized .titlebar, .solid-csd .titlebar {
+  border-radius: 0;
 }
 
 headerbar separator.titlebutton {
@@ -3695,7 +3685,7 @@ calendar:indeterminate {
  * Dialogs *
  ***********/
 messagedialog.background {
-  background-color: rgba(68, 69, 75, 0.98);
+  background-color: rgba(68, 69, 75, 0.95);
   color: rgba(255, 255, 255, 0.8);
 }
 
@@ -3705,8 +3695,6 @@ messagedialog .titlebar {
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.1);
   background-color: rgba(68, 69, 75, 0.98);
   color: rgba(255, 255, 255, 0.8);
-  border-top-left-radius: 7px;
-  border-top-right-radius: 7px;
 }
 
 messagedialog .titlebar:backdrop {
@@ -3803,11 +3791,6 @@ messagedialog.csd {
   color: rgba(255, 255, 255, 0.8);
 }
 
-messagedialog.csd.background {
-  border-bottom-left-radius: 7px;
-  border-bottom-right-radius: 7px;
-}
-
 messagedialog.csd .dialog-action-area button {
   padding: 8px 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -3816,12 +3799,12 @@ messagedialog.csd .dialog-action-area button {
 }
 
 messagedialog.csd .dialog-action-area button:first-child {
-  border-bottom-left-radius: 7px;
+  border-bottom-left-radius: 13px;
   border-top-left-radius: 0;
 }
 
 messagedialog.csd .dialog-action-area button:last-child {
-  border-bottom-right-radius: 7px;
+  border-bottom-right-radius: 13px;
   border-top-right-radius: 0;
 }
 
@@ -4312,10 +4295,6 @@ tooltip.csd decoration {
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.12), 0 3px 3px rgba(0, 0, 0, 0.06);
 }
 
-messagedialog.csd decoration {
-  border-radius: 7px;
-}
-
 .solid-csd decoration {
   margin: 0;
   border-radius: 0;
@@ -4404,10 +4383,10 @@ headerbar > box.left,
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-headerbar.default-decoration button.titlebutton.close:hover, headerbar.default-decoration button.titlebutton.close:active, headerbar.default-decoration button.titlebutton.close:checked, .csd headerbar.default-decoration button.titlebutton.close:hover, .csd headerbar.default-decoration button.titlebutton.close:active, .csd headerbar.default-decoration button.titlebutton.close:checked,
+headerbar.default-decoration button.titlebutton.close:hover, headerbar.default-decoration button.titlebutton.close:active, headerbar.default-decoration button.titlebutton.close:checked,
 .titlebar.default-decoration button.titlebutton.close:hover,
 .titlebar.default-decoration button.titlebutton.close:active,
-.titlebar.default-decoration button.titlebutton.close:checked, .csd .titlebar.default-decoration button.titlebutton.close:hover, .csd .titlebar.default-decoration button.titlebutton.close:active, .csd .titlebar.default-decoration button.titlebutton.close:checked {
+.titlebar.default-decoration button.titlebutton.close:checked {
   padding: 0;
   margin: 0 2px;
   box-shadow: none;
@@ -6450,11 +6429,11 @@ window.background:not(.csd) > window.background > menu > separator {
 }
 
 #MozillaGtkWidget.background, #MozillaGtkWidget.background decoration {
-  border-radius: 2px 2px 0 0;
+  border-radius: 13px;
 }
 
 #MozillaGtkWidget.background headerbar.titlebar {
-  border-radius: 2px 2px 0 0;
+  border-radius: 13px 13px 0 0;
 }
 
 #MozillaGtkWidget.background headerbar.titlebar.default-decoration button.titlebutton {
@@ -8451,18 +8430,18 @@ box.vertical > stack > box.vertical .raven-background > viewport.frame list > ro
 
 .budgie-run-dialog, .budgie-polkit-dialog,
 .budgie-session-dialog {
-  border-radius: 7px;
+  border-radius: 13px;
   background-color: #44454b;
 }
 
 .budgie-run-dialog decoration, .budgie-polkit-dialog decoration,
 .budgie-session-dialog decoration {
-  border-radius: 7px;
+  border-radius: 13px;
 }
 
 .background.budgie-run-dialog, .background.budgie-polkit-dialog,
 .background.budgie-session-dialog {
-  border-radius: 7px;
+  border-radius: 13px;
 }
 
 .budgie-polkit-dialog label:not(:last-child),
@@ -8481,12 +8460,12 @@ box.vertical > stack > box.vertical .raven-background > viewport.frame list > ro
 
 .budgie-polkit-dialog .linked.horizontal > button:first-child,
 .budgie-session-dialog .linked.horizontal > button:first-child {
-  border-bottom-left-radius: 7px;
+  border-bottom-left-radius: 13px;
 }
 
 .budgie-polkit-dialog .linked.horizontal > button:last-child,
 .budgie-session-dialog .linked.horizontal > button:last-child {
-  border-bottom-right-radius: 7px;
+  border-bottom-right-radius: 13px;
 }
 
 .budgie-polkit-dialog .linked.horizontal > button.suggested-action, .budgie-polkit-dialog .linked.horizontal > button.suggested-action:hover,

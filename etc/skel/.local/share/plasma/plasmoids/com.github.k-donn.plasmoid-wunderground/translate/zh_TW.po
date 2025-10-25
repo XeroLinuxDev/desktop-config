@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plasmoid-wunderground\n"
 "Report-Msgid-Bugs-To: https://github.com/k-donn/plasmoid-wunderground\n"
-"POT-Creation-Date: 2025-08-27 12:41-0400\n"
+"POT-Creation-Date: 2025-10-21 16:47-0400\n"
 "PO-Revision-Date: 2024-11-11 17:28+0800\n"
 "Last-Translator: CloverGit <clovergit@hotmail.com>\n"
 "Language-Team: Traditional Chinese <>\n"
@@ -24,6 +24,10 @@ msgstr "Wunderground"
 #: ../metadata.json
 msgid "Wunderground Personal Weather Station viewer"
 msgstr "Wunderground 個人氣象站檢視器"
+
+#: ../contents/code/pws-api.js
+msgid "Location not found"
+msgstr ""
 
 #: ../contents/config/config.qml
 msgid "Station"
@@ -230,36 +234,52 @@ msgid "Startup time delay (ms):"
 msgstr ""
 
 #: ../contents/ui/config/ConfigStation.qml
-msgid "Find Station"
-msgstr "查找站點"
+msgid "Saved Weather Stations"
+msgstr "已保存的氣象站"
 
 #: ../contents/ui/config/ConfigStation.qml
-msgid "Enter Station"
-msgstr "輸入站點"
+msgid "ID:"
+msgstr ""
 
-#: ../contents/ui/config/ConfigStation.qml
-msgid "Station Info"
-msgstr "站點資訊"
-
-#: ../contents/ui/config/ConfigStation.qml
-msgid "Uses WGS84 geocode coordinates"
-msgstr "使用 WGS84 地理編碼座標"
-
-#: ../contents/ui/config/ConfigStation.qml
-msgid "Weatherstation ID:"
-msgstr "氣象站 ID:"
-
-#: ../contents/ui/config/ConfigStation.qml
+#: ../contents/ui/config/ConfigStation.qml ../contents/ui/lib/StationSearcher.qml
 msgid "Weatherstation Name:"
 msgstr "氣象站名稱:"
 
-#: ../contents/ui/config/ConfigStation.qml
+#: ../contents/ui/config/ConfigStation.qml ../contents/ui/lib/StationSearcher.qml
+msgid "Latitude:"
+msgstr "緯度:"
+
+#: ../contents/ui/config/ConfigStation.qml ../contents/ui/lib/StationSearcher.qml
 msgid "Longitude:"
 msgstr "經度:"
 
 #: ../contents/ui/config/ConfigStation.qml
-msgid "Latitude:"
-msgstr "緯度:"
+msgid "Action"
+msgstr ""
+
+#: ../contents/ui/config/ConfigStation.qml ../contents/ui/lib/StationSearcher.qml
+msgid "Select"
+msgstr "選擇"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Remove"
+msgstr "移除"
+
+#: ../contents/ui/config/ConfigStation.qml ../contents/ui/lib/StationSearcher.qml
+msgid "Find Station"
+msgstr "查找站點"
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Manual Add"
+msgstr ""
+
+#: ../contents/ui/config/ConfigStation.qml
+msgid "Error"
+msgstr ""
+
+#: ../contents/ui/config/ConfigStation.qml ../contents/ui/lib/StationSearcher.qml
+msgid "Error: Bad station."
+msgstr ""
 
 #: ../contents/ui/config/ConfigStation.qml
 msgid "Refresh period (s):"
@@ -389,8 +409,8 @@ msgid "<font size='4'>Feels like: %1<br/>Thunder: %2<br/>UV: %3<br/>Snow: %4<br/
 msgstr "<font size='4'>體感溫度: %1<br/>雷電: %2<br/>紫外線: %3<br/>降雪: %4<br/>Golf: %5</font>"
 
 #: ../contents/ui/FullRepresentation.qml
-msgid "Loading data..."
-msgstr "加載數據中..."
+msgid "Sorry! The widget ran into a network error: "
+msgstr ""
 
 #: ../contents/ui/lib/BackgroundToggle.qml
 msgid "Desktop Widget:"
@@ -400,37 +420,89 @@ msgstr "桌面小工具:"
 msgid "Configure Wunderground"
 msgstr "配置 Wunderground"
 
-#: ../contents/ui/lib/StationPickerDialog.qml
-msgid "Saved Weather Stations"
-msgstr "已保存的氣象站"
+#: ../contents/ui/lib/ManualStationAdd.qml
+msgid "Add Station..."
+msgstr ""
 
-#: ../contents/ui/lib/StationPickerDialog.qml
-msgid "Remove Selected"
-msgstr "移除所選"
+#: ../contents/ui/lib/ManualStationAdd.qml
+msgid "Enter station ID"
+msgstr ""
 
-#: ../contents/ui/lib/StationPickerDialog.qml
-msgid "Confirm Remove %1"
-msgstr "確認移除 %1"
+#: ../contents/ui/lib/ManualStationAdd.qml ../contents/ui/lib/StationSearcher.qml
+msgid "Confirm"
+msgstr ""
 
-#: ../contents/ui/lib/StationPickerDialog.qml
-msgid "Add"
-msgstr "添加"
-
-#: ../contents/ui/lib/StationPickerDialog.qml
-msgid "Remove"
-msgstr "移除"
-
-#: ../contents/ui/lib/StationPickerDialog.qml
-msgid "Select"
-msgstr "選擇"
-
-#: ../contents/ui/lib/StationPickerDialog.qml
+#: ../contents/ui/lib/ManualStationAdd.qml ../contents/ui/lib/StationSearcher.qml
 msgid "Cancel"
 msgstr "取消"
 
-#: ../contents/ui/lib/StationPicker.qml
-msgid "Choose…"
-msgstr "選擇…"
+#: ../contents/ui/lib/StationSearcher.qml
+msgid "Error: %1 message: %2"
+msgstr ""
+
+#: ../contents/ui/lib/StationSearcher.qml
+msgid "Station active!"
+msgstr ""
+
+#: ../contents/ui/lib/StationSearcher.qml
+msgid "Reporting %1% of properties."
+msgstr ""
+
+#: ../contents/ui/lib/StationSearcher.qml
+msgid "Station active."
+msgstr ""
+
+#: ../contents/ui/lib/StationSearcher.qml
+msgid "Station unhealthy."
+msgstr ""
+
+#: ../contents/ui/lib/StationSearcher.qml
+msgid "Error: Station not active!"
+msgstr ""
+
+#: ../contents/ui/lib/StationSearcher.qml
+msgid "Search by:"
+msgstr ""
+
+#: ../contents/ui/lib/StationSearcher.qml
+msgid "City Name"
+msgstr ""
+
+#: ../contents/ui/lib/StationSearcher.qml
+msgid "Weatherstation ID:"
+msgstr "氣象站 ID:"
+
+#: ../contents/ui/lib/StationSearcher.qml
+msgid "Lat/Lon"
+msgstr ""
+
+#: ../contents/ui/lib/StationSearcher.qml
+msgid "Searching place:"
+msgstr ""
+
+#: ../contents/ui/lib/StationSearcher.qml
+msgid "Choose"
+msgstr ""
+
+#: ../contents/ui/lib/StationSearcher.qml
+msgid "Uses WGS84 geocode coordinates"
+msgstr "使用 WGS84 地理編碼座標"
+
+#: ../contents/ui/lib/StationSearcher.qml
+msgid "Use Station ID, not city name. Select 'Search by: City Name' to search by city."
+msgstr ""
+
+#: ../contents/ui/lib/StationSearcher.qml
+msgid "Enter Station"
+msgstr "輸入站點"
+
+#: ../contents/ui/lib/StationSearcher.qml
+msgid "Enter City Name"
+msgstr ""
+
+#: ../contents/ui/lib/StationSearcher.qml
+msgid "Test"
+msgstr ""
 
 #: ../contents/ui/main.qml
 msgid "Cloud Cover"
@@ -482,6 +554,24 @@ msgstr "刷新天氣"
 #: ../contents/ui/TopPanel.qml
 msgid "High: %1 Low: %2"
 msgstr "最高: %1 最低: %2"
+
+#~ msgid "Loading data..."
+#~ msgstr "加載數據中..."
+
+#~ msgid "Remove Selected"
+#~ msgstr "移除所選"
+
+#~ msgid "Confirm Remove %1"
+#~ msgstr "確認移除 %1"
+
+#~ msgid "Add"
+#~ msgstr "添加"
+
+#~ msgid "Choose…"
+#~ msgstr "選擇…"
+
+#~ msgid "Station Info"
+#~ msgstr "站點資訊"
 
 #~ msgid "DEWPOINT"
 #~ msgstr "露點"
