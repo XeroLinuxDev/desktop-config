@@ -179,6 +179,7 @@ const basePadding = {
 const basePanelConfig = {
   enabled: false,
   blurBehind: false,
+  flattenOnDeFloat: false,
   backgroundColor: basePanelBgColor,
   foregroundColor: baseFgColor,
   radius: baseRadius,
@@ -333,7 +334,9 @@ const ignoredConfigs = [
   "animatePropertyChanges",
   "animationDuration",
   "editModeGridSettings",
-  "pluginFound"
+  "pluginFound",
+  "configureFromAllWidgets",
+  "hiddenWidgets"
 ];
 
 const editModeGridSettings = {

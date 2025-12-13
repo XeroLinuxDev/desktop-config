@@ -6,6 +6,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.Dialogs
 
 import org.kde.kcmutils
 import org.kde.kirigami as Kirigami
@@ -14,13 +15,18 @@ import "../components" as QQC
 import "../../tools/tools.js" as JS
 
 SimpleKCM {
-    property alias cfg_interval: interval.checked
-    property alias cfg_time: time.value
-    property alias cfg_checkOnStartup: checkOnStartup.checked
+    property string cfg_checkMode: plasmoid.configuration.checkMode
+    property alias cfg_intervalMinutes: intervalMinutes.value
+    property alias cfg_dailyHour: dailyHour.value
+    property alias cfg_dailyMinute: dailyMinute.value
+    property alias cfg_weeklyDay: weeklyDay.currentIndex
+    property alias cfg_weeklyHour: weeklyHour.value
+    property alias cfg_weeklyMinute: weeklyMinute.value
 
     property alias cfg_arch: arch.checked
     property alias cfg_aur: aur.checked
     property alias cfg_flatpak: flatpak.checked
+    property alias cfg_fwupd: fwupd.checked
     property alias cfg_widgets: widgets.checked
 
     property alias cfg_newsArch: newsArch.checked
@@ -46,7 +52,7 @@ SimpleKCM {
     property var cfg: plasmoid.configuration
     property var pkg: plasmoid.configuration.packages
     property var terminals: plasmoid.configuration.terminals
-    property var packageLink: "https://archlinux.org/packages/extra/x86_64/pacman-contrib"
+    property alias cfg_dbPath: dbPath.text
 
     property int installButton
     property var dialogTitles: {
@@ -115,15 +121,6 @@ SimpleKCM {
             ]
         }
 
-        Kirigami.InlineMessage {
-            Layout.fillWidth: true
-            icon.source: "apdatifier-package"
-            text: "<b>" + "<a href=\"" + packageLink + "\">checkupdates</a>" + i18n(" not installed! Highly recommended to install it for getting the latest updates without the need to download fresh package databases.") + "</b>"
-            type: Kirigami.MessageType.Error
-            onLinkActivated: Qt.openUrlExternally(packageLink)
-            visible: !pkg.checkupdates
-        }
-
         Kirigami.FormLayout {
             id: searchTab
             visible: currentTab === 0
@@ -133,39 +130,115 @@ SimpleKCM {
             }
 
             RowLayout {
-                Kirigami.FormData.label: i18n("Interval") + ":"
+                Kirigami.FormData.label: i18n("Check mode") + ":"
 
-                CheckBox {
-                    id: interval
-                }
-
-                SpinBox {
-                    id: time
-                    from: 15
-                    to: 1440
-                    stepSize: 5
-                    value: time
-                    enabled: interval.checked
-                }
-
-                Label {
-                    text: i18n("minutes")
+                ComboBox {
+                    id: checkMode
+                    textRole: "name"
+                    model: [
+                        { name: i18n("Manual"), value: "manual" },
+                        { name: i18n("Interval"), value: "interval" },
+                        { name: i18n("Daily"), value: "daily" },
+                        { name: i18n("Weekly"), value: "weekly" }]
+                    currentIndex: JS.setIndex(cfg_checkMode, model)
+                    onCurrentIndexChanged: cfg_checkMode = model[currentIndex].value
                 }
 
                 Kirigami.ContextualHelpButton {
-                    toolTipText: i18n("The current timer is reset when either of these settings is changed.")
+                    toolTipText: i18n("Choose how automatic checks are scheduled: manual, periodic interval (minutes, max 43200 - 30 days), daily at specific time or weekly at specific day/time.")
                 }
             }
 
             RowLayout {
-                CheckBox {
-                    id: checkOnStartup
-                    text: i18n("Check on start up")
-                    enabled: interval.checked
+                visible: cfg_checkMode === "interval"
+                Kirigami.FormData.label: i18n("Interval") + ":"
+
+                SpinBox {
+                    id: intervalMinutes
+                    from: 30
+                    to: 43200
+                    stepSize: 5
+                    value: intervalMinutes.value
+                    onValueChanged: cfg_intervalMinutes = value
                 }
 
-                Kirigami.ContextualHelpButton {
-                    toolTipText: i18n("If the option is <b>enabled</b>, update checking will begin immediately upon widget startup.<br><br>If the option is <b>disabled</b>, update checking will be initiated after a specified time interval has passed since the widget was started. <b>Recommended.</b>")
+                Label { text: i18n("minutes") }
+            }
+
+            RowLayout {
+                visible: cfg_checkMode === "daily"
+                Kirigami.FormData.label: i18n("Daily time") + ":"
+
+                SpinBox {
+                    id: dailyHour
+                    from: 0
+                    to: 23
+                    stepSize: 1
+                    value: dailyHour.value
+                    onValueChanged: cfg_dailyHour = value
+                    Layout.preferredWidth: 50
+                }
+
+                Label { text: ":" }
+
+                SpinBox {
+                    id: dailyMinute
+                    from: 0
+                    to: 59
+                    stepSize: 1
+                    value: dailyMinute.value
+                    onValueChanged: cfg_dailyMinute = value
+                    Layout.preferredWidth: 50
+                }
+            }
+
+            RowLayout {
+                visible: cfg_checkMode === "weekly"
+                Kirigami.FormData.label: i18n("Weekly schedule") + ":"
+
+                ComboBox {
+                    id: weeklyDay
+                    textRole: "name"
+                    model: [
+                        { name: i18n("Sunday"), value: 0 },
+                        { name: i18n("Monday"), value: 1 },
+                        { name: i18n("Tuesday"), value: 2 },
+                        { name: i18n("Wednesday"), value: 3 },
+                        { name: i18n("Thursday"), value: 4 },
+                        { name: i18n("Friday"), value: 5 },
+                        { name: i18n("Saturday"), value: 6 }
+                    ]
+                    currentIndex: JS.setIndex(plasmoid.configuration.weeklyDay, model)
+                    onCurrentIndexChanged: plasmoid.configuration.weeklyDay = model[currentIndex].value
+                }
+
+                RowLayout {
+                    spacing: Kirigami.Units.smallSpacing
+
+                    SpinBox {
+                        id: weeklyHour
+                        from: 0
+                        to: 23
+                        stepSize: 1
+                        value: weeklyHour.value
+                        onValueChanged: cfg_weeklyHour = value
+                        Layout.preferredWidth: 50
+                    }
+
+                    Label {
+                        text: ":"
+                        verticalAlignment: Text.AlignVCenter
+                    }
+
+                    SpinBox {
+                        id: weeklyMinute
+                        from: 0
+                        to: 59
+                        stepSize: 1
+                        value: weeklyMinute.value
+                        onValueChanged: cfg_weeklyMinute = value
+                        Layout.preferredWidth: 50
+                    }
                 }
             }
 
@@ -180,7 +253,6 @@ SimpleKCM {
                     id: arch
                     text: i18n("Arch Official Repositories")
                     enabled: pkg.pacman
-                    onCheckedChanged: if (!checked) aur.checked = false
                 }
             }
 
@@ -191,7 +263,7 @@ SimpleKCM {
                 CheckBox {
                     id: aur
                     text: i18n("Arch User Repository") + " (AUR)"
-                    enabled: arch.checked && (pkg.paru || pkg.yay)
+                    enabled: pkg.paru || pkg.yay || pkg.pikaur
                 }
 
                 Kirigami.UrlButton {
@@ -199,7 +271,7 @@ SimpleKCM {
                     text: instTip.text
                     font.pointSize: instTip.font.pointSize
                     color: instTip.color
-                    visible: !pkg.paru && !pkg.yay
+                    visible: !aur.enabled
                 }
             }
 
@@ -231,6 +303,16 @@ SimpleKCM {
 
                 Kirigami.ContextualHelpButton {
                     toolTipText: i18n("Required installed") + " jq." + i18n("<br><br>For widget developers:<br>Don't forget to update the metadata.json and specify the name of the applet and its version <b>exactly</b> as they appear on the KDE Store.")
+                }
+            }
+
+            RowLayout {
+                spacing: Kirigami.Units.gridUnit
+
+                CheckBox {
+                    id: fwupd
+                    text: i18n("Firmware")
+                    enabled: pkg.fwupdmgr
                 }
             }
 
@@ -494,6 +576,58 @@ SimpleKCM {
                     }
                 }
             }
+
+            Item {
+                Kirigami.FormData.isSection: true
+            }
+
+            RowLayout {
+                Layout.preferredWidth: miscTab.width - Kirigami.Units.largeSpacing * 10
+                Label {
+                    text: "pacman DBPath:"
+                }
+                TextArea {
+                    id: dbPath
+                    Layout.fillWidth: true
+                    Layout.maximumWidth: 320
+                    readOnly: true
+                    Component.onCompleted: dbPath.text = plasmoid.configuration.dbPath
+                }
+                Button {
+                    icon.name: "document-open"
+                    onClicked: folderDialog.open()
+                }
+                Button {
+                    icon.name: "edit-reset"
+                    ToolTip.delay: 0
+                    ToolTip.visible: hovered
+                    ToolTip.text: i18n("Reset to default. By default, the path is the same as for checkupdates.")
+                    onClicked: {
+                        dbPath.text = plasmoid.configuration.dbPathDefault
+                        pathError.visible = false
+                    }
+                }
+                FolderDialog {
+                    id: folderDialog
+                    onAccepted: {
+                        const path = selectedFolder.toString().substring(7)
+                        if (path.includes(' ')) {
+                            pathError.visible = true
+                        } else {
+                            dbPath.text = path
+                            pathError.visible = false
+                        }
+                    }
+                }
+            }
+
+            Label {
+                id: pathError
+                text: i18n("Path must not contain spaces")
+                color: Kirigami.Theme.negativeTextColor
+                visible: false
+            }
+
             Kirigami.PromptDialog {
                 id: installDialog
                 title: dialogTitles[installButton]

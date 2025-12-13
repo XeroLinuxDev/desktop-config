@@ -21,12 +21,16 @@ Item {
     property int framerate: Plasmoid.configuration.framerate
     property int barGap: Plasmoid.configuration.barGap
     property int barWidth: Plasmoid.configuration.barWidth
+    property int blockHeight: Plasmoid.configuration.blockHeight
+    property int blockSpacing: Plasmoid.configuration.blockSpacing
     property int noiseReduction: Plasmoid.configuration.noiseReduction
     property int monstercat: Plasmoid.configuration.monstercat
     property int waves: Plasmoid.configuration.waves
     property bool centeredBars: Plasmoid.configuration.centeredBars
     property bool roundedBars: Plasmoid.configuration.roundedBars
     property int visualizerStyle: Plasmoid.configuration.visualizerStyle
+    property bool circleMode: Plasmoid.configuration.circleMode
+    property real circleModeSize: Plasmoid.configuration.circleModeSize
     property bool fillWave: Plasmoid.configuration.fillWave
     property int orientation: Plasmoid.configuration.orientation
     property bool disableLeftClick: Plasmoid.configuration.disableLeftClick
@@ -68,6 +72,24 @@ Item {
         return config;
     }
 
+    property var inactiveBlockColorsCfg: {
+        let inactiveBlockColors;
+        try {
+            inactiveBlockColors = JSON.parse(Plasmoid.configuration.inactiveBlockColors);
+        } catch (e) {
+            logger.error(e, e.stack);
+            globalSettings = Globals.baseInactiveBlockColors;
+        }
+        const config = Utils.mergeConfigs(Globals.baseInactiveBlockColors, inactiveBlockColors);
+        const configStr = JSON.stringify(config);
+        if (Plasmoid.configuration.inactiveBlockColors !== configStr) {
+            Plasmoid.configuration.inactiveBlockColors = configStr;
+            Plasmoid.configuration.writeConfig();
+        }
+        return config;
+    }
+    property bool drawInactiveBlocks: Plasmoid.configuration.drawInactiveBlocks
+
     RowLayout {
         id: content
         height: [Enum.Orientation.Left, Enum.Orientation.Right].includes(root.orientation) ? parent.width : parent.height
@@ -77,13 +99,19 @@ Item {
         Visualizer {
             id: visualizer
             visualizerStyle: root.visualizerStyle
+            circleMode: root.circleMode
+            circleModeSize: root.circleModeSize
             barWidth: root.barWidth
+            blockHeight: root.blockHeight
+            blockSpacing: root.blockSpacing
             barGap: root.barGap
             centeredBars: root.centeredBars
             roundedBars: root.roundedBars
             fillWave: root.fillWave
             barColorsCfg: root.barColorsCfg
             waveFillColorsCfg: root.waveFillColorsCfg
+            inactiveBlockColorsCfg: root.inactiveBlockColorsCfg
+            drawInactiveBlocks: root.drawInactiveBlocks
             values: cava.values
             debugMode: Plasmoid.configuration.debugMode
             visible: !cava.hasError && !cava.idle

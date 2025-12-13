@@ -60,8 +60,8 @@ PlasmoidItem {
     property bool nativePanelBackgroundEnabled: (isEnabled ? cfg.nativePanel.background.enabled : true) || doPanelClickFix
     property real nativePanelBackgroundOpacity: isEnabled ? cfg.nativePanel.background.opacity : 1.0
     property bool nativePanelBackgroundShadowEnabled: isEnabled ? cfg.nativePanel.background.shadow : true
+    property bool configureFromAllWidgets: Plasmoid.configuration.configureFromAllWidgets
     property var panelWidgets: []
-    property int panelWidgetsCount: 0
     property real trayItemThikness: 20
     // keep track of these to allow others to follow their color
     property QtObject panelBgItem
@@ -173,6 +173,7 @@ PlasmoidItem {
     property var panelColorizer: null
     property var blurMask: panelColorizer?.mask ?? null
     property var floatigness: panelElement?.floatingness ?? 0
+    property bool panelIsFloating: (panelElement?.floating ?? false) && (floatigness !== 0)
     property var panelWidth: panelElement?.width ?? 0
     property var panelHeight: panelElement?.height ?? 0
     property bool debug: plasmoid.configuration.enableDebug
@@ -186,6 +187,18 @@ PlasmoidItem {
 
     property var switchPresets: JSON.parse(plasmoid.configuration.switchPresets)
     property QtObject panelView: null
+
+    property var cfg_hiddenWidgets: Plasmoid.configuration.hiddenWidgets
+    property var hiddenWidgets: {
+        try {
+            return JSON.parse(cfg_hiddenWidgets);
+        } catch (e) {
+            console.error(e, e.stack);
+            return {
+                widgets: []
+            };
+        }
+    }
 
     function applyStockPanelSettings() {
         let script = Utils.setPanelModeScript(Plasmoid.containment.id, stockPanelSettings);
@@ -347,12 +360,36 @@ PlasmoidItem {
         property bool bgEnabled: bgColorCfg.enabled
         property bool fgEnabled: fgColorCfg.enabled
         property bool radiusEnabled: cfgEnabled && cfg.radius.enabled
-        topLeftRadius: !radiusEnabled || unifyBgType === 2 || unifyBgType === 3 ? 0 : cfg.radius.corner.topLeft ?? 0
-        topRightRadius: !radiusEnabled || (horizontal && (unifyBgType === 1 || unifyBgType === 2)) || (!horizontal && (unifyBgType === 2 || unifyBgType === 3)) ? 0 : cfg.radius.corner.topRight ?? 0
 
-        bottomLeftRadius: !radiusEnabled || (horizontal && (unifyBgType === 2 || unifyBgType === 3)) || (!horizontal && (unifyBgType === 1 || unifyBgType === 2)) ? 0 : cfg.radius.corner.bottomLeft ?? 0
+        property bool panelTouchingTop: isPanel && main.panelElement && !main.panelIsFloating && main.panelPosition.location === "top"
+        property bool panelTouchingBottom: isPanel && main.panelElement && !main.panelIsFloating && main.panelPosition.location === "bottom"
+        property bool panelTouchingLeft: isPanel && main.panelElement && !main.panelIsFloating && main.panelPosition.location === "left"
+        property bool panelTouchingRight: isPanel && main.panelElement && !main.panelIsFloating && main.panelPosition.location === "right"
 
-        bottomRightRadius: !radiusEnabled || unifyBgType === 1 || unifyBgType === 2 || (!horizontal && (unifyBgType === 1 || unifyBgType === 2)) ? 0 : cfg.radius.corner.bottomRight ?? 0
+        property var hideCfg: main.hiddenWidgets.widgets.find(widget => widget.id === widgetId && widget.name === widgetName)
+
+        function cornerForcedZero(cornerName) {
+            if (!isPanel || !(cfg.flattenOnDeFloat ?? false))
+                return false;
+            switch (cornerName) {
+            case "topLeft":
+                return panelTouchingTop || panelTouchingLeft;
+            case "topRight":
+                return panelTouchingTop || panelTouchingRight;
+            case "bottomLeft":
+                return panelTouchingBottom || panelTouchingLeft;
+            case "bottomRight":
+                return panelTouchingBottom || panelTouchingRight;
+            }
+            return false;
+        }
+
+        topLeftRadius: (!radiusEnabled || unifyBgType === 2 || unifyBgType === 3 || cornerForcedZero("topLeft")) ? 0 : cfg.radius.corner.topLeft ?? 0
+        topRightRadius: (!radiusEnabled || (horizontal && (unifyBgType === 1 || unifyBgType === 2)) || (!horizontal && (unifyBgType === 2 || unifyBgType === 3)) || cornerForcedZero("topRight")) ? 0 : cfg.radius.corner.topRight ?? 0
+
+        bottomLeftRadius: (!radiusEnabled || (horizontal && (unifyBgType === 2 || unifyBgType === 3)) || (!horizontal && (unifyBgType === 1 || unifyBgType === 2)) || cornerForcedZero("bottomLeft")) ? 0 : cfg.radius.corner.bottomLeft ?? 0
+
+        bottomRightRadius: (!radiusEnabled || unifyBgType === 1 || unifyBgType === 2 || (!horizontal && (unifyBgType === 1 || unifyBgType === 2)) || cornerForcedZero("bottomRight")) ? 0 : cfg.radius.corner.bottomRight ?? 0
 
         property bool marginEnabled: cfg.margin.enabled && cfgEnabled
         property bool borderEnabled: cfg.border.enabled && cfgEnabled
@@ -533,6 +570,7 @@ PlasmoidItem {
             main.updateUnified.connect(updateUnifyType);
             main.updateMasks.connect(updateMaskDebounced);
             recolorTimer.start();
+            rect.target.applet.plasmoid.globalShortcutChanged.connect(main.updateCurrentWidgets);
         }
 
         Component.onDestruction: {
@@ -775,6 +813,13 @@ PlasmoidItem {
             delayed: true
         }
 
+        Binding {
+            target: rect.target.applet?.plasmoid
+            property: "status"
+            when: (rect.hideCfg?.hide ?? false) && !main.editMode
+            value: PlasmaCore.Types.HiddenStatus
+        }
+
         Item {
             anchors.fill: parent
             CustomBorder {
@@ -796,6 +841,11 @@ PlasmoidItem {
                     "bottomRightRadius": rect.bottomRightRadius
                 }
                 cfgBorder: cfg.border
+                panelTouchingTop: rect.panelTouchingTop
+                panelTouchingBottom: rect.panelTouchingBottom
+                panelTouchingLeft: rect.panelTouchingLeft
+                panelTouchingRight: rect.panelTouchingRight
+                flattenPanelBordersOnEdge: cfg.flattenOnDeFloat ?? false
                 borderColor: {
                     return Utils.getColor(cfg.border.color, targetIndex, rect.color, itemType, borderRec);
                 }
@@ -832,6 +882,11 @@ PlasmoidItem {
                     "bottomRightRadius": Math.max(rect.bottomRightRadius - cfg.border.width, 0)
                 }
                 cfgBorder: cfg.borderSecondary
+                panelTouchingTop: rect.panelTouchingTop
+                panelTouchingBottom: rect.panelTouchingBottom
+                panelTouchingLeft: rect.panelTouchingLeft
+                panelTouchingRight: rect.panelTouchingRight
+                flattenPanelBordersOnEdge: cfg.flattenOnDeFloat ?? false
                 borderColor: {
                     return Utils.getColor(cfg.borderSecondary.color, targetIndex, rect.color, itemType, borderSecondary);
                 }
@@ -1448,6 +1503,7 @@ PlasmoidItem {
             Utils.showWidgets(panelLayout, backgroundComponent, Plasmoid);
             updateCurrentWidgets();
             showPanelBg(panelBg);
+            updateContextualActions(configureFromAllWidgets);
         });
     }
 
@@ -1571,14 +1627,44 @@ PlasmoidItem {
             panelWidgets = Utils.findWidgetsTray(trayGridView, panelWidgets);
             panelWidgets = Utils.findWidgetsTray(trayGridView.parent, panelWidgets);
         }
-        panelWidgetsCount = panelWidgets.length;
+        plasmoid.configuration.panelWidgets = JSON.stringify(panelWidgets, null, null);
+        plasmoid.configuration.writeConfig();
     }
 
     PlasmaCore.Action {
         id: configureAction
         text: plasmoid.internalAction("configure").text
+        objectName: "panelColorizerConfigureAction"
         icon.name: 'configure'
         onTriggered: plasmoid.internalAction("configure").trigger()
+    }
+
+    onConfigureFromAllWidgetsChanged: {
+        updateContextualActions(configureFromAllWidgets);
+    }
+
+    function updateContextualActions(enabled) {
+        if (!main.panelLayout)
+            return;
+        for (var i in main.panelLayout.children) {
+            const child = main.panelLayout.children[i];
+            // may not be available while dragging into the panel and other situations
+            if (!child.applet?.plasmoid?.pluginName)
+                continue;
+
+            if (child.applet.plasmoid.pluginName === Plasmoid.metaData.pluginId) {
+                continue;
+            }
+            child.applet.plasmoid.contextualActions = child.applet.plasmoid.contextualActions.filter(item => {
+                if (item && item.objectName === "panelColorizerConfigureAction") {
+                    return false;
+                }
+                return true;
+            });
+            if (enabled) {
+                child.applet.plasmoid.contextualActions.push(configureAction);
+            }
+        }
     }
 
     function showPanelBg(panelBg) {
@@ -1590,13 +1676,6 @@ PlasmoidItem {
             "target": panelBg,
             "itemType": Enums.ItemType.PanelBgItem
         });
-    }
-
-    onPanelWidgetsCountChanged: {
-        // console.error( panelWidgetsCount ,JSON.stringify(panelWidgets, null, null))
-        plasmoid.configuration.panelWidgets = "";
-        plasmoid.configuration.panelWidgets = JSON.stringify(panelWidgets, null, null);
-        plasmoid.configuration.writeConfig();
     }
 
     Component.onCompleted: {
@@ -1616,6 +1695,9 @@ PlasmoidItem {
         }
         Utils.delay(100, () => {
             applyStockPanelSettings();
+        }, main);
+        Utils.delay(500, () => {
+            updateContextualActions(configureFromAllWidgets);
         }, main);
     }
 

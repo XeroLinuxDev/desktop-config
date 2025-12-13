@@ -1,14 +1,11 @@
 import QtQuick
-import QtQuick.Layouts
 import QtMultimedia
-import org.kde.plasma.components as PlasmaComponents
-import org.kde.kirigami as Kirigami
 import "code/utils.js" as Utils
 import "code/enum.js" as Enum
 
 Item {
     id: root
-    property var currentSource
+    property var currentSource: Utils.createVideo("")
     property real volume: 1.0
     property bool muted: true
     property real playbackRate: 1
@@ -20,9 +17,10 @@ Item {
     property bool restoreLastPosition: true
     property bool debugEnabled: false
     property int changeWallpaperMode: Enum.ChangeWallpaperMode.Slideshow
+    property int changeWallpaperTimerSeconds: 0
     property int changeWallpaperTimerMinutes: 10
     property int changeWallpaperTimerHours: 0
-    property int changeWallpaperTimerTime: (changeWallpaperTimerHours * 60 + changeWallpaperTimerMinutes) * 60 * 1000
+    property int changeWallpaperTimerMs: ((changeWallpaperTimerHours * 60 * 60) + (changeWallpaperTimerMinutes * 60) + changeWallpaperTimerSeconds) * 1000
     property bool resumeLastVideo: true
 
     // Crossfade must not be longer than the shortest video or the fade becomes glitchy
@@ -36,7 +34,7 @@ Item {
         if (!root.crossfadeEnabled) {
             return 0;
         } else if (root.changeWallpaperMode === Enum.ChangeWallpaperMode.OnATimer) {
-            return Math.min(root.targetCrossfadeDuration, changeWallpaperTimerTime / 3 * 2);
+            return Math.min(root.targetCrossfadeDuration, changeWallpaperTimerMs / 3 * 2);
         } else {
             return crossfadeMinDurationLast + crossfadeMinDurationCurrent;
         }
@@ -45,6 +43,8 @@ Item {
     property bool primaryPlayer: true
     property VideoPlayer player: primaryPlayer ? videoPlayer1 : videoPlayer2
     property VideoPlayer otherPlayer: primaryPlayer ? videoPlayer2 : videoPlayer1
+    property VideoPlayer player1: videoPlayer1
+    property VideoPlayer player2: videoPlayer2
 
     function play() {
         player.play();
@@ -70,18 +70,15 @@ Item {
             root.primaryPlayer = true;
             videoPlayer1.opacity = 1;
         }
-
-        if (root.changeWallpaperMode === Enum.ChangeWallpaperMode.OnATimer) {
-            changeTimer.restart();
-        }
     }
     signal setNextSource
 
-    Timer {
+    PausableTimer {
         id: changeTimer
-        running: root.changeWallpaperMode === Enum.ChangeWallpaperMode.OnATimer
-        interval: !running ? 0 : changeWallpaperTimerTime - (root.crossfadeEnabled ? root.crossfadeMinDurationCurrent : 0)
+        running: root.changeWallpaperMode === Enum.ChangeWallpaperMode.OnATimer && root.player.playing
+        interval: root.changeWallpaperTimerMs - (root.crossfadeEnabled ? root.crossfadeMinDurationCurrent : 0)
         repeat: true
+        useNewIntervalImmediately: true
         onTriggered: {
             if (root.debugEnabled) {
                 console.log("Timer triggered, changing wallpaper");
@@ -89,11 +86,8 @@ Item {
             root.next(true);
         }
         onIntervalChanged: {
-            if (running) {
-                if (root.debugEnabled) {
-                    console.log("Timer started. Interval:", interval);
-                }
-                changeTimer.restart();
+            if (root.debugEnabled) {
+                console.log("Timer changed:", interval);
             }
         }
     }
@@ -244,60 +238,6 @@ Item {
             if (playing) {
                 if (root.debugEnabled) {
                     console.log("Player 2 playing");
-                }
-            }
-        }
-    }
-
-    ColumnLayout {
-        visible: root.debugEnabled
-        z: 2
-        Item {
-            Layout.preferredWidth: 1
-            Layout.preferredHeight: 100
-        }
-        Kirigami.AbstractCard {
-            Layout.margins: Kirigami.Units.largeSpacing
-            contentItem: ColumnLayout {
-                id: content
-                PlasmaComponents.Label {
-                    text: root.player.source
-                }
-                PlasmaComponents.Label {
-                    text: "currentVideoIndex " + main.currentVideoIndex
-                }
-                PlasmaComponents.Label {
-                    text: "changeWallpaperMode " + root.changeWallpaperMode
-                }
-                PlasmaComponents.Label {
-                    text: "crossfade " + root.crossfadeEnabled
-                }
-                PlasmaComponents.Label {
-                    text: "crossfadeDuration " + root.crossfadeDuration + " (" + root.crossfadeMinDurationLast + ", " + root.crossfadeMinDurationCurrent + ")"
-                }
-                PlasmaComponents.Label {
-                    text: "multipleVideos " + root.multipleVideos
-                }
-                PlasmaComponents.Label {
-                    text: "player " + root.player.objectName
-                }
-                PlasmaComponents.Label {
-                    text: "media status " + root.player.mediaStatus
-                }
-                PlasmaComponents.Label {
-                    text: "player1 playing " + videoPlayer1.playing
-                }
-                PlasmaComponents.Label {
-                    text: "player2 playing " + videoPlayer2.playing
-                }
-                PlasmaComponents.Label {
-                    text: "position " + root.player.position
-                }
-                PlasmaComponents.Label {
-                    text: "duration " + root.player.duration
-                }
-                PlasmaComponents.Label {
-                    text: "resumeLastVideo" + root.resumeLastVideo
                 }
             }
         }

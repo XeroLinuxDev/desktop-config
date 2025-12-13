@@ -531,7 +531,6 @@ immutability=1
 plugin=org.kde.plasma.icon
 
 [Containments][168][Applets][233][Configuration]
-localPath=/home/xero/.local/share/plasma_icons/xapit-cli (1).desktop
 url=file:///usr/share/applications/xapit-cli.desktop
 
 [Containments][168][Applets][235]

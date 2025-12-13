@@ -19,12 +19,14 @@
  */
 
 import QtQuick
+import QtQuick.Layouts
 import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.plasma5support as P5Support
 import org.kde.plasma.plasmoid
 import Qt5Compat.GraphicalEffects
 import org.kde.plasma.extras as PlasmaExtras
 import org.kde.kirigami as Kirigami
+import org.kde.plasma.components as PlasmaComponents
 import "code/utils.js" as Utils
 import "code/enum.js" as Enum
 
@@ -74,9 +76,12 @@ WallpaperItem {
         return play;
     }
     property bool playing: {
-        return (shouldPlay && !batteryPausesVideo && !screenLocked && !screenIsOff && !effectPauseVideo) || effectPlayVideo;
+        return ((shouldPlay && !batteryPausesVideo && !screenLocked && !screenIsOff && !effectPauseVideo) || effectPlayVideo) && videosConfig.length !== 0;
     }
     property bool shouldBlur: {
+        if (videosConfig.length == 0) {
+            return false;
+        }
         let blur = false;
         switch (main.configuration.BlurMode) {
         case Enum.BlurMode.MaximizedOrFullScreen:
@@ -129,6 +134,7 @@ WallpaperItem {
     property bool randomMode: main.configuration.RandomMode
     property int lastVideoPosition: main.configuration.LastVideoPosition
     property int changeWallpaperMode: main.configuration.ChangeWallpaperMode
+    property int changeWallpaperTimerSeconds: main.configuration.ChangeWallpaperTimerSeconds
     property int changeWallpaperTimerMinutes: main.configuration.ChangeWallpaperTimerMinutes
     property int changeWallpaperTimerHours: main.configuration.ChangeWallpaperTimerHours
     property bool muteAudio: {
@@ -172,12 +178,16 @@ WallpaperItem {
         if (isLoading)
             return;
         videosConfig = getVideos();
+        const wasPlaying = player.player.playing;
         // console.error(videoUrls);
         if (videosConfig.length == 0) {
             main.stop();
             main.currentSource.filename = "";
-        } else {
-            player.play();
+        } else if (videosConfig.length == 1) {
+            player.next(true, true);
+            if (!wasPlaying) {
+                main.pause();
+            }
         }
     }
 
@@ -241,7 +251,6 @@ WallpaperItem {
         FadePlayer {
             id: player
             anchors.fill: parent
-            currentSource: main.currentSource
             muted: main.muteAudio
             lastVideoPosition: main.configuration.LastVideoPosition
             onSetNextSource: {
@@ -252,6 +261,7 @@ WallpaperItem {
             targetCrossfadeDuration: main.configuration.CrossfadeDuration
             debugEnabled: main.debugEnabled
             changeWallpaperMode: main.changeWallpaperMode
+            changeWallpaperTimerSeconds: main.changeWallpaperTimerSeconds
             changeWallpaperTimerMinutes: main.changeWallpaperTimerMinutes
             changeWallpaperTimerHours: main.changeWallpaperTimerHours
             fillMode: main.configuration.FillMode
@@ -260,23 +270,54 @@ WallpaperItem {
             resumeLastVideo: main.configuration.ResumeLastVideo
         }
 
+        FastBlur {
+            source: player
+            radius: main.showBlur ? main.configuration.BlurRadius : 0
+            visible: radius !== 0
+            anchors.fill: parent
+            Behavior on radius {
+                NumberAnimation {
+                    duration: main.blurAnimationDuration
+                }
+            }
+        }
+
         PlasmaExtras.PlaceholderMessage {
-            visible: videosConfig.length == 0
+            visible: main.videosConfig.length == 0
             anchors.centerIn: parent
             width: parent.width - Kirigami.Units.gridUnit * 2
             iconName: "video-symbolic"
             text: i18n("No video source \n" + main.videoUrls)
         }
-    }
 
-    FastBlur {
-        source: player
-        radius: showBlur ? main.configuration.BlurRadius : 0
-        visible: radius !== 0
-        anchors.fill: parent
-        Behavior on radius {
-            NumberAnimation {
-                duration: blurAnimationDuration
+        ColumnLayout {
+            id: root
+            visible: main.debugEnabled
+            Item {
+                Layout.preferredWidth: 1
+                Layout.preferredHeight: 100
+            }
+            Kirigami.AbstractCard {
+                Layout.margins: Kirigami.Units.largeSpacing
+                contentItem: PlasmaComponents.Label {
+                    text: {
+                        let text = `filename: ${main.currentSource.filename}\n`;
+                        text += `loops: ${main.currentSource.loop ?? false}\n`;
+                        text += `currentVideoIndex ${main.currentVideoIndex}\n`;
+                        text += `changeWallpaperMode ${main.changeWallpaperMode}\n`;
+                        text += `crossfade ${main.crossfadeEnabled}\n`;
+                        text += `crossfadeDuration ${player.crossfadeDuration} ${player.crossfadeMinDurationLast} ${player.crossfadeMinDurationCurrent}\n`;
+                        text += `multipleVideos ${player.multipleVideos}\n`;
+                        text += `player ${player.player.objectName}\n`;
+                        text += `media status ${player.player.mediaStatus}\n`;
+                        text += `player1 playing ${player.player1.playing}\n`;
+                        text += `player2 playing ${player.player2.playing}\n`;
+                        text += `position ${player.player.position}\n`;
+                        text += `duration ${player.player.duration}\n`;
+                        text += `resumeLastVideo ${player.resumeLastVideo}`;
+                        return text;
+                    }
+                }
             }
         }
     }
@@ -356,6 +397,11 @@ WallpaperItem {
 
     Component.onCompleted: {
         startTimer.start();
+        Qt.callLater(() => {
+            player.currentSource = Qt.binding(() => {
+                return main.currentSource;
+            });
+        });
     }
 
     function save() {

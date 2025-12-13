@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Shapes
+import QtQuick.Controls
 import org.kde.kirigami as Kirigami
 import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.plasmoid
@@ -10,13 +11,19 @@ import "../code/drawCanvas.js" as DrawCanvas
 Item {
     id: root
     required property int visualizerStyle
+    required property bool circleMode
+    required property real circleModeSize
     required property int barWidth
+    required property int blockHeight
+    required property int blockSpacing
     required property int barGap
     required property bool centeredBars
     required property bool roundedBars
     required property bool fillWave
     required property var barColorsCfg
     required property var waveFillColorsCfg
+    required property var inactiveBlockColorsCfg
+    required property bool drawInactiveBlocks
     required property bool fixVertical
     property list<int> values
     property bool debugMode: false
@@ -49,7 +56,11 @@ Item {
         anchors.centerIn: parent
         // renderStrategy: Canvas.Threaded
         property int visualizerStyle: root.visualizerStyle
+        property bool circleMode: root.circleMode
+        property real circleModeSize: root.circleModeSize
         property int barWidth: root.barWidth
+        property int blockHeight: root.blockHeight
+        property int blockSpacing: root.blockSpacing
         property int spacing: {
             if (visualizerStyle === Enum.VisualizerStyles.Wave) {
                 return Math.max(1, root.barGap);
@@ -70,14 +81,23 @@ Item {
         property bool fillWave: root.fillWave
 
         property real radiusOffset: barWidth / 2
-        property int gradientHeight: height
-        property int gradientWidth: width
+        property int gradientHeight: canvas.height
+        property int gradientWidth: canvas.width
+
+        function updateGradients() {
+            if (!canvas.available) {
+                return;
+            }
+            canvas.requestPaint();
+        }
+        onHeightChanged: updateGradients()
+        onWidthChanged: updateGradients()
 
         property var barColorsCfg: root.barColorsCfg
         property list<color> colors: Utils.getColors(barColorsCfg, barCount, kirigamiColorItem.Kirigami.Theme[barColorsCfg.systemColor])
         property var gradient: {
             if (canvas.available) {
-                return Utils.buildCanvasGradient(getContext("2d"), barColorsCfg.smoothGradient, colors, barColorsCfg.colorsOrientation, gradientHeight, gradientWidth);
+                return Utils.buildCanvasGradient(getContext("2d"), barColorsCfg.smoothGradient, colors, barColorsCfg.colorsOrientation, canvas.height, canvas.width, circleMode);
             }
             return null;
         }
@@ -86,10 +106,20 @@ Item {
         property list<color> waveFillColors: Utils.getColors(waveFillColorsCfg, barCount, kirigamiColorItem2.Kirigami.Theme[waveFillColorsCfg.systemColor])
         property var waveFillGradient: {
             if (canvas.available) {
-                return Utils.buildCanvasGradient(getContext("2d"), waveFillColorsCfg.smoothGradient, waveFillColors, waveFillColorsCfg.colorsOrientation, gradientHeight, gradientWidth);
+                return Utils.buildCanvasGradient(getContext("2d"), waveFillColorsCfg.smoothGradient, waveFillColors, waveFillColorsCfg.colorsOrientation, canvas.height, canvas.width, circleMode);
             }
             return null;
         }
+
+        property var inactiveBlockColorsCfg: root.inactiveBlockColorsCfg
+        property list<color> inactiveBlockColors: Utils.getColors(inactiveBlockColorsCfg, barCount, kirigamiColorItem.Kirigami.Theme[inactiveBlockColorsCfg.systemColor])
+        property var inactiveBlockGradient: {
+            if (canvas.available) {
+                return Utils.buildCanvasGradient(getContext("2d"), inactiveBlockColorsCfg.smoothGradient, inactiveBlockColors, inactiveBlockColorsCfg.colorsOrientation, canvas.height, canvas.width, circleMode);
+            }
+            return null;
+        }
+        property bool drawInactiveBlocks: root.drawInactiveBlocks
 
         width: {
             if (visualizerStyle === Enum.VisualizerStyles.Wave) {
@@ -113,16 +143,20 @@ Item {
             }
             if (gradient) {
                 ctx.strokeStyle = gradient;
+                ctx.fillStyle = gradient;
             }
             switch (visualizerStyle) {
             case Enum.VisualizerStyles.Bars:
-                DrawCanvas.bars(ctx, canvas);
+                DrawCanvas.bars(ctx, canvas, circleMode);
                 break;
             case Enum.VisualizerStyles.Wave:
-                DrawCanvas.wave(ctx, canvas);
+                DrawCanvas.wave(ctx, canvas, circleMode);
+                break;
+            case Enum.VisualizerStyles.Blocks:
+                DrawCanvas.blocks(ctx, canvas, circleMode);
                 break;
             default:
-                DrawCanvas.bars(ctx, canvas);
+                DrawCanvas.bars(ctx, canvas, circleMode);
                 break;
             }
             if (fixAlign) {
