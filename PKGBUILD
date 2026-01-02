@@ -1,7 +1,7 @@
 # Maintainer: DarkXero <info@techxero.com>
 pkgname=desktop-config
 _destname1="/etc"
-pkgver=5.0
+pkgver=5.1
 pkgrel=1
 pkgdesc="Desktop Config for XeroLinux (KDE)"
 arch=('any')
