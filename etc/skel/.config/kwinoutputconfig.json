@@ -117,36 +117,6 @@
                 "uuid": "f4560a92-2a9b-4856-8bf2-bfed659dc137",
                 "vrrPolicy": "Never",
                 "wideColorGamut": false
-            },
-            {
-                "allowDdcCi": true,
-                "allowSdrSoftwareBrightness": true,
-                "autoRotation": "InTabletMode",
-                "brightness": 1,
-                "colorPowerTradeoff": "PreferEfficiency",
-                "colorProfileSource": "sRGB",
-                "connectorName": "Virtual-1",
-                "detectedDdcCi": false,
-                "edidHash": "bb6ad72dc802b000932c73ad20996ae5",
-                "edidIdentifier": "RHT 4660 0 42 2014 0",
-                "edrPolicy": "always",
-                "highDynamicRange": false,
-                "iccProfilePath": "",
-                "maxBitsPerColor": 0,
-                "mode": {
-                    "height": 800,
-                    "refreshRate": 74994,
-                    "width": 1280
-                },
-                "overscan": 0,
-                "rgbRange": "Automatic",
-                "scale": 1,
-                "sdrBrightness": 200,
-                "sdrGamutWideness": 0,
-                "transform": "Normal",
-                "uuid": "5996ce79-1ebb-4d0a-a9a5-9f6124095925",
-                "vrrPolicy": "Never",
-                "wideColorGamut": false
             }
         ],
         "name": "outputs"
