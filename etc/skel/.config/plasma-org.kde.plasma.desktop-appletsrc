@@ -258,14 +258,15 @@ DialogHeight=540
 DialogWidth=720
 
 [Containments][126][Applets][131][Applets][223][Configuration][General]
-checkOnStartup=true
+checkOnStartup=false
 flatpak=true
 fwupd=true
 intervalMinutes=30
-newsArch=true
+newsArch=false
 notifyAction=true
 notifyErrors=false
 plasmoids=true
+rightAction=checkUpdates
 time=30
 widgets=true
 wrapper=/usr/bin/paru
@@ -274,7 +275,7 @@ wrapper=/usr/bin/paru
 configMsg=false
 rulesMsg=false
 timestamp=1753612286196
-version=v2.9.3
+version=v2.9.6.1
 
 [Containments][126][Applets][131][Applets][223][Configuration][Upgrade]
 flatpakRemoveUnused=true
