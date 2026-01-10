@@ -50,7 +50,6 @@ PlasmoidItem {
 
     QtObject {
         id: sts
-        property bool init: false
         property var errors: []
         property int count: 0
         property bool busy: false
@@ -124,9 +123,20 @@ PlasmoidItem {
         onTriggered: JS.saveConfig()
     }
 
-    onCheckModeChanged: sts.init && scheduler.restart()
-    onSortingChanged: sts.init && JS.refreshListModel()
-    onRulesChanged: sts.init && JS.refreshListModel()
+    Timer {
+        id: initTimer
+        running: true
+        interval: 50
+    }
+
+    function refresh() {
+        if (initTimer.running) return
+        JS.refreshListModel()
+    }
+
+    onCheckModeChanged: scheduler.restart()
+    onSortingChanged: refresh()
+    onRulesChanged: refresh()
     onConfigurationChanged: saveTimer.start()
 	Component.onCompleted: JS.init()
 }
