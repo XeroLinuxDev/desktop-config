@@ -1,5 +1,5 @@
 /*
- * Copyright 2025  Kevin Donnelly
+ * Copyright 2026  Kevin Donnelly
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -41,12 +41,13 @@ GridLayout {
         // Use theme color if user doesn't want temp colored
         color: plasmoid.configuration.tempAutoColor ? Utils.heatColor(weatherData["details"]["temp"], Kirigami.Theme.backgroundColor) : Kirigami.Theme.textColor
     }
+
     Kirigami.Icon {
         id: topPanelIcon
 
         source: Utils.getWindBarbIcon(weatherData["details"]["windSpeed"])
 
-        isMask: plasmoid.configuration.applyColorScheme ? true : false
+        isMask: true
         color: Kirigami.Theme.textColor
 
         // wind barb icons are 270 degrees deviated from 0 degrees (north)
@@ -56,6 +57,44 @@ GridLayout {
         Layout.minimumHeight: Kirigami.Units.iconSizes.large
         Layout.preferredWidth: Layout.minimumWidth
         Layout.preferredHeight: Layout.minimumHeight
+
+        PlasmaCore.ToolTipArea {
+            anchors.fill: parent
+
+            interactive: true
+            mainText: i18n("Wind Barb")
+            subText: i18n("Wind direction and speed indicator")
+
+            mainItem: PlasmaComponents.Control {
+                implicitWidth: Math.max(implicitBackgroundWidth + leftPadding + rightPadding,
+                            implicitContentWidth + leftPadding + rightPadding)
+                implicitHeight: Math.max(implicitBackgroundHeight + topPadding + bottomPadding,
+                            implicitContentHeight + topPadding + bottomPadding)
+                
+                padding: Kirigami.Units.smallSpacing
+                
+                contentItem: ColumnLayout {
+                    spacing: Kirigami.Units.smallSpacing
+                    
+                    PlasmaComponents.Label {
+                        text: i18n("Wind Barb")
+                        font.bold: true
+                    }
+                    
+                    PlasmaComponents.Label {
+                        text: i18n("Wind direction and speed indicator")
+                        wrapMode: Text.WordWrap
+                        font.pointSize: Kirigami.Theme.smallFont.pointSize
+                    }
+                    
+                    PlasmaComponents.Button {
+                        text: i18n("Learn more")
+                        onClicked: Qt.openUrlExternally("https://en.wikipedia.org/wiki/Station_model#Plotted_winds")
+                        Layout.alignment: Qt.AlignHCenter
+                    }
+                }
+            }
+        }
     }
 
     PlasmaComponents.Label {
@@ -131,14 +170,21 @@ GridLayout {
 
             height: Kirigami.Units.iconSizes.small
 
-            isMask: plasmoid.configuration.applyColorScheme ? true : false
-            color: Kirigami.Theme.textColor
-
             PlasmaCore.ToolTipArea {
                 anchors.fill: parent
 
                 mainText: weatherData["details"]["pressureTrend"]
-                subText: Utils.hasPresIncreased(weatherData["details"]["pressureTrendCode"]) ? i18n("Pressure has risen %1 in the last three hours.", Utils.currentPresUnit(Math.abs(Utils.toUserPres(weatherData["details"]["pressureDelta"])))) : i18n("Pressure has fallen %1 in the last three hours.", Utils.currentPresUnit(Math.abs(Utils.toUserPres(weatherData["details"]["pressureDelta"]))))
+                subText: {
+                    var userPres = Utils.toUserPres(weatherData["details"]["pressureDelta"]);
+                    var absDelta = Math.abs(userPres);
+                    var fullStr = Utils.currentPresUnit(absDelta);
+                    var hasIncreased = Utils.hasPresIncreased(weatherData["details"]["pressureTrendCode"]);
+                    if (hasIncreased) {
+                        return i18n("Pressure has risen %1 in the last three hours.", fullStr);
+                    } else {
+                        return i18n("Pressure has fallen %1 in the last three hours.", fullStr);
+                    }
+                }
             }
         }
     }

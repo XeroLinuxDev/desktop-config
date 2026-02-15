@@ -1,5 +1,5 @@
 /*
- * Copyright 2025  Kevin Donnelly
+ * Copyright 2026  Kevin Donnelly
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -47,38 +47,20 @@ RowLayout {
         Row {
             id: centerRow
             anchors.centerIn: parent
-            Kirigami.Icon {
+            PlasmaComponents.Label {
                 id: locationIcon
 
-                isMask: plasmoid.configuration.applyColorScheme ? true : false
                 color: Kirigami.Theme.textColor
 
-                height: Kirigami.Units.iconSizes.small
-                source: Utils.getIcon("pin")
+                font.family: "weather-icons"
+                font.pixelSize: Kirigami.Units.iconSizes.small
+                text: Utils.getConditionIcon("pin") + " "
             }
 
             PlasmaComponents.Label {
                 id: locationLabel
 
-                text: weatherData["neighborhood"]
-            }
-
-            Kirigami.Icon {
-                id: stationToolBtn
-
-                opacity: 0.25
-
-                isMask: plasmoid.configuration.applyColorScheme ? true : false
-                color: Kirigami.Theme.textColor
-
-                height: Kirigami.Units.iconSizes.small
-                source: "draw-arrow-forward"
-
-                MouseArea {
-                    anchors.fill: parent
-
-                    onClicked: Qt.openUrlExternally("https://www.wunderground.com/dashboard/pws/" + weatherData["stationID"])
-                }
+                text: plasmoid.configuration.stationName
             }
         }
     }
@@ -94,20 +76,45 @@ RowLayout {
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
 
-            Kirigami.Icon {
+            PlasmaComponents.Label {
                 id: stationIcon
 
-                isMask: plasmoid.configuration.applyColorScheme ? true : false
                 color: Kirigami.Theme.textColor
 
-                height: Kirigami.Units.iconSizes.small
-                source: Utils.getIcon("weather-station-2")
+                font.family: "weather-icons"
+                font.pixelSize: Kirigami.Units.iconSizes.small
+
+                text: Utils.getConditionIcon("weatherStation") + " "
             }
 
             PlasmaComponents.Label {
                 id: bottomPanelStation
 
-                text: weatherData["stationID"] + "   " + Utils.currentElevUnit(Utils.toUserElev(weatherData["details"]["elev"]))
+                text: plasmoid.configuration.stationID
+
+                MouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+
+                    onClicked: {
+                        Qt.openUrlExternally("https://www.wunderground.com/dashboard/pws/" + plasmoid.configuration.stationID);
+                    }
+
+                    onEntered: {
+                        bottomPanelStation.font.underline = true;
+                    }
+
+                    onExited: {
+                        bottomPanelStation.font.underline = false;
+                    }
+                }
+            }
+
+            PlasmaComponents.Label {
+                id: elevationLabel
+
+                text: "   " + Utils.currentElevUnit(Utils.toUserElev(weatherData["details"]["elev"]))
             }
 
             Kirigami.Icon {

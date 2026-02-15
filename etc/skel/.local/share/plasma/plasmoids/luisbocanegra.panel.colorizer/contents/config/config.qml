@@ -29,7 +29,7 @@ ConfigModel {
     ConfigCategory {
         name: i18n("Widget Islands")
         icon: "distribute-horizontal-margin-symbolic"
-        source: "configUnifiedBackground.qml"
+        source: "configWidgetIslands.qml"
     }
 
     ConfigCategory {
@@ -66,5 +66,11 @@ ConfigModel {
         name: i18n("General")
         icon: "configure-symbolic"
         source: "configGeneral.qml"
+    }
+
+    ConfigCategory {
+        name: i18n("Support Me")
+        icon: "emblem-favorite-symbolic"
+        source: "configSupportMe.qml"
     }
 }

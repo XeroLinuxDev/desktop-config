@@ -1,5 +1,5 @@
 /*
- * Copyright 2025  Kevin Donnelly
+ * Copyright 2026  Kevin Donnelly
  * Copyright 2024  dniminenn
  * Copyright 2022  Rafal (Raf) Liwoch
  *
@@ -659,6 +659,7 @@ function getCurrentData(options, callback) {
 			isNight: prevWeather ? prevWeather["isNight"] : false,
 			sunrise: prevWeather ? prevWeather["sunrise"] : "",
 			sunset: prevWeather ? prevWeather["sunset"] : "",
+			cloudCover: prevWeather ? prevWeather["cloudCover"] : null,
 			details: {
 				temp: details["temp"],
 				heatIndex: details["heatIndex"],
@@ -667,19 +668,19 @@ function getCurrentData(options, callback) {
 				windSpeed: details["windSpeed"],
 				windGust: details["windGust"],
 				pressure: details["pressure"],
+				pressureTrend: prevWeather
+					? prevWeather["details"]["pressureTrend"]
+					: null,
+				pressureTrendCode: prevWeather
+					? prevWeather["details"]["pressureTrendCode"]
+					: null,
+				pressureDelta: prevWeather
+					? prevWeather["details"]["pressureDelta"]
+					: null,
 				precipRate: details["precipRate"],
 				precipTotal: details["precipTotal"],
 				elev: details["elev"],
 				solarRad: prevWeather ? prevWeather["solarRad"] : null,
-				pressureTrend: prevWeather
-					? prevWeather["pressureTrend"]
-					: null,
-				pressureTrendCode: prevWeather
-					? prevWeather["pressureTrendCode"]
-					: null,
-				pressureDelta: prevWeather
-					? prevWeather["pressureDelta"]
-					: null,
 			},
 			aq: prevWeather && prevWeather["aq"] ? prevWeather["aq"] : {},
 		};
@@ -710,7 +711,7 @@ function getCurrentData(options, callback) {
  *
  * Callback: cb(err, {
  *   isNight, sunriseTimeLocal, sunsetTimeLocal, pressureTendencyTrend,
- *   pressureTendencyCode, pressureChange, iconCode, conditionNarrative,
+ *   pressureTendencyCode, pressureDelta, iconCode, conditionNarrative,
  *   isRain, alerts, airQuality
  * })
  *
@@ -875,12 +876,13 @@ function getExtendedConditions(options, callback) {
 			pressureTendencyCode: condVars
 				? condVars["pressureTendencyCode"]
 				: null,
-			pressureChange: condVars ? condVars["pressureChange"] : null,
+			pressureDelta: condVars ? condVars["pressureChange"] : null,
 			iconCode: newIconCode,
 			conditionNarrative: newConditionNarrative,
 			isRain: newIsRain,
 			alerts: alertsList,
 			airQuality: aqObj,
+			cloudCover: condVars ? condVars["cloudCover"] : null,
 		};
 
 		callback(null, result);

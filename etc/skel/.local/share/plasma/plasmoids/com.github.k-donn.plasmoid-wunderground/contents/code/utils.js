@@ -1,5 +1,5 @@
 /*
- * Copyright 2025  Kevin Donnelly
+ * Copyright 2026  Kevin Donnelly
  * Copyright 2022  Rafal (Raf) Liwoch
  *
  * This program is free software; you can redistribute it and/or
@@ -85,8 +85,7 @@ var hourlyModelDictV3 = {
 	iconCode: "iconCode",
 };
 
-/** Map from Wunderground provided icon codes to opendesktop icon theme descs */
-var iconThemeMapPredefined = {
+var systemIconMap = {
 	0: "weather-storm",
 	1: "weather-storm",
 	2: "weather-storm",
@@ -135,70 +134,99 @@ var iconThemeMapPredefined = {
 	45: "weather-showers-scattered-night",
 	46: "weather-snow-storm-night",
 	47: "weather-storm-night",
+	temperature: "\uF00C",
+	uvIndex: "\uF009",
+	pressure: "\uF00A",
+	cloudCover: "\uF03B",
+	humidity: "\uF008",
+	precipitationChance: "\uF007",
+	precipitationRate: "\uF04C",
+	snowPrecipitationRate: "\uF02D",
+	wind: "\uF040",
+	weatherStation: "\uF00B",
+	compass: "\uF01C",
+	pin: "\uF014",
+	"0-2": "\uF006",
+	"3-7": "\uF005",
+	"8-12": "\uF004",
+	"13-17": "\uF003",
+	"18-22": "\uF002",
+	"23-27": "\uF001",
+	"28-32": "\uF000",
 };
 
-/** Map from Wunderground provided icon codes to opendesktop icon theme descs */
-var iconThemeMapSymbolic = {
-	0: "weather-storm-symbolic",
-	1: "weather-storm-symbolic",
-	2: "weather-storm-symbolic",
-	3: "weather-storm-symbolic",
-	4: "weather-storm-symbolic",
-	5: "weather-snow-rain-symbolic",
-	6: "weather-snow-rain-symbolic",
-	7: "weather-freezing-rain-symbolic",
-	8: "weather-freezing-rain-symbolic",
-	9: "weather-showers-scattered-symbolic",
-	10: "weather-freezing-rain-symbolic",
-	11: "weather-showers-symbolic",
-	12: "weather-showers-symbolic",
-	13: "weather-snow-scattered-symbolic",
-	14: "weather-snow-symbolic",
-	15: "weather-snow-symbolic",
-	16: "weather-snow-symbolic",
-	17: "weather-hail-symbolic",
-	18: "weather-snow-scattered-symbolic",
-	19: "weather-many-clouds-wind-symbolic",
-	20: "weather-fog-symbolic",
-	21: "weather-fog-symbolic",
-	22: "weather-fog-symbolic",
-	23: "weather-clouds-wind-symbolic",
-	24: "weather-clouds-wind-symbolic",
-	25: "weather-snow-symbolic",
-	26: "weather-many-clouds-symbolic",
-	27: "weather-many-clouds-symbolic",
-	28: "weather-clouds-symbolic",
-	29: "weather-clouds-night-symbolic",
-	30: "weather-few-clouds-symbolic",
-	31: "weather-clear-night-symbolic",
-	32: "weather-clear-symbolic",
-	33: "weather-few-clouds-night-symbolic",
-	34: "weather-few-clouds-day-symbolic",
-	35: "weather-freezing-storm-day-symbolic",
-	36: "weather-clear-symbolic",
-	37: "weather-storm-day-symbolic",
-	38: "weather-storm-day-symbolic",
-	39: "weather-showers-scattered-day-symbolic",
-	40: "weather-showers-symbolic",
-	41: "weather-snow-scattered-day-symbolic",
-	42: "weather-snow-symbolic",
-	43: "weather-snow-symbolic",
-	44: "weather-none-available-symbolic",
-	45: "weather-showers-scattered-night-symbolic",
-	46: "weather-snow-storm-night-symbolic",
-	47: "weather-storm-night-symbolic",
-};
-
-var chartIconMap = {
-	temperature: "thermometer",
-	uvIndex: "wi-horizon-alt",
-	pressure: "wi-barometer",
-	cloudCover: 28,
-	humidity: "wi-humidity",
-	precipitationChance: "wi-umbrella",
-	precipitationRate: 11,
-	snowPrecipitationRate: 42,
-	wind: 23,
+var iconMap = {
+	0: "\uF057",
+	1: "\uF056",
+	2: "\uF055",
+	3: "\uF054",
+	4: "\uF053",
+	5: "\uF052",
+	6: "\uF051",
+	7: "\uF050",
+	8: "\uF04F",
+	9: "\uF04E",
+	10: "\uF04D",
+	11: "\uF04C",
+	12: "\uF04B",
+	13: "\uF04A",
+	14: "\uF049",
+	15: "\uF048",
+	16: "\uF047",
+	17: "\uF046",
+	18: "\uF045",
+	19: "\uF044",
+	20: "\uF043",
+	21: "\uF042",
+	22: "\uF041",
+	23: "\uF040",
+	24: "\uF03F",
+	25: "\uF03E",
+	26: "\uF03D",
+	27: "\uF03C",
+	28: "\uF03B",
+	29: "\uF03A",
+	30: "\uF039",
+	31: "\uF038",
+	32: "\uF037",
+	33: "\uF036",
+	34: "\uF035",
+	35: "\uF034",
+	36: "\uF033",
+	37: "\uF032",
+	38: "\uF031",
+	39: "\uF030",
+	40: "\uF02F",
+	41: "\uF02E",
+	42: "\uF02D",
+	43: "\uF02C",
+	44: "\uF02B",
+	45: "\uF02A",
+	46: "\uF029",
+	47: "\uF028",
+	temperature: "\uF00C",
+	uvIndex: "\uF009",
+	pressure: "\uF00A",
+	"pressure@2": "\uF059",
+	cloudCover: "\uF03B",
+	"cloudCover@2": "\uF05B",
+	humidity: "\uF008",
+	"humidity@2": "\uF058",
+	precipitationChance: "\uF007",
+	precipitationRate: "\uF04C",
+	snowPrecipitationRate: "\uF02D",
+	wind: "\uF040",
+	"wind@2": "\uF05A",
+	weatherStation: "\uF00B",
+	compass: "\uF01C",
+	pin: "\uF014",
+	"0-2": "\uF006",
+	"3-7": "\uF005",
+	"8-12": "\uF004",
+	"13-17": "\uF003",
+	"18-22": "\uF002",
+	"23-27": "\uF001",
+	"28-32": "\uF000",
 };
 
 var severityColorMap = {
@@ -684,29 +712,14 @@ function getWindBarbIcon(windSpeed) {
 }
 
 /**
- * Return the icon representing a weather condition.
+ * Return the icon representing a weather condition or info element.
  *
- * @param {number} code Wunderground provided icon code
- * @returns {string} Either an opendesktop icon name or path to custom icon
+ * @param {number} codeID Identifier code for the icon
+ * @param {boolean} [useSystemThemeIcons=false] Whether to show system bundled icons
+ * @returns {string} opendesktop icon name or unicode escape string
  */
-function getConditionIcon(code) {
-	if (plasmoid.configuration.useSystemThemeIcons) {
-		if (plasmoid.configuration.applyColorScheme) {
-			return iconThemeMapSymbolic[code];
-		} else {
-			return iconThemeMapPredefined[code];
-		}
-	} else {
-		return Qt.resolvedUrl("../icons/" + code + ".svg");
-	}
-}
-
-function getChartIcon(code) {
-	return Qt.resolvedUrl("../icons/" + chartIconMap[code] + ".svg");
-}
-
-function getIcon(code) {
-	return Qt.resolvedUrl("../icons/" + code + ".svg");
+function getConditionIcon(codeID, useSystemThemeIcons = false) {
+	return useSystemThemeIcons ? systemIconMap[codeID] : iconMap[codeID];
 }
 
 /**
@@ -915,17 +928,6 @@ function currentElevUnit(value) {
 }
 
 /**
- * Get hostname
- *
- * @returns {string} hostname
- */
-function getAPIHost() {
-	var hosts = ["aaa", "a91", "0a3", "75b", "fd6"];
-	var host = hosts[Math.floor(Math.random() * hosts.length)];
-	return "https://wps.mitchell-" + host + ".workers.dev";
-}
-
-/**
  * Take in API precip and convert it to user choosen units.
  * When a user chooses custom units, the API returns metric. So,
  * convert from metric to choice.
@@ -1063,7 +1065,7 @@ function toUserPres(value) {
 }
 
 /**
- * Return the user's choice of temperature unit with no additional data.
+ * Return the user's choice of pressure unit with no additional data.
  *
  * @returns {"mb"|"inHG"|"mmHG"|"hPa"} User choosen unit
  */
@@ -1093,7 +1095,7 @@ function rawPresUnit() {
  * Take in a numeric pressure value and return a string
  * with the user specified unit attached.
  *
- * @param {number} value Precipitation
+ * @param {number} value Pressure
  *
  * @returns {string} User-shown value
  */
@@ -1126,3 +1128,16 @@ function toUserProp(value, prop) {
 		return value;
 	}
 }
+
+
+/**
+ * Get hostname
+ *
+ * @returns {string} hostname
+ */
+function getAPIHost() {
+	var hosts = ["aaa", "a91", "0a3", "75b", "fd6"];
+	var host = hosts[Math.floor(Math.random() * hosts.length)];
+	return "https://wps.mitchell-" + host + ".workers.dev";
+}
+

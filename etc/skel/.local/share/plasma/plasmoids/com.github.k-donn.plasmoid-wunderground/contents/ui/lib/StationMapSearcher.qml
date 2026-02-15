@@ -1,5 +1,5 @@
 /*
- * Copyright 2025  Kevin Donnelly
+ * Copyright 2026  Kevin Donnelly
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -65,6 +65,12 @@ Window {
     property ListModel searchResults: ListModel {}
     property ListModel availableCitiesModel: ListModel {}
 
+    function printDebug(msg) {
+        if (plasmoid.configuration.logConsole) {
+            console.log("[debug] [StationMapSearcher.qml] " + msg);
+        }
+    }
+
     onOpen: {
         stationMapSearcher.visible = true;
         errorMessage = "";
@@ -84,7 +90,7 @@ Window {
         name: "osm"
         PluginParameter {
             name: "osm.useragent"
-            value: "WundergroundPlasmoid/3.6.4 (https://github.com/k-donn/plasmoid-wunderground; contact:mitchell@mitchelldonnelly.com)"
+            value: "WundergroundPlasmoid/3.6.8 (https://github.com/k-donn/plasmoid-wunderground; contact:mitchell@mitchelldonnelly.com)"
         }
         PluginParameter {
             name: "osm.mapping.custom.host"
@@ -461,13 +467,18 @@ Window {
                 id: searchPointMarker
                 coordinate: QtPositioning.coordinate(stationMapSearcher.searchLat, stationMapSearcher.searchLon)
                 visible: stationMapSearcher.searchMode === "latlon"
-                anchorPoint.x: searchIconImage.height / 2
-                anchorPoint.y: searchIconImage.height / 2
-                sourceItem: Image {
-                    id: searchIconImage
-                    source: Utils.getIcon("compass")
+                anchorPoint.x: searchIconLabel.width / 2
+                anchorPoint.y: searchIconLabel.height / 2
+                sourceItem: PlasmaComponents.Label {
+                    id: searchIconLabel
+                    text: Utils.getConditionIcon("compass")
+                    color: Kirigami.Theme.textColor
+                    font.family: "weather-icons"
+                    font.pixelSize: 24
                     width: 24
                     height: 24
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
                 }
 
                 DragHandler {
@@ -508,13 +519,16 @@ Window {
                     anchorPoint.x: 2.5
                     anchorPoint.y: iconImage.height
                     sourceItem: Column {
-                        Kirigami.Icon {
+                        PlasmaComponents.Label {
                             id: iconImage
-                            source: Utils.getIcon("weather-station-2")
+                            text: Utils.getConditionIcon("weatherStation")
+                            color: stationMapSearcher.selectedStation !== undefined && stationMapSearcher.selectedStation.stationID === stationMarker.stationID ? "red" : "black"
+                            font.family: "weather-icons"
+                            font.pixelSize: 32
                             width: 32
                             height: 32
-                            isMask: true
-                            color: stationMapSearcher.selectedStation !== undefined && stationMapSearcher.selectedStation.stationID === stationMarker.stationID ? "red" : "black"
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
                         }
                         PlasmaComponents.Label {
                             text: stationMarker.stationID

@@ -41,6 +41,7 @@ PlasmaCore.Dialog {
 
     function updateScreen() {
         if (activeScreen != Workspace.activeScreen) {
+            autoTiler.updateShouldShowScreenEdges();
             root.logE('updateScreen ' + Workspace.virtualScreenSize);
             reset();
             activeScreen = Workspace.activeScreen;
