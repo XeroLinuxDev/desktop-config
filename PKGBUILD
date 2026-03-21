@@ -1,11 +1,11 @@
 # Maintainer: DarkXero <info@techxero.com>
 pkgname=desktop-config
 _destname1="/etc"
-pkgver=5.6
+pkgver=5.7
 pkgrel=1
 pkgdesc="Desktop Config for XeroLinux (KDE)"
 arch=('any')
-url="https://github.com/XeroLinuxDev"
+url="https://github.com/XeroLinux"
 license=('GPL3')
 makedepends=('git')
 conflicts=()
